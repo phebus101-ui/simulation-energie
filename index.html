@@ -1055,7 +1055,11 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   </div>
   <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:5px;" id="sim-cards-grid">
     <button type="button" id="sim-card-pac"    onclick="toggleSimCard('pac')"    style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;transition:.15s;"><div>⚡</div><div style="font-size:.58rem;font-weight:800;margin-top:2px;">PAC air/eau</div></button>
-    <button type="button" id="sim-card-pacair" onclick="toggleSimCard('pacair')" style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;transition:.15s;"><div>🌬️</div><div style="font-size:.58rem;font-weight:800;margin-top:2px;">PAC air/air</div></button>
+    <button type="button" id="sim-card-pacair" onclick="toggleSimCard('pacair')" title="Informatif uniquement — ne modifie pas les calculs de coût" style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;transition:.15s;opacity:.85;">
+  <div>🌬️</div>
+  <div style="font-size:.58rem;font-weight:800;margin-top:2px;">PAC air/air</div>
+  <div style="font-size:.48rem;color:var(--muted);margin-top:1px;">indicatif</div>
+</button>
     <button type="button" id="sim-card-sol"    onclick="toggleSimCard('sol')"    style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;transition:.15s;"><div>☀️</div><div style="font-size:.58rem;font-weight:800;margin-top:2px;">Solaire PV</div></button>
     <button type="button" id="sim-card-cet"    onclick="toggleSimCard('cet')"    style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;transition:.15s;"><div>🚿</div><div style="font-size:.58rem;font-weight:800;margin-top:2px;">CET</div></button>
     <button type="button" id="sim-card-bat"    onclick="toggleSimCard('bat')"    style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;transition:.15s;"><div>🔋</div><div style="font-size:.58rem;font-weight:800;margin-top:2px;">Batterie</div></button>
@@ -7193,7 +7197,7 @@ function _coreUpdate(){
     document.getElementById('amort-note').innerHTML=note||'';
     if(usePac || useSol){
       note += '<br><span style="font-size:.67rem;color:var(--teal);">💡 <strong>Aides disponibles :</strong> ' +
-        (usePac ? 'MaPrimeRénov\' PAC air/air ~4 000€ · ' : '') +
+        (usePac ? 'MaPrimeRénov\' PAC air/eau ~5 000€ · ' : '') +
         (useSol ? 'Prime CEE solaire ~400–800€ · TVA 10% pose · ' : '') +
         'Éco-PTZ sans intérêt possible.</span>';
     }
@@ -7555,7 +7559,7 @@ function updateNow(){
     // Ajouter note subventions
     if(usePac || useSol){
       note += '<br><span style="font-size:.67rem;color:var(--teal);">💡 <strong>Aides disponibles :</strong> ' +
-        (usePac ? 'MaPrimeRénov\' PAC air/air ~4 000€ · ' : '') +
+        (usePac ? 'MaPrimeRénov\' PAC air/eau ~5 000€ · ' : '') +
         (useSol ? 'Prime CEE solaire ~400–800€ · TVA 10% pose · ' : '') +
         'Éco-PTZ sans intérêt possible.</span>';
     }
@@ -8443,7 +8447,7 @@ function _renderAnalysesCore(){
   if(usePac&&!pacInstalled){
     const mpr=aides.pac_airair; totalAides+=mpr;
     aidesHTML+=`<div class="si-jcsb">
-      <span class="si-muted">MaPrimeRénov' PAC air/air</span>
+      <span class="si-muted">MaPrimeRénov' PAC air/eau</span>
       <strong class="si-grn">${mpr>0?mpr.toLocaleString('fr')+' €':'Non éligible'}</strong>
     </div>`;
     const cee=Math.round(iSol()>0?800:500);totalAides+=cee;
@@ -11171,7 +11175,8 @@ function toggleSimCard(k){
   var pp = document.getElementById('sim-'+k+'-params');
   if(pp) pp.style.display = nowOn ? '' : 'none';
   syncSimCards();
-  if(typeof update==='function') update();
+  // PAC air/air : visuel uniquement, pas de recalcul (n'impacte pas les coûts)
+  if(k!=='pacair' && typeof update==='function') update();
 }
 
 function syncSimCards(){
