@@ -1281,6 +1281,14 @@ body { padding-bottom: env(safe-area-inset-bottom); }
       <div style="font-size:.75rem;font-weight:800;margin-top:4px;">Bois</div>
       <div style="font-size:.6rem;margin-top:2px;color:var(--muted);">Poêle / chaudière</div>
     </div>
+    <!-- Pellets -->
+    <div class="ref-card" id="ref-card-pellet" onclick="setEnergieRef('pellet')" style="
+      border:2px solid var(--border);background:var(--surface2);color:var(--text);
+      border-radius:11px;padding:12px 8px;text-align:center;cursor:pointer;transition:.18s;">
+      <div style="font-size:1.6rem;">🌾</div>
+      <div style="font-size:.75rem;font-weight:800;margin-top:4px;">Pellets</div>
+      <div style="font-size:.6rem;margin-top:2px;color:var(--muted);">Chaudière à pellets</div>
+    </div>
     <!-- PAC existante -->
     <div class="ref-card" id="ref-card-pac-exist" onclick="setEnergieRef('pac-exist')" style="
       border:2px solid var(--border);background:var(--surface2);color:var(--text);
@@ -3618,6 +3626,7 @@ var REF_CONFIG = {
   'bois':       { icon:'🪵', label:'Poêle / chaudière bois',  color:'#6b3a1f',     bg:'#6b3a1f',      txt:'#fff' },
   'pac-exist':  { icon:'♨️', label:'PAC existante',           color:'var(--pac)',  bg:'var(--pac)',   txt:'#fff' },
   'elec-direct':{ icon:'⚡', label:'Électrique direct',        color:'var(--pac)',  bg:'#1e40af',      txt:'#fff' },
+  'pellet':     { icon:'🌾', label:'Chaudière à pellets',      color:'#92400e',     bg:'#92400e',      txt:'#fff' },
 };
 
 function setEnergieRef(type){
@@ -3655,6 +3664,7 @@ function setEnergieRef(type){
       'gaz':'Ajustez le prix au kWh PCS ci-dessous',
       'fioul':'Ajustez la consommation et le prix au litre',
       'bois':'Ajustez la consommation en stères et le prix',
+      'pellet':'Ajustez la consommation en tonnes et le prix au sac',
       'pac-exist':'Renseignez le COP de votre installation',
       'elec-direct':'Renseignez la consommation annuelle de chauffage',
     };
@@ -3665,7 +3675,7 @@ function setEnergieRef(type){
   const blocsMap = {
     'pgaz-item':        type==='gaz',
     'pfioul-item':      type==='fioul',
-    'pbois-item':       type==='bois',
+    'pbois-item':       type==='bois'||type==='pellet',
     'pac-exist-item':   type==='pac-exist',
     'elec-direct-item': type==='elec-direct',
   };
@@ -3683,6 +3693,7 @@ function setEnergieRef(type){
 
   // ── Mise à jour affichage bois ──
   if(type==='bois') updateBoisMensuel();
+  if(type==='pellet') updatePelletMensuel();
   if(type==='fioul') updateFioulMensuel();
   if(type==='elec-direct'){
     const el = document.getElementById('elec-direct-cout');
@@ -3710,6 +3721,19 @@ function updateBoisMensuel(){
   if(moyEl) moyEl.textContent = '≈ '+Math.round(sterAn/12*10)/10+' stères/mois';
   const coutEl = document.getElementById('bois-cout-estime');
   if(coutEl) coutEl.textContent = '💰 Coût bois estimé : '+Math.round(sterAn*prixS)+' €/an ('+sterAn+' stères × '+prixS+' €/st)';
+}
+
+function updatePelletMensuel(){
+  const tonnesAn = parseFloat(document.getElementById('bois-steres')?.value)||5;
+  const prixT    = parseFloat(document.getElementById('bois-prix')?.value)||350;
+  const coeffs=[11,8,7,4,1.5,0.9,0.7,0.5,0.9,2,6.5,10.5];
+  const sumC=coeffs.reduce((a,b)=>a+b,0);
+  D_PELLET.tonnes = coeffs.map(c=>Math.round(tonnesAn*c/sumC*100)/100);
+  D_PELLET.prixT  = prixT;
+  const moyEl = document.getElementById('bois-conso-moy');
+  if(moyEl) moyEl.textContent = '≈ '+Math.round(tonnesAn/12*100)/100+' t/mois';
+  const coutEl = document.getElementById('bois-cout-estime');
+  if(coutEl) coutEl.textContent = '💰 Coût pellets estimé : '+Math.round(tonnesAn*prixT)+' €/an ('+tonnesAn+' t × '+prixT+' €/t)';
 }
 
 function updateFioulMensuel(){
@@ -3825,7 +3849,9 @@ var activeTab='gaz'; var editorOpen=false; // var = hoisting global
 var energieRef='gaz'; // 'gaz' ou 'fioul'
 // Données fioul par défaut
 var D_FIOUL = { litres:[135,100,87,45,19,11,9,6,11,24,79,125], prixL:1.05 };
-var D_BOIS  = { steres:[1.8,1.3,1.1,.6,.2,.1,.1,.1,.1,.3,1.0,1.7], prixS:100 };
+var D_BOIS   = { steres:[1.8,1.3,1.1,.6,.2,.1,.1,.1,.1,.3,1.0,1.7], prixS:100 };
+var D_PELLET = { tonnes:[0.22,0.16,0.14,.08,.02,.01,.01,.01,.01,.04,0.12,0.20], prixT:350 };
+// 1 tonne pellets ≈ 4800 kWh PCI · rendement 0.90
 // 1 litre fioul = 10.35 kWh PCI · rendement chaudière 0.85
 var FIOUL_KWH_L = 10.35, FIOUL_RDT = 0.85;
 let cMain, cDetail;
@@ -5271,6 +5297,9 @@ function compute(p){
     } else if(energieRef==='bois'){
       const D_B = window.D_BOIS||{steres:Array(12).fill(D.gaz[i]/170),prixS:100};
       c_ref = D_B.steres[i] * D_B.prixS;
+    } else if(energieRef==='pellet'){
+      const D_P = window.D_PELLET||{tonnes:Array(12).fill(0.08),prixT:350};
+      c_ref = D_P.tonnes[i] * D_P.prixT;
     } else if(energieRef==='pac-exist'){
       const copExist = parseFloat(document.getElementById('pac-exist-cop')?.value)||3.0;
       // Énergie nécessaire = kWh thermiques / COP
@@ -7408,6 +7437,8 @@ var CMP_ENERGIES = {
                   desc:'Solution complète autonome',  co2_kwh:0.020 },
   'elec-direct':{ icon:'🔌', label:'Électrique',      color:'#0891b2', invest:1500,
                   desc:'Radiateurs à inertie',        co2_kwh:0.052 },
+  'pellet':     { icon:'🌾', label:'Pellets',          color:'#92400e', invest:12000,
+                  desc:'Chaudière à pellets',          co2_kwh:0.045 },
 };
 
 // Calculer le coût annuel pour une énergie cible
@@ -7423,6 +7454,10 @@ function cmpCalcCout(targetKey, tRef){
   if(targetKey==='bois'){
     const DB = window.D_BOIS||{steres:[1.8,1.3,1.1,.6,.2,.1,.1,.1,.1,.3,1.0,1.7],prixS:100};
     return DB.steres.reduce((a,b)=>a+b,0) * DB.prixS;
+  }
+  if(targetKey==='pellet'){
+    const DP = window.D_PELLET||{tonnes:Array(12).fill(0.08),prixT:350};
+    return DP.tonnes.reduce((a,b)=>a+b,0) * DP.prixT;
   }
   if(targetKey==='elec-direct'){
     const kwhAn = parseFloat(document.getElementById('elec-direct-kwh')?.value)||8000;
@@ -7681,6 +7716,8 @@ function heroRefCard(tRef){
                    sub: 'COP '+(parseFloat(document.getElementById('pac-exist-cop')?.value)||3.0)},
     'elec-direct':{ic:'⚡', lb:'Élec. direct – référence',  cl:'#1e40af',    bg:'#dbeafe',
                    sub: (parseFloat(document.getElementById('elec-direct-kwh')?.value)||8000)+' kWh/an'},
+    'pellet':     {ic:'🌾', lb:'Pellets – référence',         cl:'#92400e',    bg:'#fef3c7',
+                   sub: (window.D_PELLET?D_PELLET.tonnes.reduce((a,b)=>a+b,0).toFixed(2):'5')+' t/an'},
   };
   const r = _ri[energieRef] || _ri['gaz'];
   // Mettre à jour le label KPI résultats aussi
@@ -7988,7 +8025,7 @@ function _coreUpdate(){
     dsets.push({label:'Arb. HC/HP',data:data.map(d=>+d.g_bat_wb.toFixed(2)),backgroundColor:'#7c3aed22',borderColor:'#7c3aed',borderWidth:1.5,borderRadius:3,stack:'g'});
   }
   if(!useSol&&!useBat) dsets.push({label: (energieRef==='fioul')?'Éco PAC vs fioul'
-         :(energieRef==='bois')?'Éco PAC vs bois'
+         :(energieRef==='bois'||energieRef==='pellet')?'Éco PAC vs '+getRefLabel().split(' ')[0]
          :(energieRef==='pac-exist')?'Éco nouvelle PAC'
          :(energieRef==='elec-direct')?'Éco PAC vs élec'
          :'Éco PAC vs gaz',data:data.map(d=>+(d.c_ref-d.c_pac).toFixed(2)),backgroundColor:'#2563eb22',borderColor:'#2563eb',borderWidth:2,borderRadius:3,stack:'g'});
@@ -8363,7 +8400,7 @@ function updateNow(){
     dsets.push({label:'Arb. HC/HP',data:data.map(d=>+d.g_bat_wb.toFixed(2)),backgroundColor:'#7c3aed22',borderColor:'#7c3aed',borderWidth:1.5,borderRadius:3,stack:'g'});
   }
   if(!useSol&&!useBat) dsets.push({label: (energieRef==='fioul')?'Éco PAC vs fioul'
-         :(energieRef==='bois')?'Éco PAC vs bois'
+         :(energieRef==='bois'||energieRef==='pellet')?'Éco PAC vs '+getRefLabel().split(' ')[0]
          :(energieRef==='pac-exist')?'Éco nouvelle PAC'
          :(energieRef==='elec-direct')?'Éco PAC vs élec'
          :'Éco PAC vs gaz',data:data.map(d=>+(d.c_ref-d.c_pac).toFixed(2)),backgroundColor:'#2563eb22',borderColor:'#2563eb',borderWidth:2,borderRadius:3,stack:'g'});
@@ -8827,7 +8864,7 @@ const STORAGE_KEY = 'sim_energie_v3'; // v3: données EDF pré-chargées
 function saveToStorage(){
   try {
     const state = {
-      v:3, ts: Date.now(), energieRef: energieRef||'gaz', D_FIOUL:D_FIOUL, D_BOIS:D_BOIS,
+      v:3, ts: Date.now(), energieRef: energieRef||'gaz', D_FIOUL:D_FIOUL, D_BOIS:D_BOIS, D_PELLET:D_PELLET,
       D: JSON.parse(JSON.stringify(D)),
       usePac, useSol, useBat,
       curKwc, curOrient, curAngle,
@@ -8856,6 +8893,7 @@ function loadFromStorage(){
     if(s.energieRef) energieRef=s.energieRef;
     if(s.D_FIOUL) D_FIOUL=s.D_FIOUL;
     if(s.D_BOIS)  D_BOIS=s.D_BOIS;
+    if(s.D_PELLET) D_PELLET=s.D_PELLET;
     if(s.D){
       // Ne restaurer gaz/elec que si les données sauvegardées sont non nulles
       // (évite d'écraser les données pré-chargées par un état vide ou partiel)
@@ -9450,7 +9488,7 @@ function renderWaterfall(tRef, tPac, tSol, tBat, tCet, tCur){
   // 1. Gaz actuel (point de départ)
   steps.push({
     label: (energieRef==='fioul')?'Fioul actuel'
-           :(energieRef==='bois')?'Bois actuel'
+           :(energieRef==='bois')?'Bois actuel':(energieRef==='pellet')?'Pellets actuel'
            :(energieRef==='pac-exist')?'PAC existante'
            :(energieRef==='elec-direct')?'Électrique actuel'
            :'Gaz actuel',
@@ -10093,6 +10131,9 @@ function getTRef(p){
   } else if(energieRef==='bois'){
     const DB = window.D_BOIS||{steres:Array(12).fill(1.25),prixS:100};
     return DB.steres.reduce((a,b)=>a+b,0) * DB.prixS;
+  } else if(energieRef==='pellet'){
+    const DP = window.D_PELLET||{tonnes:Array(12).fill(0.08),prixT:350};
+    return DP.tonnes.reduce((a,b)=>a+b,0) * DP.prixT;
   } else if(energieRef==='pac-exist'){
     const copE = parseFloat(document.getElementById('pac-exist-cop')?.value)||3.0;
     const kwhTh = D.gaz.reduce((a,_,i)=>a+D.gaz[i]*COEFF*RDT,0);
@@ -10127,7 +10168,7 @@ function calcScenario(pac, sol, bat, cet){
 function getRefLabel(){
   const labels={
     'gaz':'votre chaudière gaz', 'fioul':'votre chaudière fioul',
-    'bois':'votre poêle/chaudière bois', 'pac-exist':'votre PAC actuelle',
+    'bois':'votre poêle/chaudière bois','pellet':'votre chaudière à pellets', 'pac-exist':'votre PAC actuelle',
     'elec-direct':'vos convecteurs électriques'
   };
   return labels[energieRef]||'votre système actuel';
@@ -10310,6 +10351,7 @@ function renderRecommandation(){
   else if(tRef>1000) conseil += refIcon2+' Facture '+refNom+' significative — la PAC offre un bon retour sur investissement. ';
   if(energieRef==='fioul') conseil += '🛢️ Le fioul est une énergie fossile volatile — la PAC vous affranchit des fluctuations du prix du pétrole. ';
   if(energieRef==='bois') conseil += '🪵 Le bois est économique mais la PAC peut compléter pour le chauffage d\'appoint et l\'ECS. ';
+  if(energieRef==='pellet') conseil += '🌾 La chaudière à pellets est confortable mais la PAC peut diviser la facture par 2. ';
   if(energieRef==='elec-direct') conseil += '⚡ Vos convecteurs ont un COP=1 — une PAC (COP≥3) divise la consommation par 3. ';
   if(solBon)   conseil += '☀️ Votre orientation est favorable — l\'association PAC+solaire est optimale pour votre profil. ';
   if(!solBon)  conseil += '☀️ Orientation limitée — privilégiez PAC + CET thermodynamique en premier. ';
@@ -12300,6 +12342,7 @@ document.addEventListener('DOMContentLoaded', function(){
   // Init énergie référence APRÈS loadFromStorage (energieRef est maintenant restauré)
   window.D_BOIS = window.D_BOIS||{steres:Array(12).fill(1.25),prixS:100};
   if(typeof updateBoisMensuel==='function') updateBoisMensuel();
+  if(typeof updatePelletMensuel==='function') updatePelletMensuel();
   if(typeof updateFioulMensuel==='function') updateFioulMensuel();
   if(typeof setEnergieRef==='function') setEnergieRef(energieRef||'gaz');
 
