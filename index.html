@@ -724,7 +724,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 .energy-section {
   border-radius: 14px;
   border: 2px solid var(--es-color, var(--border));
-  overflow: hidden;
+  overflow: visible;
   margin-bottom: 14px;
   transition: box-shadow .2s;
 }
@@ -1616,77 +1616,85 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <div class="config-divider">Équipements à installer ou simuler</div>
 
 <!-- ══ SECTION : PAC ══ -->
-<div class="energy-section" id="es-pac" style="--es-color:var(--pac);--es-bg:var(--pac-tint);">
-  <div style="position:relative;">
-  <div class="energy-section-header" ontouchstart="" onclick="toggleEnergySection('es-pac')">
-    <div class="energy-section-icon">⚡</div>
-    <div>
-      <div class="energy-section-title">PAC réversible</div>
-      <div class="energy-section-sub">Pompe à chaleur air/eau · COP <span id="pac-cop-label2">3.0</span></div>
-    </div>
-    
-  </div>
-
-  <button id="pill-pac-es" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);padding:5px 14px;border-radius:20px;font-size:.72rem;font-weight:800;cursor:pointer;border:2px solid var(--border);background:var(--surface2);color:var(--muted);z-index:10;pointer-events:auto;" onclick="toggle('pac')">OFF</button>
+<div class="energy-section" id="es-pac" style="--es-color:var(--pac);border:2px solid var(--pac)33;border-radius:14px;margin-bottom:14px;overflow:visible;">
+<div style="display:flex;align-items:center;gap:10px;padding:12px 14px;
+  background:var(--pac-tint);border-bottom:1px solid var(--pac)33;border-radius:12px 12px 0 0;">
+  <div style="width:36px;height:36px;border-radius:9px;background:var(--pac);
+    display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">⚡</div>
+  <button type="button" onclick="toggleEnergySection('es-pac')"
+    style="flex:1;text-align:left;background:none;border:none;cursor:pointer;padding:0;">
+    <div style="font-size:.8rem;font-weight:800;color:var(--pac);">PAC réversible</div>
+    <div style="font-size:.65rem;color:#666;margin-top:1px;">Pompe à chaleur air/eau · COP <span id="pac-cop-label2">3.0</span></div>
+  </button>
+  <button type="button" id="pill-pac-es" onclick="toggle('pac')"
+    style="flex-shrink:0;padding:5px 14px;border-radius:20px;
+    font-size:.72rem;font-weight:800;cursor:pointer;
+    border:2px solid #ccc;background:#f5f5f5;color:#888;">OFF</button>
 </div>
-  <div class="energy-section-body collapsed" id="es-pac-body">
+<div class="energy-section-body collapsed" id="es-pac-body">
     <div id="tc-pac-inner"><!-- contenu PAC injecté ici --></div>
   </div>
 </div>
 
 <!-- ══ SECTION : SOLAIRE ══ -->
-<div class="energy-section" id="es-sol" style="--es-color:var(--sol);--es-bg:var(--sol-tint);">
-  <div style="position:relative;">
-  <div class="energy-section-header" ontouchstart="" onclick="toggleEnergySection('es-sol')">
-    <div class="energy-section-icon" style="background:var(--sol);">☀️</div>
-    <div>
-      <div class="energy-section-title" style="color:var(--sol);">Panneaux solaires</div>
-      <div class="energy-section-sub"><span id="tc-sol-kwc2">4 kWc</span> · <span id="tc-sol-prod2">5 210 kWh/an</span></div>
-    </div>
-    
-  </div>
-
-  <button id="pill-sol-es" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);padding:5px 14px;border-radius:20px;font-size:.72rem;font-weight:800;cursor:pointer;border:2px solid var(--border);background:var(--surface2);color:var(--muted);z-index:10;pointer-events:auto;" onclick="toggle('sol')">OFF</button>
+<div class="energy-section" id="es-sol" style="--es-color:var(--sol);border:2px solid var(--sol)33;border-radius:14px;margin-bottom:14px;overflow:visible;">
+<div style="display:flex;align-items:center;gap:10px;padding:12px 14px;
+  background:var(--sol-tint);border-bottom:1px solid var(--sol)33;border-radius:12px 12px 0 0;">
+  <div style="width:36px;height:36px;border-radius:9px;background:var(--sol);
+    display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">☀️</div>
+  <button type="button" onclick="toggleEnergySection('es-sol')"
+    style="flex:1;text-align:left;background:none;border:none;cursor:pointer;padding:0;">
+    <div style="font-size:.8rem;font-weight:800;color:var(--sol);">Panneaux solaires</div>
+    <div style="font-size:.65rem;color:#666;margin-top:1px;"><span id="tc-sol-kwc2">4 kWc</span> · <span id="tc-sol-prod2">5 210 kWh/an</span></div>
+  </button>
+  <button type="button" id="pill-sol-es" onclick="toggle('sol')"
+    style="flex-shrink:0;padding:5px 14px;border-radius:20px;
+    font-size:.72rem;font-weight:800;cursor:pointer;
+    border:2px solid #ccc;background:#f5f5f5;color:#888;">OFF</button>
 </div>
-  <div class="energy-section-body collapsed" id="es-sol-body">
+<div class="energy-section-body collapsed" id="es-sol-body">
     <div id="tc-sol-inner"><!-- contenu Solaire injecté ici --></div>
   </div>
 </div>
 
 <!-- ══ SECTION : CET ══ -->
-<div class="energy-section" id="es-cet" style="--es-color:#16a34a;--es-bg:#f0fdf4;">
-  <div style="position:relative;">
-  <div class="energy-section-header" ontouchstart="" onclick="toggleEnergySection('es-cet')">
-    <div class="energy-section-icon" style="background:#16a34a;">🚿</div>
-    <div>
-      <div class="energy-section-title" style="color:#16a34a;">Chauffe-eau thermodynamique</div>
-      <div class="energy-section-sub"><span id="tc-cet-cap2">200 L</span> · COP <span id="tc-cet-cop2">2.5</span></div>
-    </div>
-    
-  </div>
-
-  <button id="pill-cet-es" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);padding:5px 14px;border-radius:20px;font-size:.72rem;font-weight:800;cursor:pointer;border:2px solid var(--border);background:var(--surface2);color:var(--muted);z-index:10;pointer-events:auto;" onclick="toggle('cet')">OFF</button>
+<div class="energy-section" id="es-cet" style="--es-color:#16a34a;border:2px solid #16a34a33;border-radius:14px;margin-bottom:14px;overflow:visible;">
+<div style="display:flex;align-items:center;gap:10px;padding:12px 14px;
+  background:#f0fdf4;border-bottom:1px solid #16a34a33;border-radius:12px 12px 0 0;">
+  <div style="width:36px;height:36px;border-radius:9px;background:#16a34a;
+    display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🚿</div>
+  <button type="button" onclick="toggleEnergySection('es-cet')"
+    style="flex:1;text-align:left;background:none;border:none;cursor:pointer;padding:0;">
+    <div style="font-size:.8rem;font-weight:800;color:#16a34a;">Chauffe-eau thermodynamique</div>
+    <div style="font-size:.65rem;color:#666;margin-top:1px;"><span id="tc-cet-cap2">200 L</span> · COP <span id="tc-cet-cop2">2.5</span></div>
+  </button>
+  <button type="button" id="pill-cet-es" onclick="toggle('cet')"
+    style="flex-shrink:0;padding:5px 14px;border-radius:20px;
+    font-size:.72rem;font-weight:800;cursor:pointer;
+    border:2px solid #ccc;background:#f5f5f5;color:#888;">OFF</button>
 </div>
-  <div class="energy-section-body collapsed" id="es-cet-body">
+<div class="energy-section-body collapsed" id="es-cet-body">
     <div id="tc-cet-inner"><!-- contenu CET injecté ici --></div>
   </div>
 </div>
 
 <!-- ══ SECTION : BATTERIE ══ -->
-<div class="energy-section" id="es-bat" style="--es-color:var(--bat);--es-bg:#faf5ff;">
-  <div style="position:relative;">
-  <div class="energy-section-header" ontouchstart="" onclick="toggleEnergySection('es-bat')">
-    <div class="energy-section-icon" style="background:var(--bat);">🔋</div>
-    <div>
-      <div class="energy-section-title" style="color:var(--bat);">Batterie de stockage</div>
-      <div class="energy-section-sub"><span id="tc-bat-cap2">5,28 kWh</span> brut · <span id="tc-bat-utile2">4,28 kWh</span> utiles</div>
-    </div>
-    
-  </div>
-
-  <button id="pill-bat-es" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);padding:5px 14px;border-radius:20px;font-size:.72rem;font-weight:800;cursor:pointer;border:2px solid var(--border);background:var(--surface2);color:var(--muted);z-index:10;pointer-events:auto;" onclick="toggle('bat')">OFF</button>
+<div class="energy-section" id="es-bat" style="--es-color:var(--bat);border:2px solid var(--bat)33;border-radius:14px;margin-bottom:14px;overflow:visible;">
+<div style="display:flex;align-items:center;gap:10px;padding:12px 14px;
+  background:#faf5ff;border-bottom:1px solid var(--bat)33;border-radius:12px 12px 0 0;">
+  <div style="width:36px;height:36px;border-radius:9px;background:var(--bat);
+    display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🔋</div>
+  <button type="button" onclick="toggleEnergySection('es-bat')"
+    style="flex:1;text-align:left;background:none;border:none;cursor:pointer;padding:0;">
+    <div style="font-size:.8rem;font-weight:800;color:var(--bat);">Batterie de stockage</div>
+    <div style="font-size:.65rem;color:#666;margin-top:1px;"><span id="tc-bat-cap2">5,28 kWh</span> brut · <span id="tc-bat-utile2">4,28 kWh</span> utiles</div>
+  </button>
+  <button type="button" id="pill-bat-es" onclick="toggle('bat')"
+    style="flex-shrink:0;padding:5px 14px;border-radius:20px;
+    font-size:.72rem;font-weight:800;cursor:pointer;
+    border:2px solid #ccc;background:#f5f5f5;color:#888;">OFF</button>
 </div>
-  <div class="energy-section-body collapsed" id="es-bat-body">
+<div class="energy-section-body collapsed" id="es-bat-body">
     <div id="tc-bat-inner"><!-- contenu Batterie injecté ici --></div>
   </div>
 </div>
