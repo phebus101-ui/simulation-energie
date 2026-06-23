@@ -1159,9 +1159,12 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <script>
 // Aliases globaux pour fonctions définies plus tard (évite ReferenceError si appelées tôt)
 window.startWizard = function(){
-  var ov=document.getElementById('wizard-overlay');
-  if(ov){ ov.style.display='flex'; ov.classList.add('open'); }
-  if(typeof window._startWizardReal==='function') window._startWizardReal();
+  if(typeof window._startWizardFinal==='function'){
+    window._startWizardFinal();
+  } else {
+    var ov=document.getElementById('wizard-overlay');
+    if(ov){ ov.style.display='flex'; ov.classList.add('open'); }
+  }
 };
 window.skipWizard = function(){
   var ov=document.getElementById('wizard-overlay');
@@ -1170,36 +1173,14 @@ window.skipWizard = function(){
   var b=document.getElementById('home-guide-banner');
   if(b) b.style.display='none';
 };
-window.toggle = function(k){ if(typeof window._toggleReal==='function') window._toggleReal(k); };
+window.toggle = function(k){ if(typeof window._toggleFinal==='function') window._toggleFinal(k); };
 window.toggleSimCard = function(k){
-  // Si la vraie fonction est disponible, l'utiliser
-  if(typeof window._toggleSimReal==='function'){ window._toggleSimReal(k); return; }
-  // Sinon : flip visuel basé sur l'état courant de la carte
-  var card=document.getElementById('sim-card-'+k);
-  if(!card) return;
-  var colors={pac:'#2563eb',pacair:'#0891b2',sol:'#ca8a04',cet:'#16a34a',bat:'#7c3aed',bois:'#6b3a1f',pellet:'#92400e'};
-  var bgs={pac:'#eff6ff',pacair:'#ecfeff',sol:'#fefce8',cet:'#f0fdf4',bat:'#faf5ff',bois:'#fef9f0',pellet:'#fef3c7'};
-  var isOn=card.getAttribute('data-on')==='1';
-  var nowOn=!isOn;
-  card.setAttribute('data-on',nowOn?'1':'0');
-  card.style.background=nowOn?bgs[k]:'';
-  card.style.borderColor=nowOn?colors[k]:'';
-  var t=card.querySelector('div:nth-child(2)');
-  if(t) t.style.color=nowOn?colors[k]:'';
-  // Panneaux bois/pellets
-  var pp=document.getElementById('sim-'+k+'-params');
-  if(pp) pp.style.display=nowOn?'':'none';
-  // Résumé
-  var active=[];
-  ['pac','pacair','sol','cet','bat','bois','pellet'].forEach(function(id){
-    var c=document.getElementById('sim-card-'+id);
-    if(c&&c.getAttribute('data-on')==='1') active.push(id);
-  });
-  var sum=document.getElementById('sim-summary');
-  if(sum) sum.style.display=active.length?'':'none';
-  var txt=document.getElementById('sim-summary-text');
-  if(txt) txt.textContent=active.join(' + ');
-};
+  if(typeof window._toggleSimFinal==='function'){
+    window._toggleSimFinal(k); return;
+  }
+  // Fallback visuel si gros script pas encore chargé
+  window._toggleSimEarly(k);
+};;
 window.setEnergieRef = function(t){ if(typeof window._setRefReal==='function') window._setRefReal(t); };
 // Afficher le banner iOS uniquement dans Safari mobile, pas déjà installé
 (function(){
@@ -13153,11 +13134,11 @@ document.addEventListener('DOMContentLoaded', function(){
 
 });
 
-// Assigner les vraies fonctions aux aliases (après toutes les définitions)
-window._startWizardReal = typeof startWizard==='function'  ? startWizard  : null;
-window._toggleReal      = typeof toggle==='function'        ? toggle        : null;
-window._toggleSimReal   = typeof toggleSimCard==='function' ? toggleSimCard : null;
-window._setRefReal      = typeof setEnergieRef==='function' ? setEnergieRef : null;
+// Assigner les vraies implémentations (noms différents des alias pour éviter les boucles)
+window._startWizardReal  = startWizard;
+window._toggleFinal      = toggle;        // window.toggle() → _toggleFinal (la vraie)
+window._toggleSimFinal   = toggleSimCard; // window.toggleSimCard() → _toggleSimFinal (la vraie)
+window._setRefReal       = setEnergieRef;
 </script>
 <!-- ══════════════ MODAL LOCALISATION ══════════════ -->
 <div id="loc-modal" style="display:none;position:fixed;inset:0;background:#0006;z-index:300;
