@@ -580,307 +580,8 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   gap: 0;
   max-width: 1340px;
   margin: 0 auto;
-  padding: 0 8px;
-  flex-wrap: nowrap;
-  overflow-x: auto;
+  padding: 0 22px;
 }
-
-/* ── Numéro d'étape sur les onglets ── */
-.tab-step {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px; height: 16px;
-  background: var(--muted);
-  color: #fff;
-  border-radius: 50%;
-  font-size: .55rem;
-  font-weight: 800;
-  flex-shrink: 0;
-}
-.nav-tab.active .tab-step { background: var(--pac); }
-.nav-tab.step-done .tab-step { background: #15803d; }
-.nav-tab.step-done .tab-step::after { content: '✓'; }
-
-/* ── Hamburger menu ── */
-.hamburger-btn {
-  background: var(--surface2);
-  border: 1px solid var(--border2);
-  border-radius: 10px;
-  padding: 8px 12px;
-  font-size: .9rem;
-  cursor: pointer;
-  color: var(--text);
-  transition: .15s;
-  white-space: nowrap;
-}
-.hamburger-btn:hover { border-color: var(--pac); color: var(--pac); }
-.hamburger-menu {
-  display: none;
-  position: fixed;
-  top: 0; right: 0;
-  width: min(92vw, 320px);
-  height: 100vh;
-  background: var(--surface);
-  border-left: 1px solid var(--border);
-  box-shadow: -8px 0 32px #0003;
-  z-index: 500;
-  overflow-y: auto;
-  padding: 20px;
-}
-.hamburger-menu.open { display: block; }
-.hamburger-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: #0005;
-  z-index: 499;
-}
-.hamburger-overlay.open { display: block; }
-
-/* ── Wizard overlay ── */
-.wizard-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: #000a;
-  z-index: 600;
-  align-items: center;
-  justify-content: center;
-}
-.wizard-overlay.open { display: flex; }
-.wizard-box {
-  background: var(--surface);
-  border-radius: 20px;
-  padding: 28px 24px;
-  width: min(92vw, 440px);
-  box-shadow: 0 20px 60px #0004;
-  position: relative;
-}
-.wizard-step-dots {
-  display: flex;
-  gap: 6px;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-.wizard-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--border2);
-  transition: .2s;
-}
-.wizard-dot.active { background: var(--pac); width: 22px; border-radius: 4px; }
-.wizard-dot.done   { background: #15803d; }
-.wizard-icon { font-size: 2.8rem; text-align: center; margin-bottom: 10px; }
-.wizard-title { font-size: 1.05rem; font-weight: 800; text-align: center; margin-bottom: 6px; }
-.wizard-desc  { font-size: .78rem; color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 18px; }
-.wizard-actions { display: flex; gap: 8px; justify-content: space-between; }
-.wizard-btn-skip  { font-size: .7rem; color: var(--muted); background: none; border: none; cursor: pointer; padding: 8px; }
-.wizard-btn-next  { flex: 1; padding: 10px; font-size: .82rem; font-weight: 700; border-radius: 10px;
-  background: var(--pac); color: #fff; border: none; cursor: pointer; transition: .15s; }
-.wizard-btn-next:hover { opacity: .88; }
-.wizard-progress { height: 3px; background: var(--border); border-radius: 2px; margin-bottom: 18px; }
-.wizard-progress-bar { height: 100%; background: var(--pac); border-radius: 2px; transition: width .3s; }
-
-/* ── Tooltip guide (bulle flottante) ── */
-.guide-tooltip {
-  display: none;
-  position: fixed;
-  z-index: 400;
-  background: var(--pac);
-  color: #fff;
-  border-radius: 12px;
-  padding: 10px 14px;
-  font-size: .72rem;
-  font-weight: 600;
-  max-width: 260px;
-  box-shadow: 0 8px 24px #0003;
-  line-height: 1.5;
-  pointer-events: none;
-}
-.guide-tooltip.visible { display: block; }
-.guide-tooltip::before {
-  content: '';
-  position: absolute;
-  top: -6px; left: 18px;
-  border: 6px solid transparent;
-  border-bottom-color: var(--pac);
-  border-top: 0;
-}
-
-/* ── Badge "nouveau" sur onglets ── */
-.tab-new {
-  background: var(--red);
-  color: #fff;
-  font-size: .48rem;
-  font-weight: 800;
-  padding: 1px 4px;
-  border-radius: 10px;
-  vertical-align: super;
-  margin-left: 2px;
-}
-
-/* ── Blocs énergie dans Configuration ── */
-.energy-section {
-  border-radius: 14px;
-  border: 2px solid var(--es-color, var(--border));
-  overflow: visible;
-  margin-bottom: 14px;
-  transition: box-shadow .2s;
-}
-.energy-section:hover { box-shadow: 0 4px 20px var(--es-color, #0002)22; }
-.energy-section-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  background: var(--es-bg, var(--surface2));
-  border-bottom: 1px solid var(--es-color, var(--border));
-  cursor: pointer;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  /* Safari iOS : les div reçoivent les taps si cursor:pointer ET ontouchstart défini */
-}
-.energy-section-icon {
-  width: 38px; height: 38px;
-  border-radius: 10px;
-  background: var(--es-color, var(--muted));
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.2rem; flex-shrink: 0;
-  color: #fff;
-}
-.energy-section-title {
-  font-size: .82rem; font-weight: 800;
-  color: var(--es-color, var(--text));
-}
-.energy-section-sub {
-  font-size: .65rem; color: var(--muted); margin-top: 1px;
-}
-.energy-section-badge {
-  margin-left: auto;
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-size: .65rem;
-  font-weight: 700;
-  background: var(--es-color, var(--border));
-  color: #fff;
-  white-space: nowrap;
-}
-.energy-section-body {
-  padding: 14px 16px;
-  background: var(--surface);
-}
-.energy-section-body.collapsed { display: none; }
-.energy-section-chevron {
-  margin-left: 6px;
-  font-size: .75rem;
-  color: var(--es-color);
-  transition: transform .2s;
-}
-.energy-section.collapsed .energy-section-chevron { transform: rotate(-90deg); }
-
-/* ── ref-badge dans Config ── */
-#config-ref-badge {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 14px;
-  background: var(--surface2);
-  border-radius: 11px;
-  border: 1.5px solid var(--border);
-  margin-bottom: 14px;
-}
-
-/* ── Séparateur visuel entre sections ── */
-.config-divider {
-  display: flex; align-items: center; gap: 10px;
-  margin: 6px 0 12px;
-  font-size: .62rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: .06em;
-  color: var(--muted);
-}
-.config-divider::before, .config-divider::after {
-  content: ''; flex: 1;
-  height: 1px; background: var(--border);
-}
-
-/* ── Sous-onglets de comparaison dans Résultats ── */
-.cmp-tabs {
-  display: flex;
-  gap: 6px;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  padding-bottom: 4px;
-  margin-bottom: 16px;
-  scrollbar-width: none;
-}
-.cmp-tabs::-webkit-scrollbar { display: none; }
-.cmp-tab {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 7px 14px;
-  border-radius: 20px;
-  font-size: .72rem;
-  font-weight: 700;
-  cursor: pointer;
-  white-space: nowrap;
-  border: 2px solid var(--border);
-  background: var(--surface2);
-  color: var(--muted);
-  transition: .15s;
-  flex-shrink: 0;
-}
-.cmp-tab:hover { border-color: var(--pac); color: var(--pac); }
-.cmp-tab.active {
-  border-color: var(--cmp-color, var(--pac));
-  background: var(--cmp-color, var(--pac));
-  color: #fff;
-}
-.cmp-tab .cmp-arrow {
-  font-size: .65rem;
-  opacity: .7;
-}
-.cmp-panel { display: none; }
-.cmp-panel.active { display: block; }
-
-/* ── Cards de comparaison ── */
-.cmp-kpi-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 10px;
-  margin-bottom: 14px;
-}
-.cmp-kpi {
-  padding: 12px 14px;
-  border-radius: 11px;
-  border: 1px solid var(--border);
-  background: var(--surface2);
-  text-align: center;
-}
-.cmp-kpi-val {
-  font-size: 1.1rem;
-  font-weight: 800;
-  margin: 4px 0 2px;
-}
-.cmp-kpi-lbl {
-  font-size: .62rem;
-  color: var(--muted);
-  font-weight: 600;
-}
-.cmp-kpi-sub {
-  font-size: .58rem;
-  color: var(--muted);
-  margin-top: 2px;
-}
-.cmp-bar-wrap {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 6px;
-}
-.cmp-bar-lbl { font-size: .67rem; font-weight: 600; width: 90px; flex-shrink: 0; }
-.cmp-bar-track { flex: 1; height: 10px; background: var(--border); border-radius: 5px; overflow: hidden; }
-.cmp-bar-fill  { height: 100%; border-radius: 5px; transition: width .4s; }
-.cmp-bar-val   { font-size: .67rem; font-weight: 700; width: 55px; text-align: right; flex-shrink: 0; }
 .nav-tab {
   display: flex;
   align-items: center;
@@ -1157,31 +858,6 @@ body { padding-bottom: env(safe-area-inset-bottom); }
     style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--muted);padding:4px;">✕</button>
 </div>
 <script>
-// Aliases globaux pour fonctions définies plus tard (évite ReferenceError si appelées tôt)
-window.startWizard = function(){
-  if(typeof window._startWizardFinal==='function'){
-    window._startWizardFinal();
-  } else {
-    var ov=document.getElementById('wizard-overlay');
-    if(ov){ ov.style.display='flex'; ov.classList.add('open'); }
-  }
-};
-window.skipWizard = function(){
-  var ov=document.getElementById('wizard-overlay');
-  if(ov){ ov.style.display='none'; ov.classList.remove('open'); }
-  try{localStorage.setItem('wizard-done','1');}catch(e){}
-  var b=document.getElementById('home-guide-banner');
-  if(b) b.style.display='none';
-};
-window.toggle = function(k){ if(typeof window._toggleFinal==='function') window._toggleFinal(k); };
-window.toggleSimCard = function(k){
-  if(typeof window._toggleSimFinal==='function'){
-    window._toggleSimFinal(k); return;
-  }
-  // Fallback visuel si gros script pas encore chargé
-  window._toggleSimEarly(k);
-};;
-window.setEnergieRef = function(t){ if(typeof window._setRefReal==='function') window._setRefReal(t); };
 // Afficher le banner iOS uniquement dans Safari mobile, pas déjà installé
 (function(){
   try {
@@ -1256,334 +932,42 @@ window.setEnergieRef = function(t){ if(typeof window._setRefReal==='function') w
 <div class="main">
 <nav class="app-nav" role="tablist" aria-label="Navigation principale">
 <div class="nav-tabs">
-  <button class="nav-tab active" onclick="switchAppTab('home')" id="apptab-home"
-    data-tooltip="Votre tableau de bord · Choisissez votre chauffage actuel et voyez les économies possibles">
-    <span class="tab-step">1</span>
-    <span class="tab-icon">🏠</span> Accueil
-  </button>
-  <button class="nav-tab" onclick="switchAppTab('data')" id="apptab-data"
-    data-tooltip="Importez vos données EDF réelles (ZIP depuis votre espace client) pour une simulation précise">
-    <span class="tab-step">2</span>
-    <span class="tab-icon">📂</span> Mes données
-  </button>
-  <button class="nav-tab" onclick="switchAppTab('config')" id="apptab-config"
-    data-tooltip="Configurez vos équipements · PAC, panneaux solaires, batterie, CET — activez et désactivez librement">
-    <span class="tab-step">3</span>
-    <span class="tab-icon">⚙️</span> Ma simulation
-  </button>
-  <button class="nav-tab" onclick="switchAppTab('results')" id="apptab-results"
-    data-tooltip="Résultats chiffrés · Coûts, économies, amortissement et simulation de facture Linky">
-    <span class="tab-step">4</span>
-    <span class="tab-icon">📊</span> Résultats
-  </button>
-  <button class="nav-tab" onclick="switchAppTab('analyses')" id="apptab-analyses"
-    data-tooltip="Bilan complet · CO₂, projection 10 ans, scénarios recommandés, comparateur et radar">
-    <span class="tab-step">5</span>
-    <span class="tab-icon">🔬</span> Bilan &amp; Conseils
-  </button>
-  <button onclick="try{localStorage.removeItem('wizard-done');localStorage.removeItem('guide-dismissed');}catch(e){}startWizard()"
-    title="Guide d'utilisation"
-    style="background:var(--pac);border:none;border-radius:10px;padding:8px 12px;
-    font-size:.75rem;font-weight:700;color:#fff;cursor:pointer;white-space:nowrap;
-    display:flex;align-items:center;gap:5px;">
-    🧭
-  </button>
-  <button class="hamburger-btn" onclick="openHamburger()" id="btn-hamburger"
-    title="Export, installation PWA et plus">
-    ☰
-  </button>
-</div>
-<!-- Overlay hamburger -->
-<div class="hamburger-overlay" id="hamburger-overlay" ontouchstart="" onclick="closeHamburger()"></div>
-<!-- Menu hamburger -->
-<div class="hamburger-menu" id="hamburger-menu">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-    <div style="font-size:.85rem;font-weight:800;">Menu</div>
-    <button onclick="closeHamburger()" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--muted);">✕</button>
-  </div>
-  <!-- Onglet Export caché -->
-  <div style="margin-bottom:16px;">
-    <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px;">📤 Export & Partage</div>
-    <button onclick="closeHamburger();switchAppTab('export')" style="width:100%;text-align:left;padding:10px 14px;border-radius:9px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:.78rem;font-weight:600;cursor:pointer;margin-bottom:6px;">
-      📱 Installer l'application
+<button class="nav-tab active" onclick="switchAppTab('home')" id="apptab-home">
+<span class="tab-icon">🏠</span> Accueil
     </button>
-    <button onclick="closeHamburger();switchAppTab('export');setTimeout(()=>document.getElementById('tab-export-download')?.click(),300)" style="width:100%;text-align:left;padding:10px 14px;border-radius:9px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:.78rem;font-weight:600;cursor:pointer;margin-bottom:6px;">
-      💾 Sauvegarder le fichier HTML
+<button class="nav-tab" onclick="switchAppTab('data')" id="apptab-data">
+<span class="tab-icon">📂</span> Mes données
     </button>
-    <button onclick="closeHamburger();exportExcel&&exportExcel()" style="width:100%;text-align:left;padding:10px 14px;border-radius:9px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:.78rem;font-weight:600;cursor:pointer;margin-bottom:6px;">
-      📗 Exporter Excel
+<button class="nav-tab" onclick="switchAppTab('config')" id="apptab-config">
+<span class="tab-icon">⚙️</span> Configuration
     </button>
-    <button onclick="closeHamburger();shareBase64Link&&shareBase64Link()" style="width:100%;text-align:left;padding:10px 14px;border-radius:9px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:.78rem;font-weight:600;cursor:pointer;">
-      🔗 Partager le lien
+<button class="nav-tab" onclick="switchAppTab('results')" id="apptab-results">
+<span class="tab-icon">📊</span> Résultats
     </button>
-  </div>
-  <div style="border-top:1px solid var(--border);margin-bottom:16px;padding-top:16px;">
-    <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px;">🎓 Guide</div>
-    <button onclick="closeHamburger();try{localStorage.removeItem('wizard-done');}catch(e){}startWizard()" style="width:100%;text-align:left;padding:10px 14px;border-radius:9px;border:1px solid var(--pac);background:var(--pac-tint);color:var(--pac);font-size:.78rem;font-weight:700;cursor:pointer;">
-      🧭 Relancer le guide étape par étape
+<button class="nav-tab" onclick="switchAppTab('analyses')" id="apptab-analyses">
+<span class="tab-icon">🔬</span> Analyses <span class="tab-badge">NEW</span>
+</button>
+<button class="nav-tab" onclick="switchAppTab('export')" id="apptab-export">
+<span class="tab-icon">📱</span> Installer
     </button>
-  </div>
-  <div style="border-top:1px solid var(--border);padding-top:16px;">
-    <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px;">ℹ️ À propos</div>
-    <div style="font-size:.68rem;color:var(--muted);line-height:1.7;">
-      Simulation Énergie Maison<br>
-      Brignais (69530) · Tempo 9 kVA<br>
-      <a href="https://drive.google.com/file/d/1Hf7yyGaFi4By1dHEbpwm-ItVO3iS2yYF/view" target="_blank" style="color:var(--pac);">⬇️ Dernière version</a>
-    </div>
-  </div>
 </div>
 </nav>
 <div class="tab-panel active" id="panel-home">
-<!-- Bouton guide + wizard -->
-<div id="home-guide-banner" style="margin:12px 0 0;padding:10px 14px;
-  background:linear-gradient(135deg,var(--pac-tint),var(--surface2));
-  border:1px solid var(--pac);border-radius:12px;
-  display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-  <div style="flex:1;min-width:180px;">
-    <div style="font-size:.78rem;font-weight:800;color:var(--pac);">🧭 Première utilisation ?</div>
-    <div style="font-size:.66rem;color:var(--muted);margin-top:2px;">Suivez le guide en 5 étapes pour configurer votre simulation</div>
-  </div>
-  <button onclick="try{localStorage.removeItem('wizard-done');}catch(e){}startWizard()"
-    style="padding:8px 18px;font-size:.75rem;font-weight:700;border-radius:9px;
-    background:var(--pac);color:#fff;border:none;cursor:pointer;white-space:nowrap;">
-    Démarrer le guide →
-  </button>
-  <button onclick="document.getElementById('home-guide-banner').style.display='none';localStorage.setItem('guide-dismissed','1')"
-    style="padding:6px 10px;font-size:.7rem;border-radius:7px;border:1px solid var(--border);
-    background:none;color:var(--muted);cursor:pointer;">✕</button>
-</div>
-<!-- Sélecteur chaudière de référence -->
-<div id="home-ref-section" class="si-mt16">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-
-<!-- ══ CARTE 1 : MON CHAUFFAGE ACTUEL ══ -->
-<div class="card" style="padding:14px 16px;">
-  <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-    <div style="width:34px;height:34px;background:var(--gaz);border-radius:9px;
-      display:flex;align-items:center;justify-content:center;font-size:1.1rem;">🏠</div>
-    <div>
-      <div style="font-size:.82rem;font-weight:800;">Mon chauffage actuel</div>
-      <div style="font-size:.66rem;color:var(--muted);">Votre situation de départ</div>
-    </div>
-  </div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;" id="ref-cards-grid">
-    <!-- Gaz -->
-    <div class="ref-card" id="ref-card-gaz" ontouchstart="" onclick="setEnergieRef('gaz')" style="
-      border:2px solid var(--gaz);background:var(--gaz);color:#fff;
-      border-radius:11px;padding:12px 8px;text-align:center;cursor:pointer;transition:.18s;">
-      <div style="font-size:1.6rem;">🔥</div>
-      <div style="font-size:.75rem;font-weight:800;margin-top:4px;">Gaz naturel</div>
-      <div style="font-size:.6rem;margin-top:2px;opacity:.85;">Chaudière gaz</div>
-    </div>
-    <!-- Fioul -->
-    <div class="ref-card" id="ref-card-fioul" ontouchstart="" onclick="setEnergieRef('fioul')" style="
-      border:2px solid var(--border);background:var(--surface2);color:var(--text);
-      border-radius:11px;padding:12px 8px;text-align:center;cursor:pointer;transition:.18s;">
-      <div style="font-size:1.6rem;">🛢️</div>
-      <div style="font-size:.75rem;font-weight:800;margin-top:4px;">Fioul</div>
-      <div style="font-size:.6rem;margin-top:2px;color:var(--muted);">Chaudière fioul</div>
-    </div>
-    <!-- Bois -->
-    <div class="ref-card" id="ref-card-bois" ontouchstart="" onclick="setEnergieRef('bois')" style="
-      border:2px solid var(--border);background:var(--surface2);color:var(--text);
-      border-radius:11px;padding:12px 8px;text-align:center;cursor:pointer;transition:.18s;">
-      <div style="font-size:1.6rem;">🪵</div>
-      <div style="font-size:.75rem;font-weight:800;margin-top:4px;">Bois</div>
-      <div style="font-size:.6rem;margin-top:2px;color:var(--muted);">Poêle / chaudière</div>
-    </div>
-    <!-- Pellets -->
-    <div class="ref-card" id="ref-card-pellet" ontouchstart="" onclick="setEnergieRef('pellet')" style="
-      border:2px solid var(--border);background:var(--surface2);color:var(--text);
-      border-radius:11px;padding:12px 8px;text-align:center;cursor:pointer;transition:.18s;">
-      <div style="font-size:1.6rem;">🌾</div>
-      <div style="font-size:.75rem;font-weight:800;margin-top:4px;">Pellets</div>
-      <div style="font-size:.6rem;margin-top:2px;color:var(--muted);">Chaudière à pellets</div>
-    </div>
-    <!-- PAC existante -->
-    <div class="ref-card" id="ref-card-pac-exist" ontouchstart="" onclick="setEnergieRef('pac-exist')" style="
-      border:2px solid var(--border);background:var(--surface2);color:var(--text);
-      border-radius:11px;padding:12px 8px;text-align:center;cursor:pointer;transition:.18s;">
-      <div style="font-size:1.6rem;">♨️</div>
-      <div style="font-size:.75rem;font-weight:800;margin-top:4px;">PAC existante</div>
-      <div style="font-size:.6rem;margin-top:2px;color:var(--muted);">Déjà installée</div>
-    </div>
-    <!-- Électrique direct -->
-    <div class="ref-card" id="ref-card-elec-direct" ontouchstart="" onclick="setEnergieRef('elec-direct')" style="
-      border:2px solid var(--border);background:var(--surface2);color:var(--text);
-      border-radius:11px;padding:12px 8px;text-align:center;cursor:pointer;transition:.18s;">
-      <div style="font-size:1.6rem;">⚡</div>
-      <div style="font-size:.75rem;font-weight:800;margin-top:4px;">Électrique</div>
-      <div style="font-size:.6rem;margin-top:2px;color:var(--muted);">Convecteurs</div>
-    </div>
-  </div>
-  <!-- Résumé sélection -->
-  <div id="ref-summary" style="margin-top:10px;padding:8px 12px;background:var(--surface2);
-    border-radius:8px;font-size:.7rem;display:none;">
-    <span id="ref-summary-text"></span>
-    <button onclick="switchAppTab('config')"
-      style="margin-left:8px;padding:2px 10px;font-size:.65rem;font-weight:700;border-radius:5px;
-      cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--muted);">
-      ⚙️ Affiner les paramètres
-    </button>
-  </div>
-</div>
-
-<!-- ══ CARTE 2 : MA SIMULATION ══ -->
-<div class="card" style="padding:14px 16px;">
-  <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-    <div style="width:34px;height:34px;background:var(--pac);border-radius:9px;
-      display:flex;align-items:center;justify-content:center;font-size:1.1rem;">⚡</div>
-    <div>
-      <div style="font-size:.82rem;font-weight:800;">Ma simulation</div>
-      <div style="font-size:.66rem;color:var(--muted);">Combinez librement</div>
-    </div>
-    <button type="button" onclick="clearSimCards()"
-      style="margin-left:auto;padding:3px 10px;font-size:.6rem;font-weight:700;
-      border-radius:6px;border:1px solid var(--border);background:none;
-      color:var(--muted);cursor:pointer;">Tout effacer</button>
-  </div>
-  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:7px;" id="sim-cards-grid">
-
-    <!-- PAC air/eau -->
-    <button type="button" id="sim-card-pac" onclick="toggleSimCard('pac')"
-      style="border:2px solid var(--border);background:var(--surface2);
-      border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;transition:.15s;">
-      <div style="font-size:1.3rem;">⚡</div>
-      <div style="font-size:.68rem;font-weight:800;margin-top:3px;color:var(--text);">PAC air/eau</div>
-      <div style="font-size:.55rem;margin-top:1px;color:var(--muted);">COP ~3.5</div>
-    </button>
-
-    <!-- PAC air/air -->
-    <button type="button" id="sim-card-pacair" onclick="toggleSimCard('pacair')"
-      style="border:2px solid var(--border);background:var(--surface2);
-      border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;transition:.15s;">
-      <div style="font-size:1.3rem;">🌬️</div>
-      <div style="font-size:.68rem;font-weight:800;margin-top:3px;color:var(--text);">PAC air/air</div>
-      <div style="font-size:.55rem;margin-top:1px;color:var(--muted);">Climatisation réversible</div>
-    </button>
-
-    <!-- Solaire PV -->
-    <button type="button" id="sim-card-sol" onclick="toggleSimCard('sol')"
-      style="border:2px solid var(--border);background:var(--surface2);
-      border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;transition:.15s;">
-      <div style="font-size:1.3rem;">☀️</div>
-      <div style="font-size:.68rem;font-weight:800;margin-top:3px;color:var(--text);">Solaire PV</div>
-      <div style="font-size:.55rem;margin-top:1px;color:var(--muted);">Panneaux solaires</div>
-    </button>
-
-    <!-- CET -->
-    <button type="button" id="sim-card-cet" onclick="toggleSimCard('cet')"
-      style="border:2px solid var(--border);background:var(--surface2);
-      border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;transition:.15s;">
-      <div style="font-size:1.3rem;">🚿</div>
-      <div style="font-size:.68rem;font-weight:800;margin-top:3px;color:var(--text);">CET</div>
-      <div style="font-size:.55rem;margin-top:1px;color:var(--muted);">Chauffe-eau thermo.</div>
-    </button>
-
-    <!-- Batterie -->
-    <button type="button" id="sim-card-bat" onclick="toggleSimCard('bat')"
-      style="border:2px solid var(--border);background:var(--surface2);
-      border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;transition:.15s;">
-      <div style="font-size:1.3rem;">🔋</div>
-      <div style="font-size:.68rem;font-weight:800;margin-top:3px;color:var(--text);">Batterie</div>
-      <div style="font-size:.55rem;margin-top:1px;color:var(--muted);">Stockage solaire</div>
-    </button>
-
-    <!-- Chaudière bois -->
-    <button type="button" id="sim-card-bois" onclick="toggleSimCard('bois')"
-      style="border:2px solid var(--border);background:var(--surface2);
-      border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;transition:.15s;">
-      <div style="font-size:1.3rem;">🪵</div>
-      <div style="font-size:.68rem;font-weight:800;margin-top:3px;color:var(--text);">Chaud. bois</div>
-      <div style="font-size:.55rem;margin-top:1px;color:var(--muted);" id="sim-bois-prix">100 €/stère</div>
-    </button>
-
-    <!-- Chaudière pellets -->
-    <button type="button" id="sim-card-pellet" onclick="toggleSimCard('pellet')"
-      style="border:2px solid var(--border);background:var(--surface2);
-      border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;transition:.15s;">
-      <div style="font-size:1.3rem;">🌾</div>
-      <div style="font-size:.68rem;font-weight:800;margin-top:3px;color:var(--text);">Chaud. pellets</div>
-      <div style="font-size:.55rem;margin-top:1px;color:var(--muted);" id="sim-pellet-prix">350 €/tonne</div>
-    </button>
-
-  </div>
-
-  <!-- Paramètres bois/pellets (visibles si activés) -->
-  <div id="sim-bois-params" style="display:none;margin-top:8px;padding:8px 10px;
-    background:#fef9f0;border-radius:8px;border:1px solid #6b3a1f44;">
-    <div style="font-size:.65rem;font-weight:700;color:#6b3a1f;margin-bottom:6px;">🪵 Paramètres chaudière bois</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-      <div>
-        <label style="font-size:.6rem;color:var(--muted);">Conso (stères/an)</label>
-        <input type="number" id="sim-bois-steres" value="15" min="2" max="50" step="0.5"
-          style="width:100%;padding:4px 6px;font-size:.75rem;font-weight:700;color:#6b3a1f;
-          background:var(--surface);border:1px solid #6b3a1f44;border-radius:6px;margin-top:2px;"
-          oninput="updateSimBoisPrix();update()">
-      </div>
-      <div>
-        <label style="font-size:.6rem;color:var(--muted);">Prix (€/stère)</label>
-        <input type="number" id="sim-bois-prix-input" value="100" min="50" max="300" step="5"
-          style="width:100%;padding:4px 6px;font-size:.75rem;font-weight:700;color:#6b3a1f;
-          background:var(--surface);border:1px solid #6b3a1f44;border-radius:6px;margin-top:2px;"
-          oninput="updateSimBoisPrix();update()">
-      </div>
-    </div>
-    <div style="margin-top:4px;font-size:.62rem;color:#6b3a1f;font-weight:600;" id="sim-bois-cout"></div>
-  </div>
-
-  <div id="sim-pellet-params" style="display:none;margin-top:8px;padding:8px 10px;
-    background:#fef3c7;border-radius:8px;border:1px solid #92400e44;">
-    <div style="font-size:.65rem;font-weight:700;color:#92400e;margin-bottom:6px;">🌾 Paramètres chaudière pellets</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-      <div>
-        <label style="font-size:.6rem;color:var(--muted);">Conso (tonnes/an)</label>
-        <input type="number" id="sim-pellet-tonnes" value="5" min="0.5" max="20" step="0.5"
-          style="width:100%;padding:4px 6px;font-size:.75rem;font-weight:700;color:#92400e;
-          background:var(--surface);border:1px solid #92400e44;border-radius:6px;margin-top:2px;"
-          oninput="updateSimPelletPrix();update()">
-      </div>
-      <div>
-        <label style="font-size:.6rem;color:var(--muted);">Prix (€/tonne)</label>
-        <input type="number" id="sim-pellet-prix-input" value="350" min="200" max="600" step="10"
-          style="width:100%;padding:4px 6px;font-size:.75rem;font-weight:700;color:#92400e;
-          background:var(--surface);border:1px solid #92400e44;border-radius:6px;margin-top:2px;"
-          oninput="updateSimPelletPrix();update()">
-      </div>
-    </div>
-    <div style="margin-top:4px;font-size:.62rem;color:#92400e;font-weight:600;" id="sim-pellet-cout"></div>
-  </div>
-
-  <!-- Résumé simulation -->
-  <div id="sim-summary" style="margin-top:10px;padding:8px 12px;background:var(--pac-tint);
-    border-radius:8px;font-size:.68rem;display:none;border:1px solid var(--pac)33;">
-    <div style="font-weight:700;color:var(--pac);margin-bottom:3px;">⚡ Simulation active</div>
-    <div id="sim-summary-text" style="color:var(--muted);"></div>
-    <button onclick="switchAppTab('results')" type="button"
-      style="margin-top:6px;padding:3px 12px;font-size:.65rem;font-weight:700;border-radius:5px;
-      cursor:pointer;border:none;background:var(--pac);color:#fff;">
-      📊 Voir les résultats →
-    </button>
-  </div>
-</div>
-
-</div><!-- fin grid 2 colonnes -->
-</div>
 <!-- Hero KPIs -->
 <div class="si-mt16" id="hero-kpis"></div>
 <!-- Quick config row -->
 <div class="quick-config" id="quick-config-row">
 <span style="font-size:.72rem;font-weight:700;color:var(--muted);margin-right:4px;">Équipements actifs :</span>
-<div class="quick-toggle" id="qt-pac" style="--qt-color:var(--pac);--qt-tint:var(--pac-tint);" ontouchstart="" onclick="toggle('pac')">
+<div class="quick-toggle" id="qt-pac" style="--qt-color:var(--pac);--qt-tint:var(--pac-tint);" onclick="toggle('pac')">
 <div class="qt-dot"></div>⚡ PAC
     </div>
-<div class="quick-toggle" id="qt-cet" style="--qt-color:var(--grn);--qt-tint:var(--grn-tint);" ontouchstart="" onclick="toggle('cet')">
+<div class="quick-toggle" id="qt-cet" style="--qt-color:var(--grn);--qt-tint:var(--grn-tint);" onclick="toggle('cet')">
 <div class="qt-dot"></div>🚿 CET
     </div>
-<div class="quick-toggle" id="qt-sol" style="--qt-color:var(--sol);--qt-tint:var(--sol-tint);" ontouchstart="" onclick="toggle('sol')">
+<div class="quick-toggle" id="qt-sol" style="--qt-color:var(--sol);--qt-tint:var(--sol-tint);" onclick="toggle('sol')">
 <div class="qt-dot"></div>☀️ Solaire
     </div>
-<div class="quick-toggle" id="qt-bat" style="--qt-color:var(--bat);--qt-tint:var(--bat-tint);" ontouchstart="" onclick="toggle('bat')">
+<div class="quick-toggle" id="qt-bat" style="--qt-color:var(--bat);--qt-tint:var(--bat-tint);" onclick="toggle('bat')">
 <div class="qt-dot"></div>🔋 Batterie
     </div>
 <button onclick="switchAppTab('config')" class="btn" style="margin-left:auto;font-size:.7rem;">
@@ -1595,7 +979,7 @@ window.setEnergieRef = function(t){ if(typeof window._setRefReal==='function') w
 <div class="sec-head">
 <div class="sec-head-icon">📊</div>
 <div><div class="sec-head-title">Coûts mensuels comparés</div>
-<div class="sec-head-sub" id="home-chart-sub">Gaz actuel vs votre configuration</div></div>
+<div class="sec-head-sub">Gaz actuel vs votre configuration</div></div>
 </div>
 <div style="font-size:.7rem;color:var(--muted);text-align:center;padding:8px;">📊 Graphiques détaillés → onglet Résultats</div>
 </div>
@@ -1608,26 +992,6 @@ window.setEnergieRef = function(t){ if(typeof window._setRefReal==='function') w
 </div>
 <div style="font-size:.72rem;color:var(--muted);padding:8px;">📊 Waterfall → onglet Accueil</div>
 <div id="wf-legend-dummy" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;font-size:.67rem;"></div>
-</div>
-<!-- ── Section recommandations accueil ── -->
-<div class="si-mt16" id="home-reco-section">
-<div class="card">
-  <div class="sec-head" style="margin-bottom:12px;">
-    <div class="sec-head-icon">💡</div>
-    <div>
-      <div class="sec-head-title">Solutions recommandées</div>
-      <div class="sec-head-sub" id="home-reco-sub">Basées sur votre configuration actuelle</div>
-    </div>
-  </div>
-  <div id="home-scenarios-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;"></div>
-  <div style="margin-top:10px;text-align:center;">
-    <button onclick="switchAppTab('analyses')"
-      style="padding:7px 20px;font-size:.72rem;font-weight:700;border-radius:8px;cursor:pointer;
-      border:1px solid var(--pac);background:var(--pac);color:#fff;">
-      🔬 Analyse complète →
-    </button>
-  </div>
-</div>
 </div>
 </div>
 <div class="tab-panel" id="panel-data">
@@ -1669,13 +1033,13 @@ window.setEnergieRef = function(t){ if(typeof window._setRefReal==='function') w
 <!-- ÉDITEUR -->
 <div class="data-editor" id="data-editor">
 <div class="dtabs">
-<div class="dtab active" id="dt-gaz"   ontouchstart="" onclick="switchTab('gaz')">🔥 Gaz m³</div>
-<div class="dtab"        id="dt-elec"  ontouchstart="" onclick="switchTab('elec')">⚡ Élec base kWh</div>
-<div class="dtab"        id="dt-conso" ontouchstart="" onclick="switchTab('conso')">📊 Conso totale + PAC</div>
-<div class="dtab"        id="dt-ecs"   ontouchstart="" onclick="switchTab('ecs')">🚿 ECS m³</div>
-<div class="dtab"        id="dt-jr"    ontouchstart="" onclick="switchTab('jr')">🔴 Jours rouges</div>
-<div class="dtab"        id="dt-jbl"   ontouchstart="" onclick="switchTab('jbl')">⬜ Jours blancs</div>
-<div class="dtab"        id="dt-sol"   ontouchstart="" onclick="switchTab('sol')">☀️ Solaire kWh</div>
+<div class="dtab active" id="dt-gaz"   onclick="switchTab('gaz')">🔥 Gaz m³</div>
+<div class="dtab"        id="dt-elec"  onclick="switchTab('elec')">⚡ Élec base kWh</div>
+<div class="dtab"        id="dt-conso" onclick="switchTab('conso')">📊 Conso totale + PAC</div>
+<div class="dtab"        id="dt-ecs"   onclick="switchTab('ecs')">🚿 ECS m³</div>
+<div class="dtab"        id="dt-jr"    onclick="switchTab('jr')">🔴 Jours rouges</div>
+<div class="dtab"        id="dt-jbl"   onclick="switchTab('jbl')">⬜ Jours blancs</div>
+<div class="dtab"        id="dt-sol"   onclick="switchTab('sol')">☀️ Solaire kWh</div>
 </div>
 <div id="edit-body"></div>
 <div style="font-size:.64rem;color:var(--muted);margin-top:8px;">Les modifications sont prises en compte immédiatement dans la simulation.</div>
@@ -1687,130 +1051,109 @@ window.setEnergieRef = function(t){ if(typeof window._setRefReal==='function') w
 </div><!-- end panel-data -->
 <div class="tab-panel" id="panel-config">
 <div class="si-mt16">
-
-<!-- ══ BADGE RÉFÉRENCE ══ -->
-<div id="config-ref-badge" style="display:flex;align-items:center;gap:10px;padding:10px 14px;
-  background:var(--surface2);border-radius:11px;border:1.5px solid var(--border);margin-bottom:14px;">
-  <div>
-    <div style="font-size:.68rem;color:var(--muted);font-weight:600;margin-bottom:2px;">🏠 Chauffage de référence</div>
-    <div id="config-ref-label" style="font-size:.85rem;font-weight:800;"></div>
-    <div id="config-ref-params" style="font-size:.65rem;color:var(--muted);margin-top:1px;"></div>
-  </div>
-  <button onclick="switchAppTab('home');setTimeout(()=>document.getElementById('home-ref-section').scrollIntoView({behavior:'smooth'}),200)"
-    style="margin-left:auto;padding:5px 12px;font-size:.68rem;font-weight:700;border-radius:7px;
-    cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--muted);">
-    ✏️ Modifier
-  </button>
+<div class="sec-head"><div class="sec-head-icon">🎛️</div><div><div class="sec-head-title" data-i18n="equipTitle">Équipements</div><div class="sec-head-sub" data-i18n="equipSub">Activez et configurez vos équipements</div></div></div>
+<div class="card">
+<div class="config-row">
+<!-- ══ PAC CARD avec contrôle par couleur Tempo ══ -->
+<div id="tc-pac" style="flex:1;min-width:220px;background:var(--pac-tint);border:2px solid var(--pac);
+      border-radius:12px;padding:14px 16px;user-select:none;transition:all .2s;">
+<!-- Ligne 1 : titre + ON/OFF global -->
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+<div class="t-ico" style="cursor:pointer;" onclick="toggle('pac')">⚡</div>
+<div class="t-info" style="flex:1;cursor:pointer;" onclick="toggle('pac')">
+<div class="t-name si-pac" data-i18n="pac">PAC réversible</div>
+<div class="t-desc" id="pac-desc">COP <span id="pac-cop-label">3.0</span> ·
+            <span id="pac-install-label" class="si-pac">Déjà installée</span>
 </div>
-
-<!-- ══ SECTION : PARAMÈTRES ÉNERGIE DE RÉFÉRENCE ══ -->
-<div class="energy-section" id="es-ref" style="--es-color:#6b7280;--es-bg:#f9fafb;">
-  <div class="energy-section-header" ontouchstart="" onclick="toggleEnergySection('es-ref')">
-    <div class="energy-section-icon" style="background:#6b7280;">⚙️</div>
-    <div>
-      <div class="energy-section-title" style="color:#4b5563;">Paramètres de votre énergie actuelle</div>
-      <div class="energy-section-sub">Prix, consommation — utilisés comme base de comparaison</div>
-    </div>
-    <span class="energy-section-chevron">▼</span>
-  </div>
-  <div class="energy-section-body" id="es-ref-body">
-    <!-- Prix gaz -->
-    <div class="p-item" id="pgaz-item">
-      <label>Prix gaz (€/kWh PCS) <span class="tip-icon tip" data-tip="TRVe 2025 ≈ 0,113 €/kWh&#10;1 m³ ≈ 11,05 kWh PCS">?</span></label>
-      <input type="range" id="pgaz" min="0.08" max="0.20" step="0.005" value="0.1129" oninput="update()">
-      <span class="pval si-gaz" id="pgazV">0.113 €</span>
-    </div>
-    <!-- Fioul -->
-    <div class="p-item" id="pfioul-item" style="display:none;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-        <div>
-          <label style="font-size:.7rem;color:var(--muted);">Conso fioul (L/an) <span class="tip-icon tip" data-tip="Consommation annuelle de fioul&#10;Maison ~100m² : 1500–2000 L/an">?</span></label>
-          <input type="number" id="fioul-litres" min="500" max="8000" step="50" value="1500"
-            style="width:100%;padding:5px 8px;font-size:.78rem;font-weight:700;color:#b45309;
-            background:var(--surface2);border:1px solid var(--border);border-radius:7px;"
-            oninput="updateFioulMensuel();update()">
-          <span style="font-size:.62rem;color:var(--muted);" id="fioul-conso-moy"></span>
-        </div>
-        <div>
-          <label style="font-size:.7rem;color:var(--muted);">Prix fioul (€/L) <span class="tip-icon tip" data-tip="Prix moyen 2025 : 0,95–1,15 €/L">?</span></label>
-          <input type="number" id="fioul-prix" min="0.70" max="1.80" step="0.01" value="1.05"
-            style="width:100%;padding:5px 8px;font-size:.78rem;font-weight:700;color:#b45309;
-            background:var(--surface2);border:1px solid var(--border);border-radius:7px;"
-            oninput="update()">
-          <span style="font-size:.62rem;color:var(--muted);">€/L · ~<span id="fioul-kwh-price"></span> €/kWh</span>
-        </div>
-      </div>
-      <div style="margin-top:5px;font-size:.65rem;color:#b45309;font-weight:600;" id="fioul-cout-estime"></div>
-    </div>
-    <!-- Bois / Pellets -->
-    <div class="p-item" id="pbois-item" style="display:none;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-        <div>
-          <label style="font-size:.7rem;color:var(--muted);" id="bois-unit-label">Conso (stères/an) <span class="tip-icon tip" data-tip="1 stère bois sec ≈ 1700 kWh PCI&#10;1 tonne pellets ≈ 4800 kWh PCI">?</span></label>
-          <input type="number" id="bois-steres" min="0.5" max="50" step="0.5" value="15"
-            style="width:100%;padding:5px 8px;font-size:.78rem;font-weight:700;color:#6b3a1f;
-            background:var(--surface2);border:1px solid var(--border);border-radius:7px;"
-            oninput="updateBoisMensuel();update()">
-          <span style="font-size:.62rem;color:var(--muted);" id="bois-conso-moy"></span>
-        </div>
-        <div>
-          <label style="font-size:.7rem;color:var(--muted);" id="bois-prix-label">Prix (€/stère) <span class="tip-icon tip" data-tip="Bois bûches sec 2025 : 80–140 €/stère&#10;Pellets 2025 : 300–420 €/tonne">?</span></label>
-          <input type="number" id="bois-prix" min="50" max="500" step="5" value="100"
-            style="width:100%;padding:5px 8px;font-size:.78rem;font-weight:700;color:#6b3a1f;
-            background:var(--surface2);border:1px solid var(--border);border-radius:7px;"
-            oninput="updateBoisMensuel();update()">
-          <span style="font-size:.62rem;color:var(--muted);" id="bois-prix-unit">€/stère</span>
-        </div>
-      </div>
-      <div style="margin-top:5px;font-size:.65rem;color:#6b3a1f;font-weight:600;" id="bois-cout-estime"></div>
-    </div>
-    <!-- PAC existante -->
-    <div class="p-item" id="pac-exist-item" style="display:none;">
-      <label style="font-size:.7rem;color:var(--muted);">COP PAC existante <span class="tip-icon tip" data-tip="COP moyen annuel de votre PAC actuelle&#10;PAC air/air : 2.5–3.5 · PAC air/eau : 3.0–4.5">?</span></label>
-      <input type="range" id="pac-exist-cop" min="2.0" max="5.0" step="0.1" value="3.0" oninput="update()">
-      <span class="pval pac" id="pac-exist-copV">3.0</span>
-    </div>
-    <!-- Électrique direct -->
-    <div class="p-item" id="elec-direct-item" style="display:none;">
-      <label style="font-size:.7rem;color:var(--muted);">Conso électrique chauffage (kWh/an)</label>
-      <input type="number" id="elec-direct-kwh" min="1000" max="30000" step="100" value="8000"
-        style="width:100%;padding:5px 8px;font-size:.78rem;font-weight:700;color:var(--pac);
-        background:var(--surface2);border:1px solid var(--border);border-radius:7px;"
-        oninput="update()">
-      <span style="font-size:.62rem;color:var(--muted);">kWh/an · <span id="elec-direct-cout"></span></span>
-    </div>
-  </div>
 </div>
-
-
-<div class="config-divider">Paramètres avancés</div>
-
-<!-- IDs cachés pour compatibilité avec toggle() -->
-<div style="display:none;" aria-hidden="true">
-<div id="tc-pac"></div>
-<div id="pill-pac"></div>
-<div id="tc-sol"></div>
-<div id="pill-sol"></div>
-<div id="tc-cet"></div>
-<div id="pill-cet"></div>
-<div id="tc-bat"></div>
-<div id="pill-bat"></div>
-<div id="pac-desc"></div>
-<div id="tc-cet-kwh"></div>
-<div id="tc-sol-kwc"></div>
-<div id="tc-sol-orient"></div>
-<div id="tc-sol-loc"></div>
-<div id="tc-sol-prod"></div>
-<div id="tc-sol-install-label"></div>
-<div id="tc-cet-cap"></div>
-<div id="tc-cet-cop"></div>
-<div id="tc-bat-cap"></div>
-<div id="tc-bat-utile"></div>
-<div id="tc-bat-nom"></div>
-<div id="pac-cop-label"></div>
-<div id="pac-install-label"></div>
+<div id="pill-pac" onclick="toggle('pac')" style="cursor:pointer;
+          padding:4px 12px;border-radius:20px;font-size:.65rem;font-weight:700;
+          background:var(--pac);color:#fff;white-space:nowrap;transition:all .2s;">ON</div>
 </div>
-<!-- ══ PAC CARD avec contrôle par couleur Tempo ══ (contenu déplacé dans energy-section) -->
+<!-- Ligne 2 : boutons par couleur Tempo -->
+<div style="background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:9px 10px;">
+<div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:7px;">
+          Utilisation PAC par type de jour Tempo
+        </div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
+<!-- Bleus -->
+<div class="si-tac">
+<div class="si-f6-mb" style="">🔵 Jours bleus<br><span style="font-size:.55rem;">(300 j/an)</span></div>
+<button id="pac-btn-bleu" onclick="togglePacDay('bleu')"
+              style="width:100%;padding:5px 0;font-size:.7rem;font-weight:700;border-radius:7px;cursor:pointer;
+              border:2px solid #2563eb;background:#2563eb;color:#fff;transition:.2s;">
+              PAC ✓
+            </button>
+<div class="si-f58-mt" style="" id="pac-bleu-sub">écart HC/HP : 0,031 €/kWh</div>
+</div>
+<!-- Blancs -->
+<div class="si-tac">
+<div class="si-f6-mb" style="">⬜ Jours blancs<br><span style="font-size:.55rem;">(43 j/an)</span></div>
+<button id="pac-btn-blanc" onclick="togglePacDay('blanc')"
+              style="width:100%;padding:5px 0;font-size:.7rem;font-weight:700;border-radius:7px;cursor:pointer;
+              border:2px solid #94a3b8;background:#94a3b8;color:#fff;transition:.2s;">
+              PAC ✓
+            </button>
+<div class="si-f58-mt" style="" id="pac-blanc-sub">écart HC/HP : 0,038 €/kWh</div>
+</div>
+<!-- Rouges -->
+<div class="si-tac">
+<div class="si-f6-mb" style="">🔴 Jours rouges<br><span style="font-size:.55rem;">(22 j/an)</span></div>
+<button id="pac-btn-rouge" onclick="togglePacDay('rouge')"
+              style="width:100%;padding:5px 0;font-size:.7rem;font-weight:700;border-radius:7px;cursor:pointer;
+              border:2px solid #dc2626;background:var(--surface2);color:var(--red);transition:.2s;">
+              GAZ ✗
+            </button>
+<div class="si-f58-mt" style="" id="pac-rouge-sub">HP rouge : 0,756 €/kWh</div>
+</div>
+</div>
+<!-- Résumé mode -->
+<div id="pac-mode-summary" style="margin-top:8px;font-size:.63rem;color:var(--text2);line-height:1.5;
+          padding:6px 8px;background:var(--surface);border-radius:6px;border:1px solid var(--border);">
+</div>
+</div>
+</div>
+<div class="toggle-card sol" id="tc-sol" onclick="toggle('sol')">
+<div class="t-ico">☀️</div>
+<div class="t-info">
+<div class="t-name" style="color:var(--sol)">Panneaux solaires</div>
+<div class="t-desc">
+<span id="tc-sol-kwc">4 kWc</span> · <span id="tc-sol-orient">Plein Sud 35°</span><br>
+<span id="tc-sol-loc">Brignais</span> · <span id="tc-sol-prod">5 210 kWh/an</span><br>
+<span id="tc-sol-install" style="font-size:.6rem;">Installation : <strong style="color:var(--sol)" id="tc-sol-install-label">Non installés</strong></span>
+</div>
+</div>
+<div class="t-pill sol" id="pill-sol">OFF</div>
+</div>
+<div class="toggle-card" id="tc-cet" onclick="toggle('cet')"
+      style="flex:1;min-width:180px;background:#f0fdf4;border:2px solid var(--grn);
+      border-radius:12px;padding:14px 16px;cursor:pointer;user-select:none;
+      display:flex;align-items:center;gap:12px;transition:all .2s;">
+<div class="t-ico">🚿</div>
+<div class="t-info">
+<div class="t-name si-grn" data-i18n="cet">Chauffe-eau thermo.</div>
+<div class="t-desc">
+<span id="tc-cet-cap">200 L</span> · COP <span id="tc-cet-cop">2.5</span><br>
+<span id="tc-cet-kwh" class="si-f6m">~800 kWh/an élec</span>
+</div>
+</div>
+<div class="t-pill" id="pill-cet"
+        style="padding:4px 10px;border-radius:20px;font-size:.65rem;font-weight:700;
+        background:var(--surface2);color:var(--muted);border:1px solid var(--border2);white-space:nowrap;transition:all .2s;">OFF</div>
+</div>
+<div class="toggle-card bat" id="tc-bat" onclick="toggle('bat')">
+<div class="t-ico">🔋</div>
+<div class="t-info">
+<div class="t-name" style="color:var(--bat)">Batterie de stockage</div>
+<div class="t-desc">
+<span id="tc-bat-cap">5,28 kWh brut</span> · <span id="tc-bat-utile">4,28 kWh utiles</span><br>
+<span id="tc-bat-nom" class="si-f6m">Batterie sélectionnée</span>
+</div>
+</div>
+<div class="t-pill bat" id="pill-bat">OFF</div>
+</div>
+</div>
+</div>
 <!-- Fournisseurs & Contrats -->
 <div class="sec-head si-mt18"><div class="sec-head-icon">📋</div><div><div class="sec-head-title">Fournisseurs &amp; contrats énergie</div><div class="sec-head-sub">Sélectionnez votre fournisseur · Comparez les offres · Modifiez les tarifs</div></div></div>
 <div class="card" id="fournisseurs-card" style="padding:0;overflow:hidden;">
@@ -2294,84 +1637,10 @@ window.setEnergieRef = function(t){ if(typeof window._setRefReal==='function') w
 <span class="pval" id="copV-var" style="color:var(--grn);font-size:.65rem;"></span>
 </div>
 </div>
-<!-- ── Badge chaudière de référence (défini en page Accueil) ── -->
-<div style="grid-column:1/-1;background:var(--surface2);border-radius:10px;padding:10px 14px;
-  border:1px solid var(--border);margin-bottom:4px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-  <div>
-    <div style="font-size:.7rem;color:var(--muted);font-weight:600;margin-bottom:3px;">Chaudière de référence</div>
-    <div id="config-ref-label" style="font-size:.85rem;font-weight:800;"></div>
-    <div id="config-ref-params" style="font-size:.68rem;color:var(--muted);margin-top:2px;"></div>
-  </div>
-  <button onclick="switchAppTab('home');setTimeout(()=>document.getElementById('home-ref-section').scrollIntoView({behavior:'smooth'}),200)"
-    style="padding:5px 12px;font-size:.68rem;font-weight:700;border-radius:7px;cursor:pointer;
-    border:1px solid var(--border);background:var(--surface);color:var(--muted);">
-    ✏️ Modifier
-  </button>
-</div>
-<!-- Prix gaz (toujours présent, visibilité selon énergie ref) -->
-<div class="p-item" id="pgaz-item">
+<div class="p-item">
 <label>Prix gaz (€/kWh PCS) <span class="tip-icon tip" data-tip="TRVe 2025 ≈ 0,113 €/kWh&#10;1 m³ ≈ 11,05 kWh PCS">?</span></label>
 <input type="range" id="pgaz" min="0.08" max="0.20" step="0.005" value="0.1129" oninput="update()">
 <span class="pval si-gaz" id="pgazV">0.113 €</span>
-</div>
-<!-- Prix fioul (visible si ref=fioul) -->
-<div class="p-item" id="pfioul-item" style="display:none;grid-column:1/-1;">
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-    <div>
-      <label style="font-size:.7rem;color:var(--muted);">Conso fioul (L/an) <span class="tip-icon tip" data-tip="Consommation annuelle de fioul&#10;Maison ~100m² : 1500–2000 L/an">?</span></label>
-      <input type="number" id="fioul-litres" min="500" max="8000" step="50" value="1500"
-        style="width:100%;padding:5px 8px;font-size:.78rem;font-weight:700;color:#b45309;
-        background:var(--surface2);border:1px solid var(--border);border-radius:7px;"
-        oninput="updateFioulMensuel();update()">
-      <span style="font-size:.62rem;color:var(--muted);" id="fioul-conso-moy"></span>
-    </div>
-    <div>
-      <label style="font-size:.7rem;color:var(--muted);">Prix fioul (€/L) <span class="tip-icon tip" data-tip="Prix moyen 2025 : 0,95–1,15 €/L">?</span></label>
-      <input type="number" id="fioul-prix" min="0.70" max="1.80" step="0.01" value="1.05"
-        style="width:100%;padding:5px 8px;font-size:.78rem;font-weight:700;color:#b45309;
-        background:var(--surface2);border:1px solid var(--border);border-radius:7px;"
-        oninput="update()">
-      <span style="font-size:.62rem;color:var(--muted);">€/L · ~<span id="fioul-kwh-price"></span> €/kWh</span>
-    </div>
-  </div>
-  <div style="margin-top:5px;font-size:.65rem;color:#b45309;font-weight:600;" id="fioul-cout-estime"></div>
-</div>
-<!-- Paramètres bois (visible si ref=bois) -->
-<div class="p-item" id="pbois-item" style="display:none;grid-column:1/-1;">
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-    <div>
-      <label style="font-size:.7rem;color:var(--muted);">Conso bois (stères/an) <span class="tip-icon tip" data-tip="1 stère bois sec ≈ 1700 kWh PCI&#10;Maison ~100m² : 10–20 stères/an">?</span></label>
-      <input type="number" id="bois-steres" min="2" max="50" step="0.5" value="15"
-        style="width:100%;padding:5px 8px;font-size:.78rem;font-weight:700;color:#6b3a1f;
-        background:var(--surface2);border:1px solid var(--border);border-radius:7px;"
-        oninput="updateBoisMensuel();update()">
-      <span style="font-size:.62rem;color:var(--muted);" id="bois-conso-moy"></span>
-    </div>
-    <div>
-      <label style="font-size:.7rem;color:var(--muted);">Prix bois (€/stère) <span class="tip-icon tip" data-tip="Bois bûches sec 2025 : 80–140 €/stère&#10;Granulés : 280–380 €/tonne">?</span></label>
-      <input type="number" id="bois-prix" min="50" max="400" step="5" value="100"
-        style="width:100%;padding:5px 8px;font-size:.78rem;font-weight:700;color:#6b3a1f;
-        background:var(--surface2);border:1px solid var(--border);border-radius:7px;"
-        oninput="update()">
-      <span style="font-size:.62rem;color:var(--muted);">€/stère</span>
-    </div>
-  </div>
-  <div style="margin-top:5px;font-size:.65rem;color:#6b3a1f;font-weight:600;" id="bois-cout-estime"></div>
-</div>
-<!-- PAC existante (visible si ref=pac-exist) -->
-<div class="p-item" id="pac-exist-item" style="display:none;grid-column:1/-1;">
-  <label style="font-size:.7rem;color:var(--muted);">COP PAC existante <span class="tip-icon tip" data-tip="COP moyen annuel de votre PAC actuelle&#10;PAC air/air : 2.5–3.5 · PAC air/eau : 3.0–4.5">?</span></label>
-  <input type="range" id="pac-exist-cop" min="2.0" max="5.0" step="0.1" value="3.0" oninput="update()">
-  <span class="pval pac" id="pac-exist-copV">3.0</span>
-</div>
-<!-- Électrique direct (visible si ref=elec-direct) -->
-<div class="p-item" id="elec-direct-item" style="display:none;grid-column:1/-1;">
-  <label style="font-size:.7rem;color:var(--muted);">Conso électrique chauffage (kWh/an) <span class="tip-icon tip" data-tip="Consommation annuelle des convecteurs&#10;Sans le reste de la conso électrique">?</span></label>
-  <input type="number" id="elec-direct-kwh" min="1000" max="30000" step="100" value="8000"
-    style="width:100%;padding:5px 8px;font-size:.78rem;font-weight:700;color:var(--pac);
-    background:var(--surface2);border:1px solid var(--border);border-radius:7px;"
-    oninput="update()">
-  <span style="font-size:.62rem;color:var(--muted);">kWh/an · <span id="elec-direct-cout"></span></span>
 </div>
 <div class="p-item">
 <label>Prix élec Tempo moyen <span class="tip-icon tip" data-tip="Prix moyen pondéré Tempo&#10;300j bleus + 43j blancs + 22j rouges&#10;70% HP + 30% HC · ~0,145 €/kWh">?</span></label>
@@ -2483,7 +1752,7 @@ window.setEnergieRef = function(t){ if(typeof window._setRefReal==='function') w
 <div class="invest-block" id="row-inv-pac">
 <div class="invest-header" style="background:var(--pac-tint);border-color:var(--pac);">
 <span style="font-size:1.1rem;">⚡</span>
-<div><div class="invest-name">PAC air/eau</div><div class="invest-sub">Pompe à chaleur · eau/eau</div></div>
+<div><div class="invest-name" data-i18n="pac">PAC réversible</div><div class="invest-sub" data-i18n="pacSub">Pompe à chaleur</div></div>
 <div style="margin-left:auto;display:flex;flex-direction:column;align-items:center;gap:3px;">
 <div style="font-size:.58rem;color:var(--muted);text-align:center;"><span data-i18n="installed">Installée ?</span></div>
 <div style="display:flex;gap:4px;">
@@ -2502,53 +1771,6 @@ window.setEnergieRef = function(t){ if(typeof window._setRefReal==='function') w
 </div>
 </div>
 <!-- PANNEAUX -->
-<!-- PAC AIR/AIR -->
-<div class="invest-block" id="row-inv-pacair">
-<div class="invest-header" style="background:#ecfeff;border-color:#0891b2;">
-  <span style="font-size:1.1rem;">🌬️</span>
-  <div style="flex:1;">
-    <div class="invest-name" style="color:#0891b2;">PAC air/air</div>
-    <div class="invest-sub">Climatisation réversible</div>
-    <div style="display:flex;gap:6px;margin-top:4px;align-items:center;">
-      <span style="font-size:.62rem;color:var(--muted);">Déjà installée ?</span>
-      <button type="button" id="pacair-inst-oui" onclick="setPacAirInstall(true)"
-        style="padding:2px 10px;font-size:.62rem;font-weight:700;border-radius:5px;cursor:pointer;border:1px solid var(--border2);background:var(--surface2);color:var(--muted);">Oui</button>
-      <button type="button" id="pacair-inst-non" onclick="setPacAirInstall(false)"
-        style="padding:2px 10px;font-size:.62rem;font-weight:700;border-radius:5px;cursor:pointer;border:1px solid #0891b2;background:#0891b2;color:#fff;">Non</button>
-    </div>
-  </div>
-</div>
-<div class="invest-body">
-  <div class="invest-row"><span class="invest-lbl">Modèle</span>
-    <select id="pacair-preset" onchange="applyPacAirPreset(this.value)"
-      style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.68rem;padding:3px 6px;">
-      <option value="daikin_35">Daikin Sensira 3.5 kW · 1 200 €</option>
-      <option value="daikin_50">Daikin Sensira 5.0 kW · 1 600 €</option>
-      <option value="mitsu_25">Mitsubishi MSZ 2.5 kW · 1 100 €</option>
-      <option value="mitsu_42">Mitsubishi MSZ 4.2 kW · 1 500 €</option>
-      <option value="atlantic_35">Atlantic Fujitsu 3.5 kW · 1 300 €</option>
-      <option value="custom_pacair">Personnalisé</option>
-    </select>
-  </div>
-  <div class="invest-row"><span class="invest-lbl">Puissance (kW froid)</span>
-    <input type="number" id="pacair-kw" value="3.5" min="1.5" max="12" step="0.5"
-      style="width:60px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 6px;font-size:.72rem;color:#0891b2;font-weight:700;"
-      oninput="update()"> kW
-  </div>
-  <div class="invest-row"><span class="invest-lbl">Matériel + pose</span>
-    <input type="number" id="inv-pacair-mat" value="1200" min="800" max="6000" step="100"
-      style="width:80px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 6px;font-size:.72rem;color:#0891b2;font-weight:700;"
-      oninput="updateInvestPacAir()"> €
-  </div>
-  <div class="invest-total"><span>Total PAC air/air</span>
-    <strong style="color:#0891b2;" id="invest-pacair-val">1 200 €</strong></div>
-  <div style="margin-top:6px;font-size:.62rem;color:var(--muted);line-height:1.5;">
-    ℹ️ Ne couvre pas l'ECS · Idéal en complément d'un CET<br>
-    💡 <strong style="color:#15803d;">Crédit d'impôt</strong> possible selon revenus
-  </div>
-</div>
-</div>
-
 <div class="invest-block" id="row-inv-sol">
 <div class="invest-header" style="background:var(--sol-tint);border-color:var(--sol);">
 <span style="font-size:1.1rem;">☀️</span>
@@ -2625,17 +1847,7 @@ window.setEnergieRef = function(t){ if(typeof window._setRefReal==='function') w
 <div class="invest-block" id="row-inv-bat">
 <div class="invest-header" style="background:var(--bat-tint);border-color:var(--bat);">
 <span style="font-size:1.1rem;">🔋</span>
-<div style="flex:1;">
-    <div class="invest-name">Batterie de stockage</div>
-    <div class="invest-sub">Configurez votre modèle</div>
-    <div style="display:flex;gap:6px;margin-top:4px;align-items:center;">
-      <span style="font-size:.62rem;color:var(--muted);">Déjà installée ?</span>
-      <button type="button" id="bat-inst-oui" onclick="setBatInstall(true)"
-        style="padding:2px 10px;font-size:.62rem;font-weight:700;border-radius:5px;cursor:pointer;border:1px solid var(--border2);background:var(--surface2);color:var(--muted);">Oui</button>
-      <button type="button" id="bat-inst-non" onclick="setBatInstall(false)"
-        style="padding:2px 10px;font-size:.62rem;font-weight:700;border-radius:5px;cursor:pointer;border:1px solid var(--bat);background:var(--bat);color:#fff;">Non</button>
-    </div>
-  </div>
+<div><div class="invest-name" data-i18n="bat">Batterie de stockage</div><div class="invest-sub">Configurez votre modèle</div></div>
 </div>
 <div class="invest-body">
 <div class="invest-row">
@@ -2679,131 +1891,8 @@ window.setEnergieRef = function(t){ if(typeof window._setRefReal==='function') w
 <div class="invest-row" style="margin-top:8px;"><span class="invest-lbl" style="font-size:.6rem;">Durée amort.</span><input type="range" id="vie-bat" min="5" max="20" step="1" value="10" style="flex:1;accent-color:var(--bat)" oninput="update()"><span class="pval bat" id="vieBatV" style="font-size:.72rem;width:38px;text-align:right;">10 ans</span></div>
 </div>
 </div>
-<!-- CHAUDIÈRE À PELLETS -->
-<div class="invest-block" id="row-inv-pellet" style="display:none;">
-<div class="invest-header" style="background:#fef3c7;border-color:#92400e;">
-<span style="font-size:1.1rem;">🌾</span>
-<div><div class="invest-name" style="color:#92400e;">Chaudière à pellets</div><div class="invest-sub">Remplacement chaudière actuelle</div></div>
-</div>
-<div class="invest-body">
-<div class="invest-row">
-<span class="invest-lbl">Modèle</span>
-<select id="pellet-preset" onchange="applyPelletPreset(this.value)"
-  style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.68rem;padding:4px 6px;">
-<optgroup label="🇦🇹 Autriche / Allemagne (premium)">
-<option value="froling_15">Fröling P4 Pellet – 15 kW · 12 500 €</option>
-<option value="viessmann_20">Viessmann Vitoligno 300-P – 20 kW · 14 000 €</option>
-<option value="windhager_20">Windhager BioWIN 2 Touch – 20 kW · 13 500 €</option>
-</optgroup>
-<optgroup label="🇫🇷 Fabricants français">
-<option value="mcz_10">MCZ Pellet Hydromatic – 10 kW · 8 500 €</option>
-<option value="edilkamin_15">Edilkamin Idro Pellet – 15 kW · 9 800 €</option>
-</optgroup>
-<optgroup label="💰 Entrée de gamme">
-<option value="generic_10">Chaudière générique – 10 kW · 6 000 €</option>
-<option value="generic_15">Chaudière générique – 15 kW · 7 500 €</option>
-</optgroup>
-<optgroup label="✏️ Personnalisé">
-<option value="custom_pellet">Saisir mes propres valeurs</option>
-</optgroup>
-</select>
-</div>
-<div class="invest-row"><span class="invest-lbl">Puissance nominale</span><input type="number" id="pellet-kw" value="15" min="5" max="50" step="1" style="width:60px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 6px;font-size:.72rem;text-align:center;color:#92400e;font-weight:700;" oninput="update()"> kW</div>
-<div class="invest-row"><span class="invest-lbl">Rendement chaudière</span><input type="range" id="pellet-rdt" min="80" max="98" step="1" value="92" style="flex:1;accent-color:#92400e;" oninput="document.getElementById('pellet-rdt-val').textContent=this.value+'%'"><span id="pellet-rdt-val" style="font-size:.72rem;font-weight:700;width:38px;text-align:right;color:#92400e;">92%</span></div>
-<div class="invest-row"><span class="invest-lbl">Matériel + pose</span><input type="number" id="inv-pellet-mat" value="10000" min="4000" max="30000" step="500" style="width:80px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 6px;font-size:.72rem;color:#92400e;font-weight:700;" oninput="update()"> €</div>
-<div class="invest-row"><span class="invest-lbl">Silo à granulés</span><input type="number" id="inv-pellet-silo" value="2500" min="500" max="8000" step="250" style="width:80px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 6px;font-size:.72rem;color:#92400e;font-weight:700;" oninput="update()"> €</div>
-<div class="invest-total"><span>Total chaudière pellets</span><strong style="color:#92400e;" id="invest-pellet-val">12 500 €</strong></div>
-<div class="invest-row" style="margin-top:8px;"><span class="invest-lbl" style="font-size:.6rem;">Durée amort.</span><input type="range" id="vie-pellet" min="10" max="25" step="1" value="20" style="flex:1;accent-color:#92400e;" oninput="update()"><span id="viePelletV" style="font-size:.72rem;font-weight:700;width:38px;text-align:right;color:#92400e;">20 ans</span></div>
-<div style="margin-top:8px;font-size:.62rem;color:var(--muted);line-height:1.5;">💡 MaPrimeRénov' : <strong style="color:#15803d;">jusqu'à 10 000 €</strong><br>CEE : <strong style="color:#15803d;">~1 000–3 000 €</strong><br>Éco-PTZ possible</div>
 </div>
 </div>
-</div>
-</div>
-<!-- CHAUDIÈRE BOIS -->
-<div class="invest-block" id="row-inv-bois">
-<div class="invest-header" style="background:#fef9f0;border-color:#6b3a1f;">
-  <span style="font-size:1.1rem;">🪵</span>
-  <div><div class="invest-name" style="color:#6b3a1f;">Chaudière à bois</div>
-  <div class="invest-sub">Remplacement ou appoint · Bûches / gazéification</div></div>
-</div>
-<div class="invest-body">
-  <div class="invest-row"><span class="invest-lbl">Modèle</span>
-    <select id="bois-chaud-preset2" onchange="applyBoisChaudPreset2(this.value)"
-      style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.68rem;padding:3px 6px;">
-      <option value="atmos_25">Atmos DC25S gazéification – 25 kW · 6 500 €</option>
-      <option value="fro_bois_20">Fröling S4 – 20 kW · 9 500 €</option>
-      <option value="viess_bois">Viessmann Vitoligno 100 – 15 kW · 8 000 €</option>
-      <option value="poele_boul">Poêle bouilleur hydro – 15 kW · 5 000 €</option>
-      <option value="custom_bois2">Personnalisé</option>
-    </select>
-  </div>
-  <div class="invest-row"><span class="invest-lbl">Prix stère (€)</span>
-    <input type="number" id="bois-prix-stere" value="100" min="50" max="300" step="5"
-      style="width:70px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 6px;font-size:.72rem;color:#6b3a1f;font-weight:700;"
-      oninput="update()"> €/stère
-  </div>
-  <div class="invest-row"><span class="invest-lbl">Conso annuelle</span>
-    <input type="number" id="bois-steres-an" value="15" min="2" max="50" step="0.5"
-      style="width:70px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 6px;font-size:.72rem;color:#6b3a1f;font-weight:700;"
-      oninput="update()"> stères/an
-  </div>
-  <div class="invest-row"><span class="invest-lbl">Matériel + pose</span>
-    <input type="number" id="inv-bois2-mat" value="6500" min="3000" max="20000" step="500"
-      style="width:80px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 6px;font-size:.72rem;color:#6b3a1f;font-weight:700;"
-      oninput="updateInvestBois2()"> €
-  </div>
-  <div class="invest-total"><span>Total chaudière bois</span>
-    <strong style="color:#6b3a1f;" id="invest-bois2-val">6 500 €</strong></div>
-  <div style="margin-top:6px;font-size:.62rem;color:var(--muted);line-height:1.5;">
-    💡 MaPrimeRénov' : <strong style="color:#15803d;">jusqu'à 8 000 €</strong> · Éco-PTZ possible<br>
-    🌡️ Coût annuel estimé : <strong style="color:#6b3a1f;" id="bois-cout-an">1 500 €/an</strong>
-  </div>
-</div>
-</div>
-
-<!-- CHAUDIÈRE PELLETS -->
-<div class="invest-block" id="row-inv-pellets2">
-<div class="invest-header" style="background:#fef3c7;border-color:#92400e;">
-  <span style="font-size:1.1rem;">🌾</span>
-  <div><div class="invest-name" style="color:#92400e;">Chaudière à pellets</div>
-  <div class="invest-sub">Automatique · Confort maximal · Silo intégré</div></div>
-</div>
-<div class="invest-body">
-  <div class="invest-row"><span class="invest-lbl">Modèle</span>
-    <select id="pellet-preset2" onchange="applyPelletPreset2(this.value)"
-      style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.68rem;padding:3px 6px;">
-      <option value="generic_15">Chaudière 15 kW – 7 500 €</option>
-      <option value="froling_15">Fröling P4 – 15 kW · 12 500 €</option>
-      <option value="viessmann_20">Viessmann 300-P – 20 kW · 14 000 €</option>
-      <option value="windhager_20">Windhager BioWIN – 20 kW · 13 500 €</option>
-      <option value="mcz_10">MCZ Hydromatic – 10 kW · 8 500 €</option>
-      <option value="custom_pellet2">Personnalisé</option>
-    </select>
-  </div>
-  <div class="invest-row"><span class="invest-lbl">Prix tonne (€)</span>
-    <input type="number" id="pellet-prix-tonne" value="350" min="200" max="600" step="10"
-      style="width:70px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 6px;font-size:.72rem;color:#92400e;font-weight:700;"
-      oninput="update()"> €/tonne
-  </div>
-  <div class="invest-row"><span class="invest-lbl">Conso annuelle</span>
-    <input type="number" id="pellet-tonnes-an" value="5" min="0.5" max="20" step="0.5"
-      style="width:70px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 6px;font-size:.72rem;color:#92400e;font-weight:700;"
-      oninput="update()"> tonnes/an
-  </div>
-  <div class="invest-row"><span class="invest-lbl">Matériel + silo</span>
-    <input type="number" id="inv-pellet2-mat" value="7500" min="4000" max="20000" step="500"
-      style="width:80px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 6px;font-size:.72rem;color:#92400e;font-weight:700;"
-      oninput="updateInvestPellet2()"> €
-  </div>
-  <div class="invest-total"><span>Total chaudière pellets</span>
-    <strong style="color:#92400e;" id="invest-pellet2-val">7 500 €</strong></div>
-  <div style="margin-top:6px;font-size:.62rem;color:var(--muted);line-height:1.5;">
-    💡 MaPrimeRénov' : <strong style="color:#15803d;">jusqu'à 10 000 €</strong> · CEE possible<br>
-    🌡️ Coût annuel estimé : <strong style="color:#92400e;" id="pellet-cout-an">1 750 €/an</strong>
-  </div>
-</div>
-</div>
-
 <div class="section-label mt14" id="sol-config-label" style="display:none;" data-i18n="solConfig">☀️ Configuration panneaux solaires</div>
 <div class="card" id="sol-config-card" style="display:none;">
 <!-- Localisation + kWc -->
@@ -2861,27 +1950,6 @@ window.setEnergieRef = function(t){ if(typeof window._setRefReal==='function') w
 </div><!-- end panel-config -->
 <div class="tab-panel" id="panel-results">
 <div class="si-mt16">
-
-<!-- ══ COMPARATEUR DYNAMIQUE D'ÉNERGIES ══ -->
-<div class="card" id="cmp-card" style="margin-bottom:16px;">
-  <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;">
-    <div style="width:32px;height:32px;background:var(--pac);border-radius:8px;
-      display:flex;align-items:center;justify-content:center;font-size:1rem;color:#fff;">⚡</div>
-    <div style="flex:1;">
-      <div class="card-title" style="margin:0 0 2px;" id="cmp-card-title">Comparaison des alternatives</div>
-      <div style="font-size:.65rem;color:var(--muted);" id="cmp-card-sub">Évolutions possibles depuis votre énergie actuelle</div>
-    </div>
-  </div>
-  <!-- Sous-onglets générés dynamiquement -->
-  <div class="cmp-tabs" id="cmp-tabs-bar"></div>
-  <!-- Panneau de résultats par onglet -->
-  <div id="cmp-panels-container"></div>
-  <!-- Canvas partagé pour les graphiques -->
-  <div id="cmp-chart-zone" style="margin-top:14px;display:none;">
-    <canvas id="cCmp" height="160"></canvas>
-  </div>
-</div>
-
 <!-- KPIs détaillés -->
 <div class="kpis" id="kpis"></div>
 <!-- Conso élec -->
@@ -3054,19 +2122,13 @@ window.setEnergieRef = function(t){ if(typeof window._setRefReal==='function') w
 </div>
 <canvas id="cRadar" height="240"></canvas>
 </div>
-<!-- Scénarios nommés + Recommandation IA -->
-<div class="card" id="reco-card" style="overflow:visible;">
-  <div class="card-title" style="margin-bottom:12px;">💡 Scénarios & Recommandation</div>
-  <!-- 3 scénarios nommés -->
-  <div id="scenarios-named" style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;"></div>
-  <!-- Recommandation personnalisée -->
-  <div style="padding:10px 12px;background:var(--pac-tint);border:1px solid var(--pac);border-radius:9px;">
-    <div style="font-size:.68rem;font-weight:800;color:var(--pac);margin-bottom:6px;">🤖 Recommandation personnalisée</div>
-    <div id="reco-content" style="font-size:.7rem;line-height:1.8;"></div>
-  </div>
-  <div style="margin-top:8px;font-size:.6rem;color:var(--muted);">
-    Basé sur vos données réelles · Mise à jour automatique
-  </div>
+<!-- Recommandation IA -->
+<div class="card" id="reco-card">
+<div class="card-title" style="margin-bottom:10px;" data-i18n="reco">🤖 Recommandation personnalisée</div>
+<div id="reco-content" style="font-size:.72rem;line-height:1.8;"></div>
+<div style="margin-top:10px;padding:8px 12px;background:var(--surface2);border-radius:8px;font-size:.63rem;color:var(--muted);">
+      Basé sur vos données réelles · Mise à jour automatique
+    </div>
 </div>
 </div>
 <!-- Calendrier thermique Tempo -->
@@ -3320,7 +2382,7 @@ window.setEnergieRef = function(t){ if(typeof window._setRefReal==='function') w
 <div class="sec-head" style="margin-top:18px;">
   <div class="sec-head-icon">💶</div>
   <div><div class="sec-head-title">Aides & subventions 2025</div>
-  <div class="sec-head-sub">MaPrimeRénov\', CEE, TVA réduite — selon vos revenus</div></div>
+  <div class="sec-head-sub">MaPrimeRénov', CEE, TVA réduite — selon vos revenus</div></div>
 </div>
 <div class="card" id="aides-card-dup">
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
@@ -3656,14 +2718,14 @@ window.setEnergieRef = function(t){ if(typeof window._setRefReal==='function') w
 </div>
 <!-- Boutons -->
 <div style="display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0;">
-<a href="https://drive.google.com/file/d/1Hf7yyGaFi4By1dHEbpwm-ItVO3iS2yYF/view?usp=drive_link"
+<a href="https://drive.google.com/file/d/1gfV3bkAZjYiKxUdw8M7n0Wix33xkpFPk/view?usp=drive_link"
           target="_blank" rel="noopener noreferrer"
           style="display:inline-flex;align-items:center;gap:6px;padding:9px 16px;
           background:#4285F4;color:#fff;border-radius:9px;text-decoration:none;
           font-size:.75rem;font-weight:700;transition:.2s;white-space:nowrap;">
           📂 Voir sur Drive
         </a>
-<a href="https://drive.google.com/uc?export=download&id=1Hf7yyGaFi4By1dHEbpwm-ItVO3iS2yYF"
+<a href="https://drive.google.com/uc?export=download&id=1gfV3bkAZjYiKxUdw8M7n0Wix33xkpFPk"
           target="_blank" rel="noopener noreferrer"
           style="display:inline-flex;align-items:center;gap:6px;padding:9px 16px;
           background:#34A853;color:#fff;border-radius:9px;text-decoration:none;
@@ -3743,13 +2805,13 @@ window.setEnergieRef = function(t){ if(typeof window._setRefReal==='function') w
             Téléchargez la dernière version du fichier HTML directement :
           </div>
 <div style="display:flex;gap:6px;flex-wrap:wrap;">
-<a href="https://drive.google.com/file/d/1Hf7yyGaFi4By1dHEbpwm-ItVO3iS2yYF/view?usp=drive_link" target="_blank" rel="noopener noreferrer"
+<a href="https://drive.google.com/file/d/1gfV3bkAZjYiKxUdw8M7n0Wix33xkpFPk/view?usp=drive_link" target="_blank" rel="noopener noreferrer"
               style="display:inline-flex;align-items:center;gap:5px;padding:5px 10px;
               background:#fff;color:#166534;border:1px solid #86efac;border-radius:6px;
               text-decoration:none;font-weight:700;font-size:.65rem;">
               👁️ Voir sur Drive
             </a>
-<a href="https://drive.google.com/uc?export=download&id=1Hf7yyGaFi4By1dHEbpwm-ItVO3iS2yYF" target="_blank" rel="noopener noreferrer"
+<a href="https://drive.google.com/uc?export=download&id=1gfV3bkAZjYiKxUdw8M7n0Wix33xkpFPk" target="_blank" rel="noopener noreferrer"
               style="display:inline-flex;align-items:center;gap:5px;padding:5px 10px;
               background:#16a34a;color:#fff;border-radius:6px;
               text-decoration:none;font-weight:700;font-size:.65rem;">
@@ -3823,13 +2885,13 @@ window.setEnergieRef = function(t){ if(typeof window._setRefReal==='function') w
             Téléchargez la dernière version du fichier HTML directement :
           </div>
 <div style="display:flex;gap:6px;flex-wrap:wrap;">
-<a href="https://drive.google.com/file/d/1Hf7yyGaFi4By1dHEbpwm-ItVO3iS2yYF/view?usp=drive_link" target="_blank" rel="noopener noreferrer"
+<a href="https://drive.google.com/file/d/1gfV3bkAZjYiKxUdw8M7n0Wix33xkpFPk/view?usp=drive_link" target="_blank" rel="noopener noreferrer"
               style="display:inline-flex;align-items:center;gap:5px;padding:5px 10px;
               background:#fff;color:#166534;border:1px solid #86efac;border-radius:6px;
               text-decoration:none;font-weight:700;font-size:.65rem;">
               👁️ Voir sur Drive
             </a>
-<a href="https://drive.google.com/uc?export=download&id=1Hf7yyGaFi4By1dHEbpwm-ItVO3iS2yYF" target="_blank" rel="noopener noreferrer"
+<a href="https://drive.google.com/uc?export=download&id=1gfV3bkAZjYiKxUdw8M7n0Wix33xkpFPk" target="_blank" rel="noopener noreferrer"
               style="display:inline-flex;align-items:center;gap:5px;padding:5px 10px;
               background:#16a34a;color:#fff;border-radius:6px;
               text-decoration:none;font-weight:700;font-size:.65rem;">
@@ -3920,8 +2982,13 @@ var renderHeroKpis = function(tRef, tCur, tPac, ecoVsRef, ecoEquip, inv, amortAn
   );
   el.innerHTML=`
   <div class="hero-grid">
-    <!-- Énergie actuelle (référence dynamique) -->
-    ${heroRefCard(tRef)}
+    <!-- Gaz actuel -->
+    <div class="hero-card" style="--hero-accent:var(--gaz);">
+      <div class="hero-icon" style="background:var(--gaz-tint);">🔥</div>
+      <div class="hero-label">Gaz actuel – référence</div>
+      <div class="hero-val si-gaz">${Math.round(tRef).toLocaleString('fr')} €</div>
+      <div class="hero-sub">${D.gaz.reduce((a,b)=>a+b,0).toFixed(0)} m³/an · ${Math.round(D.gaz.reduce((a,b)=>a+b,0)*11.05).toLocaleString('fr')} kWh PCS</div>
+    </div>
     <!-- Configuration finale -->
     <div class="hero-card" style="--hero-accent:var(--pac);">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;">
@@ -3932,7 +2999,7 @@ var renderHeroKpis = function(tRef, tCur, tPac, ecoVsRef, ecoEquip, inv, amortAn
       <div class="hero-val si-pac">${Math.round(tCur).toLocaleString('fr')} €</div>
       <div class="hero-sub">${D.elec.reduce((a,b)=>a+b,0)+kwhPac} kWh/an compteur</div>
       <div class="hero-delta ${ecoVsRef>=0?'delta-pos':'delta-neg'}">
-        ${ecoVsRef>=0?'▼':'▲'} ${Math.abs(Math.round(ecoVsRef)).toLocaleString('fr')} € (${Math.abs(pct)}%) vs ${getRefLabel().split(' ')[0]}
+        ${ecoVsRef>=0?'▼':'▲'} ${Math.abs(Math.round(ecoVsRef)).toLocaleString('fr')} € (${Math.abs(pct)}%) vs gaz
       </div>
     </div>
     <!-- ROI -->
@@ -3964,13 +3031,13 @@ var exportExcel = function(){
     ['Date',new Date().toLocaleDateString('fr-FR'),'',''],
     ['','','',''],
     ['RÉSUMÉ','Valeur','Unité','Note'],
-    [('Coût '+getRefLabel()+' (référence)'),Math.round(tRef),'€/an','Données EDF importées'],
+    ['Coût gaz actuel (référence)',Math.round(tRef),'€/an','Données EDF importées'],
     ['Coût configuration finale',Math.round(tCur),'€/an','Avec équipements actifs'],
     ['Économie annuelle',Math.round(tRef-tCur),'€/an','vs gaz seul'],
     ['% économie',Math.round((tRef-tCur)/tRef*100),'%',''],
     ['','','',''],
     ['ÉQUIPEMENTS ACTIFS','','',''],
-    ['PAC air/eau',usePac?'✓':'✗','','COP '+p.cop.toFixed(1)],
+    ['PAC réversible',usePac?'✓':'✗','','COP '+p.cop.toFixed(1)],
     ['Chauffe-eau thermo.',useCet?'✓':'✗','','COP 2.5'],
     ['Panneaux solaires',useSol?'✓':'✗','',curKwc+' kWc '+curOrient+' '+curAngle+'°'],
     ['Batterie',useBat?'✓':'✗','',batCapBrute.toFixed(1)+' kWh'],
@@ -4071,142 +3138,6 @@ function $el(id){ return document.getElementById(id); }
 // markSectionDirty : sera redéfini plus tard, guard && suffit
 var markSectionDirty = null;
 
-// ── Énergie de référence : 5 types de chauffage ──
-var REF_CONFIG = {
-  'gaz':        { icon:'🔥', label:'Chaudière gaz naturel',  color:'var(--gaz)',  bg:'var(--gaz)',   txt:'#fff' },
-  'fioul':      { icon:'🛢️', label:'Chaudière fioul',         color:'#b45309',     bg:'#b45309',      txt:'#fff' },
-  'bois':       { icon:'🪵', label:'Poêle / chaudière bois',  color:'#6b3a1f',     bg:'#6b3a1f',      txt:'#fff' },
-  'pac-exist':  { icon:'♨️', label:'PAC existante',           color:'var(--pac)',  bg:'var(--pac)',   txt:'#fff' },
-  'elec-direct':{ icon:'⚡', label:'Électrique direct',        color:'var(--pac)',  bg:'#1e40af',      txt:'#fff' },
-  'pellet':     { icon:'🌾', label:'Chaudière à pellets',      color:'#92400e',     bg:'#92400e',      txt:'#fff' },
-};
-
-function setEnergieRef(type){
-  energieRef = type;
-  const cfg = REF_CONFIG[type] || REF_CONFIG['gaz'];
-
-  // ── Cartes page Accueil ──
-  Object.keys(REF_CONFIG).forEach(k=>{
-    const card = document.getElementById('ref-card-'+k);
-    if(!card) return;
-    const isActive = k===type;
-    const c = REF_CONFIG[k];
-    card.style.border    = '2px solid '+(isActive?c.color:'var(--border)');
-    card.style.background= isActive?c.bg:'var(--surface2)';
-    card.style.color     = isActive?c.txt:'var(--text)';
-    // Sous-label couleur
-    const sub = card.querySelector('div:last-child');
-    if(sub) sub.style.color = isActive?'rgba(255,255,255,.8)':'var(--muted)';
-  });
-
-  // ── Résumé sous les cartes ──
-  const summary = document.getElementById('ref-summary');
-  const summaryTxt = document.getElementById('ref-summary-text');
-  if(summary && summaryTxt){
-    summary.style.display='';
-    summaryTxt.innerHTML = `${cfg.icon} <strong>${cfg.label}</strong> sélectionné comme référence`;
-  }
-
-  // ── Badge dans Config ──
-  const cfgLabel = document.getElementById('config-ref-label');
-  if(cfgLabel) cfgLabel.innerHTML = cfg.icon+' '+cfg.label;
-  const cfgParams = document.getElementById('config-ref-params');
-  if(cfgParams){
-    const descs = {
-      'gaz':'Ajustez le prix au kWh PCS ci-dessous',
-      'fioul':'Ajustez la consommation et le prix au litre',
-      'bois':'Ajustez la consommation en stères et le prix',
-      'pellet':'Ajustez la consommation en tonnes et le prix au sac',
-      'pac-exist':'Renseignez le COP de votre installation',
-      'elec-direct':'Renseignez la consommation annuelle de chauffage',
-    };
-    cfgParams.textContent = descs[type]||'';
-  }
-
-  // ── Afficher/masquer les blocs de paramètres fins ──
-  const blocsMap = {
-    'pgaz-item':        type==='gaz',
-    'pfioul-item':      type==='fioul',
-    'pbois-item':       type==='bois'||type==='pellet',
-    'pac-exist-item':   type==='pac-exist',
-    'elec-direct-item': type==='elec-direct',
-    'row-inv-pellet':   type==='pellet',
-  };
-  Object.entries(blocsMap).forEach(([id, show])=>{
-    const el = document.getElementById(id);
-    if(el) el.style.display = show ? '' : 'none';
-  });
-
-  // ── Sub-titre graphique accueil ──
-  const sub = document.getElementById('home-chart-sub');
-  if(sub) sub.textContent = cfg.icon+' '+cfg.label+' vs votre configuration';
-
-  // ── Labels Waterfall / Éco gaz ──
-  // (géré dynamiquement dans compute() via energieRef)
-
-  // ── Mise à jour affichage bois ──
-  if(type==='bois') updateBoisMensuel();
-  if(type==='pellet') updatePelletMensuel();
-  if(type==='fioul') updateFioulMensuel();
-  if(type==='elec-direct'){
-    const el = document.getElementById('elec-direct-cout');
-    if(el){
-      const kwh = parseFloat(document.getElementById('elec-direct-kwh')?.value)||8000;
-      const pe  = parseFloat(document.getElementById('pelec')?.value)||0.145;
-      el.textContent = '≈ '+Math.round(kwh*pe)+' €/an';
-    }
-  }
-  update();
-}
-
-function updateBoisMensuel(){
-  const sterAn = parseFloat(document.getElementById('bois-steres')?.value)||15;
-  const prixS  = parseFloat(document.getElementById('bois-prix')?.value)||100;
-  // 1 stère bois sec ≈ 1700 kWh PCI · rendement poêle/chaudière 0.75
-  const KWH_STERE = 1700, RDT_BOIS = 0.75;
-  const coeffs=[11,8,7,4,1.5,0.9,0.7,0.5,0.9,2,6.5,10.5];
-  const sumC=coeffs.reduce((a,b)=>a+b,0);
-  // Stocker dans D_BOIS
-  if(!window.D_BOIS) window.D_BOIS={steres:Array(12).fill(0),prixS:100};
-  D_BOIS.steres = coeffs.map(c=>Math.round(sterAn*c/sumC*10)/10);
-  D_BOIS.prixS  = prixS;
-  const moyEl = document.getElementById('bois-conso-moy');
-  if(moyEl) moyEl.textContent = '≈ '+Math.round(sterAn/12*10)/10+' stères/mois';
-  const coutEl = document.getElementById('bois-cout-estime');
-  if(coutEl) coutEl.textContent = '💰 Coût bois estimé : '+Math.round(sterAn*prixS)+' €/an ('+sterAn+' stères × '+prixS+' €/st)';
-}
-
-function updatePelletMensuel(){
-  const tonnesAn = parseFloat(document.getElementById('bois-steres')?.value)||5;
-  const prixT    = parseFloat(document.getElementById('bois-prix')?.value)||350;
-  const coeffs=[11,8,7,4,1.5,0.9,0.7,0.5,0.9,2,6.5,10.5];
-  const sumC=coeffs.reduce((a,b)=>a+b,0);
-  D_PELLET.tonnes = coeffs.map(c=>Math.round(tonnesAn*c/sumC*100)/100);
-  D_PELLET.prixT  = prixT;
-  const moyEl = document.getElementById('bois-conso-moy');
-  if(moyEl) moyEl.textContent = '≈ '+Math.round(tonnesAn/12*100)/100+' t/mois';
-  const coutEl = document.getElementById('bois-cout-estime');
-  if(coutEl) coutEl.textContent = '💰 Coût pellets estimé : '+Math.round(tonnesAn*prixT)+' €/an ('+tonnesAn+' t × '+prixT+' €/t)';
-}
-
-function updateFioulMensuel(){
-  const litresAn = parseFloat(document.getElementById('fioul-litres')?.value) || 1500;
-  const prixL    = parseFloat(document.getElementById('fioul-prix')?.value)    || 1.05;
-  // Répartir les litres annuels sur les mois selon profil saisonnier
-  // Coefficients relatifs : Jan=11, Fév=8, Mar=7, Avr=4, Mai=1.5, Jun=0.9, Jul=0.7, Aoû=0.5, Sep=0.9, Oct=2, Nov=6.5, Déc=10.5
-  const coeffs=[11,8,7,4,1.5,0.9,0.7,0.5,0.9,2,6.5,10.5];
-  const sumC = coeffs.reduce((a,b)=>a+b,0);
-  D_FIOUL.litres = coeffs.map(c => Math.round(litresAn * c / sumC));
-  D_FIOUL.prixL  = prixL;
-  // Mettre à jour affichage
-  const moyEl = document.getElementById('fioul-conso-moy');
-  if(moyEl) moyEl.textContent = `≈ ${Math.round(litresAn/12)} L/mois en moyenne`;
-  const kwhEl = document.getElementById('fioul-kwh-price');
-  if(kwhEl) kwhEl.textContent = (prixL/(FIOUL_KWH_L*FIOUL_RDT)).toFixed(3);
-  const coutEl = document.getElementById('fioul-cout-estime');
-  if(coutEl) coutEl.textContent = `💰 Coût fioul estimé : ${Math.round(litresAn*prixL)} €/an (${Math.round(litresAn)} L × ${prixL.toFixed(2)} €/L)`;
-}
-
 var markDirty = function(){
   _autosaveDirty=true;
   markSectionDirty && markSectionDirty("all");
@@ -4298,15 +3229,7 @@ const T={bhc:.1056,bhp:.1369,whc:.1279,whp:.1654,rhc:.1568,rhp:.7562};
 const CAP=5.28*.90*.90; // 4.28 kWh utiles
 let usePac=false, useSol=false, useBat=false;
 let useRachat=true; // Contrat de rachat surplus actif par défaut
-var activeTab='gaz'; var editorOpen=false; // var = hoisting global
-var energieRef='gaz'; // 'gaz' ou 'fioul'
-// Données fioul par défaut
-var D_FIOUL = { litres:[135,100,87,45,19,11,9,6,11,24,79,125], prixL:1.05 };
-var D_BOIS   = { steres:[1.8,1.3,1.1,.6,.2,.1,.1,.1,.1,.3,1.0,1.7], prixS:100 };
-var D_PELLET = { tonnes:[0.22,0.16,0.14,.08,.02,.01,.01,.01,.01,.04,0.12,0.20], prixT:350 };
-// 1 tonne pellets ≈ 4800 kWh PCI · rendement 0.90
-// 1 litre fioul = 10.35 kWh PCI · rendement chaudière 0.85
-var FIOUL_KWH_L = 10.35, FIOUL_RDT = 0.85;
+var activeTab='gaz'; var editorOpen=false; // var = hoisting global (évite ReferenceError)
 let cMain, cDetail;
 const SOLAR_DB={
   S:  {0:.89,15:.96,20:.98,30:1.00,35:1.00,40:.99,45:.98,60:.93,75:.85,90:.74},
@@ -5172,132 +4095,6 @@ const BAT_PRESETS={
   enphase_10:  {nom:'Enphase IQ Battery 10T',      cap:10.08,dod:90, rend:96, prix:8200,  garantie:15, chimie:'LFP'},
   custom:      {nom:'Personnalisé',                cap:5.0,  dod:90, rend:90, prix:3000,  garantie:10, chimie:'—'},
 };
-function applyPacAirPreset(val){
-  var presets={
-    'daikin_35':{mat:1200,kw:3.5},'daikin_50':{mat:1600,kw:5.0},
-    'mitsu_25':{mat:1100,kw:2.5},'mitsu_42':{mat:1500,kw:4.2},
-    'atlantic_35':{mat:1300,kw:3.5},
-  };
-  var p=presets[val]; if(!p) return;
-  var m=document.getElementById('inv-pacair-mat'); if(m) m.value=p.mat;
-  var k=document.getElementById('pacair-kw'); if(k) k.value=p.kw;
-  updateInvestPacAir();
-}
-function updateInvestPacAir(){
-  var mat=parseFloat(document.getElementById('inv-pacair-mat')?.value)||1200;
-  var el=document.getElementById('invest-pacair-val');
-  if(el) el.textContent=mat.toLocaleString('fr')+' €';
-}
-function applyBoisChaudPreset2(val){
-  var p={'atmos_25':{mat:6500},'fro_bois_20':{mat:9500},'viess_bois':{mat:8000},'poele_boul':{mat:5000}};
-  var pr=p[val]; if(!pr) return;
-  var m=document.getElementById('inv-bois2-mat'); if(m) m.value=pr.mat;
-  updateInvestBois2();
-}
-function updateInvestBois2(){
-  var mat=parseFloat(document.getElementById('inv-bois2-mat')?.value)||6500;
-  var el=document.getElementById('invest-bois2-val'); if(el) el.textContent=mat.toLocaleString('fr')+' €';
-  var steres=parseFloat(document.getElementById('bois-steres-an')?.value)||15;
-  var prix=parseFloat(document.getElementById('bois-prix-stere')?.value)||100;
-  var el2=document.getElementById('bois-cout-an'); if(el2) el2.textContent=Math.round(steres*prix).toLocaleString('fr')+' €/an';
-}
-function applyPelletPreset2(val){
-  var p={'generic_15':{mat:7500},'froling_15':{mat:12500},'viessmann_20':{mat:14000},'windhager_20':{mat:13500},'mcz_10':{mat:8500}};
-  var pr=p[val]; if(!pr) return;
-  var m=document.getElementById('inv-pellet2-mat'); if(m) m.value=pr.mat;
-  updateInvestPellet2();
-}
-function updateInvestPellet2(){
-  var mat=parseFloat(document.getElementById('inv-pellet2-mat')?.value)||7500;
-  var el=document.getElementById('invest-pellet2-val'); if(el) el.textContent=mat.toLocaleString('fr')+' €';
-  var tonnes=parseFloat(document.getElementById('pellet-tonnes-an')?.value)||5;
-  var prix=parseFloat(document.getElementById('pellet-prix-tonne')?.value)||350;
-  var el2=document.getElementById('pellet-cout-an'); if(el2) el2.textContent=Math.round(tonnes*prix).toLocaleString('fr')+' €/an';
-}
-
-function setBatInstall(yn){
-  var oui=document.getElementById('bat-inst-oui');
-  var non=document.getElementById('bat-inst-non');
-  if(oui){oui.style.background=yn?'var(--bat)':'var(--surface2)';oui.style.color=yn?'#fff':'var(--muted)';oui.style.borderColor=yn?'var(--bat)':'var(--border2)';}
-  if(non){non.style.background=yn?'var(--surface2)':'var(--bat)';non.style.color=yn?'var(--muted)':'#fff';non.style.borderColor=yn?'var(--border2)':'var(--bat)';}
-  var lbl=document.getElementById('invest-bat-val');
-  if(lbl) lbl.textContent=yn?'0 € (déjà installée)':((parseFloat(document.getElementById('inv-bat-mat')?.value)||2200)+parseFloat(document.getElementById('inv-bat-pose')?.value||500)).toLocaleString('fr')+' €';
-}
-function setPacAirInstall(yn){
-  var oui=document.getElementById('pacair-inst-oui');
-  var non=document.getElementById('pacair-inst-non');
-  if(oui){oui.style.background=yn?'#0891b2':'var(--surface2)';oui.style.color=yn?'#fff':'var(--muted)';}
-  if(non){non.style.background=yn?'var(--surface2)':'#0891b2';non.style.color=yn?'var(--muted)':'#fff';}
-  var inp=document.getElementById('inv-pacair-mat');
-  if(inp) inp.disabled=yn;
-  updateInvestPacAir();
-}
-
-function applyBoisChaudPreset(val){
-  var presets = {
-    'fro_bois_20':   {mat:9500,  silo:1500, kw:20},
-    'gaz_bois_15':   {mat:8000,  silo:1000, kw:15},
-    'atmos_25':      {mat:6500,  silo:1200, kw:25},
-    'froling_p4':    {mat:12500, silo:2500, kw:15},
-    'viess_300p':    {mat:14000, silo:3000, kw:20},
-    'wind_bio':      {mat:13500, silo:2800, kw:20},
-    'poele_boul':    {mat:5000,  silo:0,    kw:15},
-  };
-  var p = presets[val]; if(!p) return;
-  var mat = document.getElementById('inv-bois-chaud-mat');
-  var silo = document.getElementById('inv-bois-chaud-silo');
-  var kw = document.getElementById('bois-chaud-kw');
-  if(mat) mat.value = p.mat;
-  if(silo) silo.value = p.silo;
-  if(kw) kw.value = p.kw;
-  updateInvestBoisChaud();
-}
-
-function updateInvestBoisChaud(){
-  var mat  = parseFloat(document.getElementById('inv-bois-chaud-mat')?.value)||9500;
-  var silo = parseFloat(document.getElementById('inv-bois-chaud-silo')?.value)||1500;
-  var el = document.getElementById('invest-bois-chaud-val');
-  if(el) el.textContent = (mat+silo).toLocaleString('fr')+' €';
-}
-
-function applyPelletPreset(val){
-  var presets = {
-    'froling_15':   {mat:12500, silo:2500, kw:15, rdt:94},
-    'viessmann_20': {mat:14000, silo:3000, kw:20, rdt:93},
-    'windhager_20': {mat:13500, silo:2800, kw:20, rdt:95},
-    'mcz_10':       {mat:8500,  silo:2000, kw:10, rdt:91},
-    'edilkamin_15': {mat:9800,  silo:2200, kw:15, rdt:90},
-    'generic_10':   {mat:6000,  silo:1800, kw:10, rdt:88},
-    'generic_15':   {mat:7500,  silo:2000, kw:15, rdt:88},
-  };
-  var p = presets[val];
-  if(!p) return;
-  var mat = document.getElementById('inv-pellet-mat');
-  var silo = document.getElementById('inv-pellet-silo');
-  var kw = document.getElementById('pellet-kw');
-  var rdt = document.getElementById('pellet-rdt');
-  if(mat) mat.value = p.mat;
-  if(silo) silo.value = p.silo;
-  if(kw) kw.value = p.kw;
-  if(rdt){ rdt.value = p.rdt; document.getElementById('pellet-rdt-val').textContent = p.rdt+'%'; }
-  var total = document.getElementById('invest-pellet-val');
-  if(total) total.textContent = (p.mat+p.silo).toLocaleString('fr')+' €';
-  update();
-}
-
-function iPellet(){
-  var mat  = parseFloat(document.getElementById('inv-pellet-mat')?.value)||10000;
-  var silo = parseFloat(document.getElementById('inv-pellet-silo')?.value)||2500;
-  return mat + silo;
-}
-
-function updateInvestPellet(){
-  var mat  = parseFloat(document.getElementById('inv-pellet-mat')?.value)||10000;
-  var silo = parseFloat(document.getElementById('inv-pellet-silo')?.value)||2500;
-  var el = document.getElementById('invest-pellet-val');
-  if(el) el.textContent = (mat+silo).toLocaleString('fr')+' €';
-}
-
 function applyBatPreset(key){
   const p = BAT_PRESETS[key] || BAT_PRESETS.custom;
   const setEl=(id,v)=>{ const e=document.getElementById(id); if(e) e.value=v; };
@@ -5561,7 +4358,7 @@ function toggle(k){
         desc.innerHTML=`<span style="color:var(--red)">⚠️ PAC désactivée – tout au gaz</span>`;
       }
     }
-    update(); if(typeof syncEnergyPills==="function") syncEnergyPills(); return;
+    update(); return;
   }
   if(k==='cet'){
     useCet=!useCet;
@@ -5576,14 +4373,12 @@ function toggle(k){
     const kwh_cet_an=JOURS.reduce((a,j,i)=>a+kwhCetMois(i),0);
     const tc_kwh=document.getElementById('tc-cet-kwh');
     if(tc_kwh) tc_kwh.textContent=`~${kwh_cet_an.toLocaleString('fr')} kWh/an élec`;
-    update(); if(typeof syncEnergyPills==="function") syncEnergyPills(); return;
+    update(); return;
   }
   if(k==='sol') useSol=!useSol; else useBat=!useBat;
   const on=k==='sol'?useSol:useBat;
-  const _tc=document.getElementById('tc-'+k);
-  if(_tc) _tc.classList.toggle('on',on);
-  const _pill=document.getElementById('pill-'+k);
-  if(_pill) _pill.textContent=on?'ON':'OFF';
+  document.getElementById('tc-'+k).classList.toggle('on',on);
+  document.getElementById('pill-'+k).textContent=on?'ON':'OFF';
   ['row-inv-','row-vie-'].forEach(p=>{
     const el=document.getElementById(p+k);
     if(el) el.classList.toggle('dimmed',!on);
@@ -5595,9 +4390,6 @@ function toggle(k){
     if(show) initSolarConfig();
   }
   update();
-
-  if(typeof syncEnergyPills==='function') syncEnergyPills();
-
 }
 function toggleEditor(){
   editorOpen=!editorOpen;
@@ -5874,29 +4666,7 @@ function compute(p){
     const kwh_c=chm3*COEFF*RDT; // chaleur utile totale de chauffage ce mois
     const _sp=getSeasonalParams(i);
     const pg_i=_sp?_sp.pg:p.pg;
-    // c_ref : coût mensuel selon l'énergie de référence choisie
-    let c_ref;
-    if(energieRef==='fioul'){
-      c_ref = D_FIOUL.litres[i] * D_FIOUL.prixL;
-    } else if(energieRef==='bois'){
-      const D_B = window.D_BOIS||{steres:Array(12).fill(D.gaz[i]/170),prixS:100};
-      c_ref = D_B.steres[i] * D_B.prixS;
-    } else if(energieRef==='pellet'){
-      const D_P = window.D_PELLET||{tonnes:Array(12).fill(0.08),prixT:350};
-      c_ref = D_P.tonnes[i] * D_P.prixT;
-    } else if(energieRef==='pac-exist'){
-      const copExist = parseFloat(document.getElementById('pac-exist-cop')?.value)||3.0;
-      // Énergie nécessaire = kWh thermiques / COP
-      const kwh_th = D.gaz[i]*COEFF*RDT; // kWh thermiques mensuels
-      c_ref = (kwh_th/copExist) * pg_i;   // pg_i = prix élec ici (réutilisé pour simplicité)
-    } else if(energieRef==='elec-direct'){
-      const kwhAn = parseFloat(document.getElementById('elec-direct-kwh')?.value)||8000;
-      const coeffs=[11,8,7,4,1.5,0.9,0.7,0.5,0.9,2,6.5,10.5];
-      const sumC=coeffs.reduce((a,b)=>a+b,0);
-      c_ref = (kwhAn*coeffs[i]/sumC) * pg_i;
-    } else {
-      c_ref = D.gaz[i]*COEFF*pg_i;  // gaz naturel (défaut)
-    }
+    const c_ref=D.gaz[i]*COEFF*pg_i;
     const fRouge = jr/JOURS[i];
     const fBlanc = jbl/JOURS[i];
     const fBleu  = jbleu/JOURS[i];
@@ -5923,7 +4693,7 @@ function compute(p){
     const gaz_chauf_m3  = kwh_gaz_chauf_total / (COEFF*RDT);
     const gaz_total_m3  = gaz_chauf_m3 + ecs;
     const cout_gaz_total = gaz_total_m3 * COEFF * pg_i;
-    const kwh_cet_i = useCet ? kwhCetMois(i) : 0; // kWh élec CET ce mois
+    const kwh_cet_i = useCet ? kwhCetMois(i) : 0; // kWh élec CET ce mois — déclaré AVANT usage
     const cout_cet_i = useCet ? kwh_cet_i * (_sp?(_sp.pe_hp*0.7+_sp.pe_hc*0.3):p.pe) : 0;
     const cout_ecs_gaz_i = useCet ? 0 : 0; // déjà inclus dans cout_gaz_total
     const c_pac = cout_gaz_total + cout_elec_pac + cout_cet_i;
@@ -6564,7 +5334,7 @@ const WIZARD_STEPS = [
     subtitle:'Étape 3 sur 5 — Équipements',
     render:()=>`
       <div style="font-size:.78rem;color:var(--muted);margin-bottom:14px;">
-        Sélectionnez les équipements que vous avez ou que vous envisagez d\'installer.
+        Sélectionnez les équipements que vous avez ou que vous envisagez d'installer.
       </div>
       <div style="display:flex;flex-direction:column;gap:10px;">
         ${[
@@ -6672,6 +5442,50 @@ const WIZARD_STEPS = [
   },
 ];
 
+function openWizard(){
+  const ov=document.getElementById('wizard-overlay');
+  if(ov){ ov.style.display='flex'; }
+  _wizStep=0;
+  renderWizardStep(0);
+}
+function closeWizard(){
+  const ov=document.getElementById('wizard-overlay');
+  if(ov) ov.style.display='none';
+  // Lancer le recalcul avec les nouvelles données
+  markSectionDirty&&markSectionDirty('all');
+  update();
+  switchAppTab&&switchAppTab('results');
+}
+function renderWizardStep(idx){
+  if(idx<0||idx>=WIZARD_STEPS.length) return;
+  _wizStep=idx;
+  const step=WIZARD_STEPS[idx];
+  const body=document.getElementById('wiz-body');
+  const progress=document.getElementById('wiz-progress');
+  const dots=document.getElementById('wiz-dots');
+  const title=document.getElementById('wiz-title');
+  const subtitle=document.getElementById('wiz-subtitle');
+  const prev=document.getElementById('wiz-prev');
+  const next=document.getElementById('wiz-next');
+  if(title) title.textContent=step.title;
+  if(subtitle) subtitle.textContent=step.subtitle;
+  if(progress) progress.style.width=((idx+1)/WIZARD_STEPS.length*100)+'%';
+  if(body) body.innerHTML=typeof step.render==='function'?step.render():'';
+  if(dots) dots.innerHTML=WIZARD_STEPS.map((_,i)=>
+    `<div style="width:8px;height:8px;border-radius:50%;transition:.3s;
+      background:${i<=idx?'#fff':'rgba(255,255,255,.3)'}"></div>`).join('');
+  if(prev) prev.style.display=idx===0?'none':'block';
+  if(next) next.textContent=step.isLast?'Voir les résultats ✓':'Suivant →';
+  // Init états équipements dans l'étape 3
+  if(idx===2) setTimeout(()=>{
+    ['pac','sol','bat','cet'].forEach(k=>{
+      const cb=document.getElementById('wiz-eq-'+k);
+      const val={pac:usePac,sol:useSol,bat:useBat,cet:useCet}[k];
+      if(cb) cb.checked=!!val;
+      updateWizEquipStyle(k, !!val);
+    });
+  }, 50);
+}
 function toggleWizEquip(k){
   const cb=document.getElementById('wiz-eq-'+k);
   if(cb) cb.checked=!cb.checked;
@@ -6687,7 +5501,7 @@ function updateWizEquipStyle(k,checked){
 function wizardNext(){
   const step=WIZARD_STEPS[_wizStep];
   if(step.onNext) try{ step.onNext(); }catch(e){ _con.warn('wizard onNext:',e); }
-  if(step.isLast){ skipWizard(); return; }
+  if(step.isLast){ closeWizard(); return; }
   renderWizardStep(_wizStep+1);
 }
 function wizardPrev(){ renderWizardStep(_wizStep-1); }
@@ -6827,7 +5641,7 @@ function downloadSummaryWidget(){
 
   // 4 KPIs
   const kpis=[
-    {label:getRefIcon()+' '+REF_CONFIG[energieRef].label, val:Math.round(tRef).toLocaleString('fr')+'€/an', color:'#fb923c'},
+    {label:'Gaz actuel', val:Math.round(tRef).toLocaleString('fr')+'€/an', color:'#fb923c'},
     {label:'Avec équipements', val:Math.round(tCur).toLocaleString('fr')+'€/an', color:'#60a5fa'},
     {label:'Économie annuelle', val:'−'+eco.toLocaleString('fr')+'€', color:'#4ade80'},
     {label:'Réduction', val:pct+'%', color:'#a78bfa'},
@@ -6906,7 +5720,7 @@ function exportPDFMobile(){
   let y=38;
   // KPIs
   const kpis=[
-    {label:getRefIcon()+' '+REF_CONFIG[energieRef].label+' (référence)', val:Math.round(tRef).toLocaleString('fr')+' €/an', r:220, g:100, b:20},
+    {label:'Gaz actuel (référence)', val:Math.round(tRef).toLocaleString('fr')+' €/an', r:220, g:100, b:20},
     {label:'Votre configuration',    val:Math.round(tCur).toLocaleString('fr')+' €/an', r:37, g:99, b:235},
     {label:'Économie annuelle',      val:'−'+eco.toLocaleString('fr')+' €/an ('+pct+'%)', r:5, g:150, b:105},
   ];
@@ -7842,7 +6656,7 @@ function exportJSON(){
   const tCur=data.reduce((a,d)=>a+d.c_cur,0);
   const export_data={
     meta:{
-      version:'3.0', generated:new Date().toISOString(),
+      version:'2.0', generated:new Date().toISOString(),
       localisation:{nom:curLocName,lat:curLat,lon:curLon},
       tarif:'EDF Tempo 9 kVA',
     },
@@ -8000,321 +6814,6 @@ function dirtyAll(){ markSectionDirty('all'); }
 // _coreUpdateLight : alias de _coreUpdate (rendu complet immédiat)
 function _coreUpdateLight(){ _coreUpdate(); }
 
-// ── Hero KPI : carte énergie de référence ──
-// ══════════════════════════════════════════════════════════════
-// COMPARATEUR DYNAMIQUE D'ÉNERGIES
-// ══════════════════════════════════════════════════════════════
-
-// Toutes les énergies disponibles avec leurs caractéristiques
-var CMP_ENERGIES = {
-  'gaz':        { icon:'🔥', label:'Gaz naturel',    color:'#ea580c', invest:0,
-                  desc:'Chaudière gaz condensation',  co2_kwh:0.227 },
-  'fioul':      { icon:'🛢️', label:'Fioul',           color:'#b45309', invest:3000,
-                  desc:'Chaudière fioul remplacée',   co2_kwh:0.324 },
-  'bois':       { icon:'🪵', label:'Bois',            color:'#6b3a1f', invest:8000,
-                  desc:'Poêle à granulés',            co2_kwh:0.030 },
-  'pac':        { icon:'⚡', label:'PAC air/eau',     color:'#2563eb', invest:7500,
-                  desc:'Pompe à chaleur réversible',  co2_kwh:0.052 },
-  'pac-sol':    { icon:'☀️', label:'PAC + Solaire',   color:'#0284c7', invest:11000,
-                  desc:'PAC + 4 kWc panneaux PV',    co2_kwh:0.035 },
-  'pac-sol-bat':{ icon:'💎', label:'PAC + Sol + Bat', color:'#7c3aed', invest:17000,
-                  desc:'Solution complète autonome',  co2_kwh:0.020 },
-  'elec-direct':{ icon:'🔌', label:'Électrique',      color:'#0891b2', invest:1500,
-                  desc:'Radiateurs à inertie',        co2_kwh:0.052 },
-  'pellet':     { icon:'🌾', label:'Pellets',          color:'#92400e', invest:12000,
-                  desc:'Chaudière à pellets',          co2_kwh:0.045 },
-};
-
-// Calculer le coût annuel pour une énergie cible
-function cmpCalcCout(targetKey, tRef){
-  const p = getParams();
-  // Coût de base selon l'énergie cible
-  if(targetKey==='gaz'){
-    return D.gaz.reduce((a,_,i)=>a+D.gaz[i]*COEFF*p.pg, 0);
-  }
-  if(targetKey==='fioul'){
-    return D_FIOUL.litres.reduce((a,b)=>a+b,0) * D_FIOUL.prixL;
-  }
-  if(targetKey==='bois'){
-    const DB = window.D_BOIS||{steres:[1.8,1.3,1.1,.6,.2,.1,.1,.1,.1,.3,1.0,1.7],prixS:100};
-    return DB.steres.reduce((a,b)=>a+b,0) * DB.prixS;
-  }
-  if(targetKey==='pellet'){
-    const DP = window.D_PELLET||{tonnes:Array(12).fill(0.08),prixT:350};
-    return DP.tonnes.reduce((a,b)=>a+b,0) * DP.prixT;
-  }
-  if(targetKey==='elec-direct'){
-    const kwhAn = parseFloat(document.getElementById('elec-direct-kwh')?.value)||8000;
-    return kwhAn * p.pe;
-  }
-  if(targetKey==='pac' || targetKey==='pac-sol' || targetKey==='pac-sol-bat'){
-    // Simuler PAC (+ sol + bat selon le cas)
-    const hasSol = targetKey==='pac-sol'||targetKey==='pac-sol-bat';
-    const hasBat = targetKey==='pac-sol-bat';
-    const uPac=usePac, uSol=useSol, uBat=useBat, uCet=useCet;
-    usePac=true; useSol=hasSol; useBat=hasBat; useCet=false;
-    const data = compute(p);
-    const cout = data.reduce((a,d)=>a+d.c_cur, 0);
-    usePac=uPac; useSol=uSol; useBat=uBat; useCet=uCet;
-    return cout;
-  }
-  return tRef;
-}
-
-// Coût mensuel détaillé pour le graphique
-function cmpCalcMensuel(targetKey, p){
-  if(targetKey==='gaz'){
-    return MOIS.map((_,i)=>+(D.gaz[i]*COEFF*p.pg).toFixed(2));
-  }
-  if(targetKey==='fioul'){
-    return MOIS.map((_,i)=>+(D_FIOUL.litres[i]*D_FIOUL.prixL).toFixed(2));
-  }
-  if(targetKey==='bois'){
-    const DB=window.D_BOIS||{steres:[1.8,1.3,1.1,.6,.2,.1,.1,.1,.1,.3,1.0,1.7],prixS:100};
-    return MOIS.map((_,i)=>+(DB.steres[i]*DB.prixS).toFixed(2));
-  }
-  if(targetKey==='elec-direct'){
-    const kwhAn=parseFloat(document.getElementById('elec-direct-kwh')?.value)||8000;
-    const coeffs=[11,8,7,4,1.5,0.9,0.7,0.5,0.9,2,6.5,10.5];
-    const sumC=coeffs.reduce((a,b)=>a+b,0);
-    return MOIS.map((_,i)=>+(kwhAn*coeffs[i]/sumC*p.pe).toFixed(2));
-  }
-  if(targetKey.startsWith('pac')){
-    const hasSol=targetKey.includes('sol'), hasBat=targetKey.includes('bat');
-    const uPac=usePac,uSol=useSol,uBat=useBat,uCet=useCet;
-    usePac=true; useSol=hasSol; useBat=hasBat; useCet=false;
-    const data=compute(p);
-    usePac=uPac; useSol=uSol; useBat=uBat; useCet=uCet;
-    return data.map(d=>+d.c_cur.toFixed(2));
-  }
-  return Array(12).fill(0);
-}
-
-var _cmpActiveTab = null;
-var _cmpChart = null;
-
-function renderCmpComparateur(){
-  const tabsBar   = document.getElementById('cmp-tabs-bar');
-  const container = document.getElementById('cmp-panels-container');
-  const cardTitle = document.getElementById('cmp-card-title');
-  const cardSub   = document.getElementById('cmp-card-sub');
-  if(!tabsBar||!container) return;
-
-  const p    = getParams();
-  const refCfg = CMP_ENERGIES[energieRef] || CMP_ENERGIES['gaz'];
-  const tRef = getTRef(p);
-
-  // Mettre à jour le titre
-  if(cardTitle) cardTitle.textContent = 'Alternatives à ' + refCfg.label;
-  if(cardSub)   cardSub.textContent   = refCfg.icon+' '+refCfg.label+' (actuel) → quelles économies si vous changez ?';
-
-  // Construire les alternatives : toutes les énergies sauf la référence actuelle
-  const alts = Object.keys(CMP_ENERGIES).filter(k => k !== energieRef);
-
-  // Générer les onglets
-  tabsBar.innerHTML = alts.map((key,i)=>{
-    const cfg = CMP_ENERGIES[key];
-    const isActive = i===0 || key===_cmpActiveTab;
-    return '<button class="cmp-tab'+(isActive?' active':'')+'"'
-      +' style="--cmp-color:'+cfg.color+';"'
-      +' id="cmp-tab-'+key+'"'
-      +' onclick="switchCmpTab("'+key+'")">'
-      +cfg.icon+' '+cfg.label
-      +'<span class="cmp-arrow">→</span>'
-      +'</button>';
-  }).join('');
-
-  // Générer les panneaux
-  container.innerHTML = alts.map((key,i)=>{
-    const cfg  = CMP_ENERGIES[key];
-    const cout = cmpCalcCout(key, tRef);
-    const eco  = Math.round(tRef - cout);
-    const inv  = cfg.invest + (key.includes('pac')?iPac()-(cfg.invest>0?0:0):0);
-    const investEst = key==='pac'?iPac() : key==='pac-sol'?(iPac()+iSol()) : key==='pac-sol-bat'?(iPac()+iSol()+iBat()) : cfg.invest;
-    const amort= eco>5&&investEst>0 ? Math.min(+(investEst/eco).toFixed(1),99) : (eco>5?0:null);
-    // CO₂ : estimation kgCO₂/an
-    const kwhRef  = tRef   / (energieRef==='gaz'?p.pg:(energieRef==='elec-direct'?p.pe:1));
-    const co2Ref  = tRef  * (refCfg.co2_kwh||0.227);
-    const co2Cur  = cout  * (cfg.co2_kwh||0.052);
-    const co2Save = Math.round(Math.abs(co2Ref - co2Cur));
-    const isActive = i===0 || key===_cmpActiveTab;
-
-    return '<div class="cmp-panel'+(isActive?' active':'')+'" id="cmp-panel-'+key+'">'
-      // KPI grid
-      +'<div class="cmp-kpi-grid">'
-      // Coût actuel
-      +'<div class="cmp-kpi">'
-        +'<div class="cmp-kpi-lbl">'+refCfg.icon+' Coût actuel</div>'
-        +'<div class="cmp-kpi-val" style="color:'+refCfg.color+';">'+Math.round(tRef).toLocaleString('fr')+' €</div>'
-        +'<div class="cmp-kpi-sub">'+refCfg.label+' / an</div>'
-      +'</div>'
-      // Coût cible
-      +'<div class="cmp-kpi">'
-        +'<div class="cmp-kpi-lbl">'+cfg.icon+' Coût avec '+cfg.label+'</div>'
-        +'<div class="cmp-kpi-val" style="color:'+cfg.color+';">'+Math.round(cout).toLocaleString('fr')+' €</div>'
-        +'<div class="cmp-kpi-sub">'+cfg.desc+'</div>'
-      +'</div>'
-      // Économie
-      +'<div class="cmp-kpi" style="border-color:'+( eco>0?'#15803d':'#dc2626')+';background:'+(eco>0?'#f0fdf4':'#fef2f2')+';">'
-        +'<div class="cmp-kpi-lbl">'+(eco>0?'💰 Économie':'📈 Surcoût')+'</div>'
-        +'<div class="cmp-kpi-val" style="color:'+(eco>0?'#15803d':'#dc2626')+';">'+(eco>0?'+':'')+eco.toLocaleString('fr')+' €</div>'
-        +'<div class="cmp-kpi-sub">par an</div>'
-      +'</div>'
-      // ROI
-      +'<div class="cmp-kpi">'
-        +'<div class="cmp-kpi-lbl">⏳ Retour invest.</div>'
-        +'<div class="cmp-kpi-val" style="color:'+(amort!==null&&amort<10?'#15803d':'var(--muted)')+';">'
-          +(amort===null?'—':amort===0?'Immédiat':amort+' ans')+'</div>'
-        +'<div class="cmp-kpi-sub">'+(investEst>0?investEst.toLocaleString('fr')+' € invest.':'Sans invest.')+'</div>'
-      +'</div>'
-      // CO₂
-      +'<div class="cmp-kpi" style="border-color:#15803d22;background:#f0fdf4;">'
-        +'<div class="cmp-kpi-lbl">♻️ CO₂ économisé</div>'
-        +'<div class="cmp-kpi-val" style="color:#15803d;">'+(eco>0?'−':eco===0?'':'+')+(co2Save).toLocaleString('fr')+' kg</div>'
-        +'<div class="cmp-kpi-sub">par an</div>'
-      +'</div>'
-      +'</div>'
-      // Barre de comparaison mensuelle
-      +'<div style="margin-top:10px;">'
-        +'<div style="font-size:.67rem;font-weight:700;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em;">Répartition mensuelle</div>'
-        +buildCmpBars(key, tRef, cfg, refCfg, p)
-      +'</div>'
-      // Note investissement
-      +(investEst>0?'<div style="margin-top:10px;padding:8px 12px;background:var(--surface2);border-radius:8px;font-size:.65rem;color:var(--muted);line-height:1.6;">'
-        +'💡 Investissement estimé : <strong>'+investEst.toLocaleString('fr')+' €</strong>'
-        +(amort?' · Retour en <strong>'+amort+(amort>1?' ans':' an')+'</strong>':'')
-        +(key==='pac'?' · Eligible MaPrimeRenov jusqu\'a 4 000 EUR':'')
-        +(key.includes('sol')?' · Autoconsommation solaire incluse':'')
-        +'</div>':'')
-    +'</div>';
-  }).join('');
-
-  // Initialiser le premier onglet actif
-  if(!_cmpActiveTab || !alts.includes(_cmpActiveTab)){
-    _cmpActiveTab = alts[0];
-  }
-  renderCmpChart(_cmpActiveTab, tRef, p);
-}
-
-function buildCmpBars(key, tRef, cfg, refCfg, p){
-  var mensRef = MOIS.map(function(_,i){
-    if(energieRef==='fioul') return +(D_FIOUL.litres[i]*D_FIOUL.prixL).toFixed(2);
-    if(energieRef==='bois'){
-      var DB=window.D_BOIS||{steres:[1.8,1.3,1.1,.6,.2,.1,.1,.1,.1,.3,1.0,1.7],prixS:100};
-      return +(DB.steres[i]*DB.prixS).toFixed(2);
-    }
-    if(energieRef==='elec-direct'){
-      var kd=parseFloat((document.getElementById('elec-direct-kwh')||{value:'8000'}).value)||8000;
-      var cd=[11,8,7,4,1.5,0.9,0.7,0.5,0.9,2,6.5,10.5],sd=cd.reduce(function(a,b){return a+b;},0);
-      return +(kd*cd[i]/sd*p.pe).toFixed(2);
-    }
-    return +(D.gaz[i]*COEFF*p.pg).toFixed(2);
-  });
-  var mensCur = cmpCalcMensuel(key, p);
-  var maxVal  = Math.max.apply(null, mensRef.concat(mensCur).concat([1]));
-  return MOIS.map(function(_,i){
-    var r=mensRef[i], c=mensCur[i], eco=Math.round(r-c);
-    var pctR=Math.round(r/maxVal*100), pctC=Math.round(c/maxVal*100);
-    var ec=eco>=0?'#15803d':'#dc2626', es=eco>=0?'-':'+';
-    return '<div class="cmp-bar-wrap">'
-      +'<div class="cmp-bar-lbl" style="font-size:.6rem;">'+MOIS[i]+'</div>'
-      +'<div style="flex:1;display:flex;flex-direction:column;gap:2px;">'
-        +'<div class="cmp-bar-track"><div class="cmp-bar-fill" style="width:'+pctR+'%;background:'+refCfg.color+';opacity:.6;"></div></div>'
-        +'<div class="cmp-bar-track"><div class="cmp-bar-fill" style="width:'+pctC+'%;background:'+cfg.color+';"></div></div>'
-      +'</div>'
-      +'<div class="cmp-bar-val" style="color:'+ec+';font-size:.6rem;">'+es+Math.abs(eco)+'&euro;</div>'
-    +'</div>';
-  }).join('');
-}
-
-function switchCmpTab(key){
-  _cmpActiveTab = key;
-  // Onglets
-  document.querySelectorAll('.cmp-tab').forEach(b=>{
-    b.classList.toggle('active', b.id==='cmp-tab-'+key);
-  });
-  // Panneaux
-  document.querySelectorAll('.cmp-panel').forEach(p=>{
-    p.classList.toggle('active', p.id==='cmp-panel-'+key);
-  });
-  // Graphique
-  const p = getParams();
-  renderCmpChart(key, getTRef(p), p);
-}
-
-function renderCmpChart(key, tRef, p){
-  const zone = document.getElementById('cmp-chart-zone');
-  const canvas = document.getElementById('cCmp');
-  if(!zone||!canvas) return;
-  zone.style.display = 'block';
-
-  const cfg    = CMP_ENERGIES[key]||CMP_ENERGIES['pac'];
-  const refCfg = CMP_ENERGIES[energieRef]||CMP_ENERGIES['gaz'];
-
-  const mensRef = MOIS.map((_,i)=>{
-    if(energieRef==='fioul') return +(D_FIOUL.litres[i]*D_FIOUL.prixL).toFixed(2);
-    if(energieRef==='bois'){ const DB=window.D_BOIS||{steres:[1.8,1.3,1.1,.6,.2,.1,.1,.1,.1,.3,1.0,1.7],prixS:100}; return +(DB.steres[i]*DB.prixS).toFixed(2); }
-    if(energieRef==='elec-direct'){ const k=parseFloat(document.getElementById('elec-direct-kwh')?.value)||8000; const c=[11,8,7,4,1.5,0.9,0.7,0.5,0.9,2,6.5,10.5],s=c.reduce((a,b)=>a+b,0); return +(k*c[i]/s*p.pe).toFixed(2); }
-    return +(D.gaz[i]*COEFF*p.pg).toFixed(2);
-  });
-  const mensCur = cmpCalcMensuel(key, p);
-
-  if(_cmpChart){ try{ _cmpChart.destroy(); }catch(e){} _cmpChart=null; }
-  if(typeof Chart==='undefined') return;
-
-  const ctx = canvas.getContext('2d');
-  _cmpChart = new Chart(ctx, {
-    type:'bar',
-    data:{
-      labels: MOIS,
-      datasets:[
-        { label: refCfg.icon+' '+refCfg.label, data:mensRef,
-          backgroundColor: refCfg.color+'44', borderColor: refCfg.color,
-          borderWidth:1.5, borderRadius:4 },
-        { label: cfg.icon+' '+cfg.label, data:mensCur,
-          backgroundColor: cfg.color+'88', borderColor: cfg.color,
-          borderWidth:1.5, borderRadius:4 },
-      ]
-    },
-    options:{
-      responsive:true, maintainAspectRatio:true,
-      plugins:{ legend:{position:'top',labels:{font:{size:11},padding:12}},
-        tooltip:{callbacks:{label:ctx=>ctx.dataset.label+' : '+ctx.parsed.y.toFixed(0)+' €'}} },
-      scales:{
-        x:{ grid:{display:false}, ticks:{font:{size:10}} },
-        y:{ grid:{color:'#8882'}, ticks:{font:{size:10},callback:v=>v+'€'} }
-      }
-    }
-  });
-}
-
-function heroRefCard(tRef){
-  const _ri={
-    'gaz':        {ic:'🔥', lb:'Gaz actuel – référence',    cl:'var(--gaz)', bg:'var(--gaz-tint)',
-                   sub: D.gaz.reduce((a,b)=>a+b,0).toFixed(0)+' m³/an'},
-    'fioul':      {ic:'🛢️', lb:'Fioul actuel – référence',  cl:'#b45309',    bg:'#fef3c7',
-                   sub: D_FIOUL.litres.reduce((a,b)=>a+b,0)+' L/an · '+D_FIOUL.prixL.toFixed(2)+' €/L'},
-    'bois':       {ic:'🪵', lb:'Bois actuel – référence',   cl:'#6b3a1f',    bg:'#fef9f0',
-                   sub: (window.D_BOIS?D_BOIS.steres.reduce((a,b)=>a+b,0).toFixed(1):'15')+' stères/an'},
-    'pac-exist':  {ic:'♨️', lb:'PAC actuelle – référence',  cl:'var(--pac)', bg:'var(--pac-tint)',
-                   sub: 'COP '+(parseFloat(document.getElementById('pac-exist-cop')?.value)||3.0)},
-    'elec-direct':{ic:'⚡', lb:'Élec. direct – référence',  cl:'#1e40af',    bg:'#dbeafe',
-                   sub: (parseFloat(document.getElementById('elec-direct-kwh')?.value)||8000)+' kWh/an'},
-    'pellet':     {ic:'🌾', lb:'Pellets – référence',         cl:'#92400e',    bg:'#fef3c7',
-                   sub: (window.D_PELLET?D_PELLET.tonnes.reduce((a,b)=>a+b,0).toFixed(2):'5')+' t/an'},
-  };
-  const r = _ri[energieRef] || _ri['gaz'];
-  // Mettre à jour le label KPI résultats aussi
-  const kpiLbl = document.getElementById('kpi-ref-label');
-  if(kpiLbl) kpiLbl.textContent = r.ic+' '+r.lb;
-  return '<div class="hero-card" style="--hero-accent:'+r.cl+';">'
-       + '<div class="hero-icon" style="background:'+r.bg+';">'+r.ic+'</div>'
-       + '<div class="hero-label">'+r.lb+'</div>'
-       + '<div class="hero-val" style="color:'+r.cl+';">'+Math.round(tRef).toLocaleString('fr')+' €</div>'
-       + '<div class="hero-sub">'+r.sub+'</div>'
-       + '</div>';
-}
-
 function _coreUpdateHeavy(){
   // Sections lourdes : graphiques, tableau, analyses
   if(!_dirty.charts&&!_dirty.analyses&&!_dirty.waterfall&&!_dirty.linky&&!_dirty.alerts&&!_dirty.all) return;
@@ -8410,7 +6909,7 @@ function _coreUpdate(){
   document.getElementById('kpis').innerHTML=`
     <!-- KPI 1 : Gaz actuel = données EDF réelles -->
     <div class="kpi" style="border-top:3px solid var(--gaz);position:relative;">
-      <div class="kpi-label" id="kpi-ref-label">🔥 Gaz actuel – référence</div>
+      <div class="kpi-label">🔥 Gaz actuel – référence EDF</div>
       <div class="kpi-val si-gaz">${Math.round(tRef).toLocaleString('fr')} €</div>
       <div class="si-col-mini" style="">
         <div class="si-jcsb-65">
@@ -8580,7 +7079,7 @@ function _coreUpdate(){
   const chartTick = cl ? '#8892b0' : '#7a8599';
   const chartLeg  = cl ? '#8892b0' : '#4a5568';
   const sets=[
-    {label:getRefIcon()+' '+(REF_CONFIG[energieRef]||REF_CONFIG['gaz']).label,data:data.map(d=>+d.c_ref.toFixed(1)),backgroundColor:'#e8640a22',borderColor:'#e8640a',borderWidth:1.5,borderRadius:3},
+    {label:'🔥 Gaz actuel',data:data.map(d=>+d.c_ref.toFixed(1)),backgroundColor:'#e8640a22',borderColor:'#e8640a',borderWidth:1.5,borderRadius:3},
     {label:'⚡ PAC seule', data:data.map(d=>+d.c_pac.toFixed(1)),backgroundColor:'#2563eb22',borderColor:'#2563eb',borderWidth:1.5,borderRadius:3},
   ];
   if(useSol||useBat){
@@ -8608,11 +7107,7 @@ function _coreUpdate(){
     dsets.push({label:'Jours rouges 🔴',data:data.map(d=>+d.g_bat_r.toFixed(2)),backgroundColor:'#dc262622',borderColor:'#dc2626',borderWidth:1.5,borderRadius:3,stack:'g'});
     dsets.push({label:'Arb. HC/HP',data:data.map(d=>+d.g_bat_wb.toFixed(2)),backgroundColor:'#7c3aed22',borderColor:'#7c3aed',borderWidth:1.5,borderRadius:3,stack:'g'});
   }
-  if(!useSol&&!useBat) dsets.push({label: (energieRef==='fioul')?'Éco PAC vs fioul'
-         :(energieRef==='bois'||energieRef==='pellet')?'Éco PAC vs '+getRefLabel().split(' ')[0]
-         :(energieRef==='pac-exist')?'Éco nouvelle PAC'
-         :(energieRef==='elec-direct')?'Éco PAC vs élec'
-         :'Éco PAC vs gaz',data:data.map(d=>+(d.c_ref-d.c_pac).toFixed(2)),backgroundColor:'#2563eb22',borderColor:'#2563eb',borderWidth:2,borderRadius:3,stack:'g'});
+  if(!useSol&&!useBat) dsets.push({label:'Éco PAC vs gaz',data:data.map(d=>+(d.c_ref-d.c_pac).toFixed(2)),backgroundColor:'#2563eb22',borderColor:'#2563eb',borderWidth:2,borderRadius:3,stack:'g'});
   cDetail.data.labels=MOIS; cDetail.data.datasets=dsets; cDetail.update();
   if(_dirty.alerts||_dirty.all){
     const az=$el('alert-zone');
@@ -8769,7 +7264,7 @@ function updateNow(){
 
     <!-- KPI 1 : Gaz actuel = données EDF réelles -->
     <div class="kpi" style="border-top:3px solid var(--gaz);position:relative;">
-      <div class="kpi-label" id="kpi-ref-label">🔥 Gaz actuel – référence</div>
+      <div class="kpi-label">🔥 Gaz actuel – référence EDF</div>
       <div class="kpi-val" style="color:var(--gaz)">${Math.round(tRef).toLocaleString('fr')} €</div>
       <div style="margin-top:5px;display:flex;flex-direction:column;gap:2px;">
         <div style="display:flex;justify-content:space-between;font-size:.65rem;">
@@ -8949,7 +7444,7 @@ function updateNow(){
   const chartLeg  = cl ? '#8892b0' : '#4a5568';
 
   const sets=[
-    {label:getRefIcon()+' '+(REF_CONFIG[energieRef]||REF_CONFIG['gaz']).label,data:data.map(d=>+d.c_ref.toFixed(1)),backgroundColor:'#e8640a22',borderColor:'#e8640a',borderWidth:1.5,borderRadius:3},
+    {label:'🔥 Gaz actuel',data:data.map(d=>+d.c_ref.toFixed(1)),backgroundColor:'#e8640a22',borderColor:'#e8640a',borderWidth:1.5,borderRadius:3},
     {label:'⚡ PAC seule', data:data.map(d=>+d.c_pac.toFixed(1)),backgroundColor:'#2563eb22',borderColor:'#2563eb',borderWidth:1.5,borderRadius:3},
   ];
   if(useSol||useBat){
@@ -8983,11 +7478,7 @@ function updateNow(){
     dsets.push({label:'Jours rouges 🔴',data:data.map(d=>+d.g_bat_r.toFixed(2)),backgroundColor:'#dc262622',borderColor:'#dc2626',borderWidth:1.5,borderRadius:3,stack:'g'});
     dsets.push({label:'Arb. HC/HP',data:data.map(d=>+d.g_bat_wb.toFixed(2)),backgroundColor:'#7c3aed22',borderColor:'#7c3aed',borderWidth:1.5,borderRadius:3,stack:'g'});
   }
-  if(!useSol&&!useBat) dsets.push({label: (energieRef==='fioul')?'Éco PAC vs fioul'
-         :(energieRef==='bois'||energieRef==='pellet')?'Éco PAC vs '+getRefLabel().split(' ')[0]
-         :(energieRef==='pac-exist')?'Éco nouvelle PAC'
-         :(energieRef==='elec-direct')?'Éco PAC vs élec'
-         :'Éco PAC vs gaz',data:data.map(d=>+(d.c_ref-d.c_pac).toFixed(2)),backgroundColor:'#2563eb22',borderColor:'#2563eb',borderWidth:2,borderRadius:3,stack:'g'});
+  if(!useSol&&!useBat) dsets.push({label:'Éco PAC vs gaz',data:data.map(d=>+(d.c_ref-d.c_pac).toFixed(2)),backgroundColor:'#2563eb22',borderColor:'#2563eb',borderWidth:2,borderRadius:3,stack:'g'});
   cDetail.data.labels=MOIS; cDetail.data.datasets=dsets; cDetail.update();
 
   // ── ALERTE BATTERIE ──
@@ -9054,7 +7545,7 @@ function exportCSV(){
   if(useSol||useBat) csv += ';Coût config €;Éco vs gaz €';
   csv += '\n';
   data.forEach((d,i)=>{
-    csv += `${MOIS[i]};${energieRef==='fioul'?(D_FIOUL.litres[i]+' L'):D.gaz[i]+' m³'};${D.ecs[i]};${d.kwh_pac};${d.c_ref.toFixed(2)};${d.c_pac.toFixed(2)}`;
+    csv += `${MOIS[i]};${D.gaz[i]};${D.ecs[i]};${d.kwh_pac};${d.c_ref.toFixed(2)};${d.c_pac.toFixed(2)}`;
     if(useSol) csv += `;${d.solar};${d.auto};${d.surplus};${d.gain_sol.toFixed(2)}`;
     if(useBat) csv += `;${d.g_bat_r.toFixed(2)};${d.g_bat_wb.toFixed(2)}`;
     if(useSol||useBat) csv += `;${d.c_cur.toFixed(2)};${(d.c_ref-d.c_cur).toFixed(2)}`;
@@ -9397,7 +7888,7 @@ function shareGoogleDriveLink(){
   }
 }
 function copyDriveLinkDirect(){
-  const url = 'https://drive.google.com/file/d/1Hf7yyGaFi4By1dHEbpwm-ItVO3iS2yYF/view?usp=drive_link';
+  const url = 'https://drive.google.com/file/d/1gfV3bkAZjYiKxUdw8M7n0Wix33xkpFPk/view?usp=drive_link';
   navigator.clipboard.writeText(url)
     .then(()=>toast('Lien Google Drive copié !','success',3000))
     .catch(()=>toast('Échec de la copie','error'));
@@ -9448,7 +7939,7 @@ const STORAGE_KEY = 'sim_energie_v3'; // v3: données EDF pré-chargées
 function saveToStorage(){
   try {
     const state = {
-      v:3, ts: Date.now(), energieRef: energieRef||'gaz', D_FIOUL:D_FIOUL, D_BOIS:D_BOIS, D_PELLET:D_PELLET,
+      v:2, ts: Date.now(),
       D: JSON.parse(JSON.stringify(D)),
       usePac, useSol, useBat,
       curKwc, curOrient, curAngle,
@@ -9471,16 +7962,9 @@ function loadFromStorage(){
     const raw = localStorage.getItem(STORAGE_KEY);
     if(!raw) return false;
     const s = JSON.parse(raw);
-    if(!s||(s.v!==3&&s.v!==2)) return false;
-    // Force solInstalled=false sauf si explicitement sauvegardé true
-    if(s.solInstalled===undefined) s.solInstalled=false;
-    if(s.useSol===undefined) s.useSol=false;
+    if(!s||s.v!==2) return false;
 
     // ── Phase 1 : Variables JS pures (safe avant DOM) ──
-    if(s.energieRef) energieRef=s.energieRef;
-    if(s.D_FIOUL) D_FIOUL=s.D_FIOUL;
-    if(s.D_BOIS)  D_BOIS=s.D_BOIS;
-    if(s.D_PELLET) D_PELLET=s.D_PELLET;
     if(s.D){
       // Ne restaurer gaz/elec que si les données sauvegardées sont non nulles
       // (évite d'écraser les données pré-chargées par un état vide ou partiel)
@@ -9504,11 +7988,9 @@ function loadFromStorage(){
     if(s.curOffreGaz)   curOffreGaz=s.curOffreGaz;
     if(s.customTarifsElec) customTarifsElec=s.customTarifsElec;
     if(s.customTarifsGaz)  customTarifsGaz=s.customTarifsGaz;
-    // Sauvegarder les états usePac/Sol/Bat pour les appliquer dans applyDOM
-    const _sPac = s.usePac;
-    const _sSol = s.useSol;
-    const _sBat = s.useBat;
-    const _sCet = s.useCet;
+    if(s.usePac!==undefined && usePac!==s.usePac) toggle('pac');
+    if(s.useSol!==undefined && useSol!==s.useSol) toggle('sol');
+    if(s.useBat!==undefined && useBat!==s.useBat) toggle('bat');
 
     // ── Phase 2 : DOM (reporter si pas encore prêt) ──
     const applyDOM = () => {
@@ -9525,19 +8007,9 @@ function loadFromStorage(){
       if(hl) hl.textContent=curLocName;
       const ht=$el('header-title');
       if(ht) ht.textContent=`Simulation énergie maison – ${escapeHtml(curLocName)}`;
-      // Appliquer les états on/off des équipements dans le DOM
-      if(_sPac!==undefined && usePac!==_sPac) toggle('pac');
-      if(_sSol!==undefined && useSol!==_sSol) toggle('sol');
-      if(_sBat!==undefined && useBat!==_sBat) toggle('bat');
-      if(_sCet!==undefined && useCet!==_sCet) toggle('cet');
-      if(typeof syncEnergyPills==='function') syncEnergyPills();
-      if(typeof syncSimCards==='function') syncSimCards();
-      if(typeof setEnergieRef==='function') setEnergieRef(energieRef||'gaz');
       if(typeof syncTempoTarifs==='function') syncTempoTarifs();
       if(typeof initContrats==='function') initContrats();
       if(typeof renderHistory==='function') setTimeout(renderHistory,400);
-      // Recalcul après restauration
-      if(typeof updateNow==='function') setTimeout(updateNow, 100);
       // Toast uniquement quand le container existe
       const tc=document.getElementById('toast-container');
       if(tc && s.ts){
@@ -9978,7 +8450,7 @@ document.addEventListener('DOMContentLoaded', function(){
   if(typeof initContrats === 'function') initContrats();
   if(typeof updateBatConfig === 'function') updateBatConfig();
   if(typeof setPacInstall === 'function') setPacInstall(s.pacInstalled!==false);
-  if(typeof setSolInstall === 'function') setSolInstall(s.solInstalled===true);
+  if(typeof setSolInstall === 'function') setSolInstall(!!s.solInstalled);
   if(typeof setRachat === 'function') setRachat(s.useRachat!==false);
   if(typeof renderPacDayButtons === 'function') renderPacDayButtons();
   if(typeof updateNow === 'function') updateNow();
@@ -10086,11 +8558,7 @@ function renderWaterfall(tRef, tPac, tSol, tBat, tCet, tCur){
 
   // 1. Gaz actuel (point de départ)
   steps.push({
-    label: (energieRef==='fioul')?'Fioul actuel'
-           :(energieRef==='bois')?'Bois actuel':(energieRef==='pellet')?'Pellets actuel'
-           :(energieRef==='pac-exist')?'PAC existante'
-           :(energieRef==='elec-direct')?'Électrique actuel'
-           :'Gaz actuel',
+    label: 'Gaz actuel',
     icon: '🔥',
     val: Math.round(tRef),
     delta: 0,
@@ -10491,7 +8959,6 @@ let currentAppTab = 'home';
   });
   currentAppTab = tab;
   if(tab==='export'){ setTimeout(renderDevis,100); }
-  if(tab==='results'){ setTimeout(function(){ typeof renderCmpComparateur==='function'&&renderCmpComparateur(); },50); }
   if(tab==='analyses'){ setTimeout(initSolarMap,300); setTimeout(calcAides,200); setTimeout(renderOptimPAC,250); setTimeout(renderBenchmark,300); }
   if(tab==='home'||tab==='results') {
     setTimeout(()=>{ if(typeof _coreUpdate==='function') _coreUpdate(); }, 50);
@@ -10667,22 +9134,7 @@ function renderRadar(){
   if(!canv) return;
   const tc = getThemeColors();
   const p = getParams();
-  let tRef;
-  if(energieRef==='fioul'){
-    tRef = D_FIOUL.litres.reduce((a,b)=>a+b,0) * D_FIOUL.prixL;
-  } else if(energieRef==='bois'){
-    const DB = window.D_BOIS||{steres:Array(12).fill(1.25),prixS:100};
-    tRef = DB.steres.reduce((a,b)=>a+b,0) * DB.prixS;
-  } else if(energieRef==='pac-exist'){
-    const copE = parseFloat(document.getElementById('pac-exist-cop')?.value)||3.0;
-    const kwhTh = D.gaz.reduce((a,_,i)=>a+D.gaz[i]*COEFF*RDT,0);
-    tRef = (kwhTh/copE) * p.pe;
-  } else if(energieRef==='elec-direct'){
-    const kwhAn = parseFloat(document.getElementById('elec-direct-kwh')?.value)||8000;
-    tRef = kwhAn * p.pe;
-  } else {
-    tRef = D.gaz.reduce((a,_,i)=>a+D.gaz[i]*COEFF*p.pg,0);
-  }
+  const tRef = D.gaz.reduce((a,_,i)=>a+D.gaz[i]*COEFF*p.pg,0);
   const LABELS = ['Coût\n(économies)','CO₂\n(réduction)','Confort\n(chauffage)','Investissement\n(faible)','Simplicité\n(maintenance)'];
   const configDefs = {
     gaz:  {label:'🔥 Gaz',        pac:false,sol:false,bat:false,cet:false,color:'#e8640a'},
@@ -10722,195 +9174,11 @@ function renderRadar(){
     }
   });
 }
-// ── Utilitaire : coût annuel de référence selon énergie choisie ──
-function getTRef(p){
-  p = p || getParams();
-  if(energieRef==='fioul'){
-    return D_FIOUL.litres.reduce((a,b)=>a+b,0) * D_FIOUL.prixL;
-  } else if(energieRef==='bois'){
-    const DB = window.D_BOIS||{steres:Array(12).fill(1.25),prixS:100};
-    return DB.steres.reduce((a,b)=>a+b,0) * DB.prixS;
-  } else if(energieRef==='pellet'){
-    const DP = window.D_PELLET||{tonnes:Array(12).fill(0.08),prixT:350};
-    return DP.tonnes.reduce((a,b)=>a+b,0) * DP.prixT;
-  } else if(energieRef==='pac-exist'){
-    const copE = parseFloat(document.getElementById('pac-exist-cop')?.value)||3.0;
-    const kwhTh = D.gaz.reduce((a,_,i)=>a+D.gaz[i]*COEFF*RDT,0);
-    return (kwhTh/copE)*p.pe;
-  } else if(energieRef==='elec-direct'){
-    const kwhAn = parseFloat(document.getElementById('elec-direct-kwh')?.value)||8000;
-    return kwhAn*p.pe;
-  }
-  return D.gaz.reduce((a,_,i)=>a+D.gaz[i]*COEFF*p.pg,0);
-}
-
-// ── Calcul d'un scénario (pac/sol/bat/cet activés/désactivés) ──
-function calcScenario(pac, sol, bat, cet){
-  const p   = getParams();
-  const tRef= getTRef(p);
-  // Simuler avec ces équipements
-  const uPac=usePac, uSol=useSol, uBat=useBat, uCet=useCet;
-  usePac=pac; useSol=sol; useBat=bat; useCet=cet;
-  const data = compute(p);
-  const cout  = data.reduce((a,d)=>a+d.c_cur,0);
-  const invest = (pac?iPac():0)+(sol?iSol():0)+(bat?iBat():0)+(cet?iCet()||0:0);
-  usePac=uPac; useSol=uSol; useBat=uBat; useCet=uCet;
-  const eco    = Math.round(tRef - cout);
-  const amort  = (eco>5&&invest>0) ? Math.min(+(invest/eco).toFixed(1),99) : (eco>5?0:null);
-  const co2Ref = tRef*0.227; // kgCO2/€ ≈ gaz
-  const co2Cur = cout*0.057;
-  const co2Save= Math.round(co2Ref-co2Cur);
-  return {cout:Math.round(cout), eco, invest:Math.round(invest), amort, co2Save, tRef:Math.round(tRef)};
-}
-
-// ── Labels de l'énergie de référence ──
-function getRefLabel(){
-  const labels={
-    'gaz':'votre chaudière gaz', 'fioul':'votre chaudière fioul',
-    'bois':'votre poêle/chaudière bois','pellet':'votre chaudière à pellets', 'pac-exist':'votre PAC actuelle',
-    'elec-direct':'vos convecteurs électriques'
-  };
-  return labels[energieRef]||'votre système actuel';
-}
-function getRefIcon(){
-  return (REF_CONFIG[energieRef]||REF_CONFIG['gaz']).icon;
-}
-
-// ── 3 SCÉNARIOS NOMMÉS ──
-function buildScenarios(){
-  // Scénario 1 — Solution économique : PAC seule (ou CET si PAC déjà existante)
-  // Scénario 2 — Solution intermédiaire : PAC + Solaire (ou PAC + CET)
-  // Scénario 3 — Solution complète : PAC + Solaire + Batterie + CET
-  const isExist = energieRef==='pac-exist';
-  const scenarios = [
-    {
-      id:'eco',
-      name:'Solution économique',
-      desc: isExist ? 'Ajout CET thermodynamique' : 'PAC air/eau seule',
-      icon:'💰',
-      color:'#15803d',
-      pac: !isExist,
-      sol: false,
-      bat: false,
-      cet: isExist,
-    },
-    {
-      id:'inter',
-      name:'Solution intermédiaire',
-      desc: isExist ? 'Panneaux solaires + CET' : 'PAC + Panneaux solaires',
-      icon:'⚡',
-      color:'var(--pac)',
-      pac: !isExist,
-      sol: true,
-      bat: false,
-      cet: isExist,
-    },
-    {
-      id:'full',
-      name:'Solution complète',
-      desc:'PAC + Solaire + Batterie + CET',
-      icon:'💎',
-      color:'#7c3aed',
-      pac: true,
-      sol: true,
-      bat: true,
-      cet: true,
-    },
-  ];
-  return scenarios.map(s=>({...s, ...calcScenario(s.pac,s.sol,s.bat,s.cet)}));
-}
-
-// ── RENDU SCÉNARIOS page Analyses ──
-function renderScenariasNamed(){
-  const el = document.getElementById('scenarios-named');
-  if(!el) return;
-  const scens = buildScenarios();
-  const refLabel = getRefLabel();
-  const refIcon  = getRefIcon();
-  el.innerHTML = scens.map((s,i)=>{
-    const isTop = i===0;
-    const ecoTxt = s.eco>0 ? `+${s.eco.toLocaleString('fr')} €/an` : '— €/an';
-    const amortTxt = s.amort===null ? 'Pas d\'économie' : s.amort===0 ? 'Immédiat' : `${s.amort} an${s.amort>1?'s':''}`;
-    const investTxt = s.invest>0 ? `${s.invest.toLocaleString('fr')} €` : 'Sans invest.';
-    return `<div style="display:flex;gap:10px;align-items:flex-start;padding:10px 12px;
-      border-radius:10px;border:2px solid ${i===0?s.color:'var(--border)'};
-      background:${i===0?'var(--surface2)':'var(--surface)'};position:relative;">
-      <!-- Icône -->
-      <div style="width:38px;height:38px;border-radius:9px;background:${s.color};
-        display:flex;align-items:center;justify-content:center;font-size:1.1rem;
-        flex-shrink:0;">${s.icon}</div>
-      <!-- Contenu -->
-      <div style="flex:1;min-width:0;">
-        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-          <span style="font-size:.78rem;font-weight:800;color:${s.color};">${s.name}</span>
-          ${i===0?'<span style="font-size:.6rem;background:'+s.color+';color:#fff;border-radius:4px;padding:1px 6px;font-weight:700;">Recommandé</span>':''}
-        </div>
-        <div style="font-size:.68rem;color:var(--muted);margin-top:1px;">${s.desc}</div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:6px;">
-          <div style="text-align:center;padding:4px;background:var(--surface2);border-radius:6px;">
-            <div style="font-size:.62rem;color:var(--muted);">Économie</div>
-            <div style="font-size:.76rem;font-weight:800;color:#15803d;">${ecoTxt}</div>
-          </div>
-          <div style="text-align:center;padding:4px;background:var(--surface2);border-radius:6px;">
-            <div style="font-size:.62rem;color:var(--muted);">Invest.</div>
-            <div style="font-size:.76rem;font-weight:800;color:var(--text);">${investTxt}</div>
-          </div>
-          <div style="text-align:center;padding:4px;background:var(--surface2);border-radius:6px;">
-            <div style="font-size:.62rem;color:var(--muted);">Retour</div>
-            <div style="font-size:.76rem;font-weight:800;color:${s.amort!==null&&s.amort<8?'#15803d':'var(--text)'};">${amortTxt}</div>
-          </div>
-        </div>
-        ${s.co2Save>0?`<div style="margin-top:4px;font-size:.62rem;color:#15803d;">♻️ ${s.co2Save} kg CO₂ économisés/an vs ${refLabel}</div>`:''}
-      </div>
-    </div>`;
-  }).join('');
-}
-
-// ── RENDU SCÉNARIOS page Accueil (format compact) ──
-function renderHomeScenariosGrid(){
-  const el = document.getElementById('home-scenarios-grid');
-  if(!el) return;
-  const scens = buildScenarios();
-  const sub = document.getElementById('home-reco-sub');
-  if(sub) sub.textContent = 'Vs '+getRefLabel()+' ('+getRefIcon()+')';
-  el.innerHTML = scens.map((s,i)=>`
-    <div ontouchstart="" onclick="applyScenario('${s.id}',${s.pac},${s.sol},${s.bat},${s.cet})"
-      style="padding:10px 12px;border-radius:10px;border:2px solid ${i===0?s.color:'var(--border)'};
-      background:${i===0?'var(--surface2)':'var(--surface)'};cursor:pointer;transition:.15s;"
-      onmouseover="this.style.borderColor='${s.color}'"
-      onmouseout="this.style.borderColor='${i===0?s.color:'var(--border)'}'">
-      <div style="font-size:1.1rem;margin-bottom:4px;">${s.icon}</div>
-      <div style="font-size:.73rem;font-weight:800;color:${s.color};">${s.name}</div>
-      <div style="font-size:.63rem;color:var(--muted);margin-top:1px;">${s.desc}</div>
-      <div style="margin-top:6px;font-size:.78rem;font-weight:800;color:#15803d;">
-        ${s.eco>0?'+'+s.eco.toLocaleString('fr')+' €/an':'—'}
-      </div>
-      ${s.amort?`<div style="font-size:.62rem;color:var(--muted);">Retour : ${s.amort} an${s.amort>1?'s':''}</div>`:''}
-      ${i===0?'<div style="margin-top:4px;font-size:.6rem;background:'+s.color+';color:#fff;border-radius:4px;padding:1px 6px;display:inline-block;font-weight:700;">✓ Recommandé</div>':''}
-    </div>`).join('');
-}
-
-// Appliquer un scénario (activer/désactiver les équipements et switcher vers config)
-function applyScenario(id, pac, sol, bat, cet){
-  if(typeof setPacInstall==='function') setPacInstall(pac);
-  if(typeof toggle==='function'){
-    if(sol!==useSol) toggle('sol');
-    if(bat!==useBat) toggle('bat');
-    if(cet!==useCet) toggle('cet');
-  }
-  update();
-  switchAppTab('results');
-  toast('✅ Scénario "'+id+'" appliqué — résultats mis à jour','success',3000);
-}
-
 function renderRecommandation(){
   const el = document.getElementById('reco-content');
   if(!el) return;
-  // Rendre les scénarios nommés
-  renderScenariasNamed();
-  renderHomeScenariosGrid();
   const p = getParams();
-  const tRef = getTRef(p);
+  const tRef = D.gaz.reduce((a,_,i)=>a+D.gaz[i]*COEFF*p.pg,0);
   const configs=[
     {id:'pac',   label:'PAC seule',        icon:'⚡', pac:true, sol:false,bat:false,cet:false},
     {id:'cet',   label:'Gaz + CET',        icon:'🚿', pac:false,sol:false,bat:false,cet:true},
@@ -10944,37 +9212,16 @@ function renderRecommandation(){
     </div>`;
   });
   let conseil = '';
-  const refNom = getRefLabel();
-  const refIcon2 = getRefIcon();
-  if(tRef>1800) conseil += refIcon2+' Votre facture '+refNom+' est très élevée — un remplacement par PAC est très rentable. ';
-  else if(tRef>1000) conseil += refIcon2+' Facture '+refNom+' significative — la PAC offre un bon retour sur investissement. ';
-  if(energieRef==='fioul') conseil += '🛢️ Le fioul est une énergie fossile volatile — la PAC vous affranchit des fluctuations du prix du pétrole. ';
-  if(energieRef==='bois') conseil += '🪵 Le bois est économique mais la PAC peut compléter pour le chauffage d\'appoint et l\'ECS. ';
-  if(energieRef==='pellet') conseil += '🌾 La chaudière à pellets est confortable mais la PAC peut diviser la facture par 2. ';
-  if(energieRef==='elec-direct') conseil += '⚡ Vos convecteurs ont un COP=1 — une PAC (COP≥3) divise la consommation par 3. ';
-  if(solBon)   conseil += '☀️ Votre orientation est favorable — l\'association PAC+solaire est optimale pour votre profil. ';
-  if(!solBon)  conseil += '☀️ Orientation limitée — privilégiez PAC + CET thermodynamique en premier. ';
-  if(scored[0].amort < 5) conseil += `✅ Retour sur investissement estimé à ${scored[0].amort} ans — excellent. `;
-  el.innerHTML = conseil ? `<div style="line-height:1.7;">${conseil}</div>` : '<div style="color:var(--muted)">Configurez vos équipements pour voir les recommandations.</div>';
+  if(gazElevé) conseil += '🔥 Votre facture gaz est élevée — le passage à la PAC est fortement recommandé. ';
+  if(solBon)   conseil += '☀️ Votre orientation est favorable au solaire — l\'association PAC+solaire est optimale. ';
+  if(!solBon)  conseil += '☀️ Orientation limitée — focalisez sur la PAC et le CET en priorité. ';
+  if(scored[0].amort < 5) conseil += `✅ Retour sur investissement en ${scored[0].amort} ans — excellent. `;
+  html += `<div style="margin-top:8px;padding:8px 10px;background:var(--pac-tint);border-radius:7px;font-size:.64rem;color:var(--text2);line-height:1.6;">${conseil}</div>`;
+  el.innerHTML = html;
 }
 function renderCompare(){
   const p = getParams();
-  let tRef;
-  if(energieRef==='fioul'){
-    tRef = D_FIOUL.litres.reduce((a,b)=>a+b,0) * D_FIOUL.prixL;
-  } else if(energieRef==='bois'){
-    const DB = window.D_BOIS||{steres:Array(12).fill(1.25),prixS:100};
-    tRef = DB.steres.reduce((a,b)=>a+b,0) * DB.prixS;
-  } else if(energieRef==='pac-exist'){
-    const copE = parseFloat(document.getElementById('pac-exist-cop')?.value)||3.0;
-    const kwhTh = D.gaz.reduce((a,_,i)=>a+D.gaz[i]*COEFF*RDT,0);
-    tRef = (kwhTh/copE) * p.pe;
-  } else if(energieRef==='elec-direct'){
-    const kwhAn = parseFloat(document.getElementById('elec-direct-kwh')?.value)||8000;
-    tRef = kwhAn * p.pe;
-  } else {
-    tRef = D.gaz.reduce((a,_,i)=>a+D.gaz[i]*COEFF*p.pg,0);
-  }
+  const tRef = D.gaz.reduce((a,_,i)=>a+D.gaz[i]*COEFF*p.pg,0);
   const {scores:sA,cout:cA,co2:co2A,invest:invA}=calcRadarScores(usePac,useSol,useBat,useCet,tRef);
   const bPac=document.getElementById('cb-pac')?.checked!==false;
   const bCet=document.getElementById('cb-cet')?.checked===true;
@@ -11075,7 +9322,7 @@ function renderOffres(type){
       : Math.round(D.elec.reduce((a,b)=>a+b,0) * prix);
     const badgeHTML = o.badge ? `<span class="offre-badge ${o.badge}">${o.badgeLabel}</span>` : '';
     h += `<div class="offre-card ${sel?(gaz?'selected-gaz':'selected'):''}"
-      ontouchstart="" onclick="selectOffre('${type}','${o.id}')"
+      onclick="selectOffre('${type}','${o.id}')"
       style="${sel?`border-color:${accentColor};background:${accentTint};box-shadow:0 0 0 2px ${accentColor}33;`:''}"
     >
       <!-- Top : nom + badge -->
@@ -11879,7 +10126,7 @@ function buildLangMenu(){
   const menu = document.getElementById('lang-menu');
   if(!menu) return;
   const inner = LANGS.map(l=>`
-    <div ontouchstart="" onclick="setLang('${l.code}')"
+    <div onclick="setLang('${l.code}')"
       style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;
       cursor:pointer;transition:.15s;font-size:.78rem;font-weight:600;
       ${l.code===currentLang?'background:var(--pac-tint);color:var(--pac);':'color:var(--text);'}
@@ -12074,7 +10321,7 @@ function renderSmartAlerts(data, p, tRef, tPac, tCur, tSol, tBat){
       const worst=worstMonths.reduce((a,b)=>a.c_cur-a.c_ref>b.c_cur-b.c_ref?a:b);
       const idx=data.indexOf(worst);
       alerts.push({type:'warn',icon:'🔴',
-        msg:`<strong>PAC sur jours rouges Tempo :</strong> En ${MOIS[idx]}, la PAC active les jours rouges coûte <strong style="color:var(--red)">${worst.c_cur.toFixed(0)} €</strong> vs ${worst.c_ref.toFixed(0)} € au ${energieRef==='fioul'?'fioul':'gaz'}. Désactivez les jours rouges PAC pour économiser ~${Math.round(worst.c_cur-worst.c_ref)} €/mois.`
+        msg:`<strong>PAC sur jours rouges Tempo :</strong> En ${MOIS[idx]}, la PAC active les jours rouges coûte <strong style="color:var(--red)">${worst.c_cur.toFixed(0)} €</strong> vs ${worst.c_ref.toFixed(0)} € au gaz. Désactivez les jours rouges PAC pour économiser ~${Math.round(worst.c_cur-worst.c_ref)} €/mois.`
       });
     }
   }
@@ -12534,7 +10781,7 @@ let _meteoFetching = false;
 
 async function fetchMeteoReelle(){
   if(_meteoFetching) return;
-  if(_meteoCache && _meteoCache.lat===curLat){
+  if(_meteoCache && _meteoCache.lat===curLat) {
     applyMeteo(_meteoCache.temps);
     return;
   }
@@ -12542,41 +10789,29 @@ async function fetchMeteoReelle(){
   const btn=document.getElementById('btn-meteo');
   if(btn){ btn.textContent='⏳ Récupération…'; btn.disabled=true; }
   try{
+    // Open-Meteo API — gratuite, sans clé, données historiques 1 an
     const year=new Date().getFullYear()-1;
-    // Plusieurs URLs de fallback (open-meteo peut être bloqué sur iOS/Safari local)
-    const urls=[
-      `https://archive-api.open-meteo.com/v1/archive?latitude=${curLat}&longitude=${curLon}&start_date=${year}-01-01&end_date=${year}-12-31&daily=temperature_2m_mean&timezone=Europe%2FParis`,
-      `https://api.open-meteo.com/v1/forecast?latitude=${curLat}&longitude=${curLon}&daily=temperature_2m_mean&timezone=Europe%2FParis&past_days=92&forecast_days=1`,
-    ];
-    let data=null;
-    for(const url of urls){
-      try{
-        const resp=await fetch(url);
-        if(!resp.ok) continue;
-        data=await resp.json();
-        if(data&&data.daily&&data.daily.time&&data.daily.time.length>0) break;
-      } catch(e){
-        continue; // réseau indisponible → URL suivante
-      }
-    }
-    if(!data?.daily?.time?.length) throw new Error('Aucune donnée météo disponible');
+    const url=`https://archive-api.open-meteo.com/v1/archive?latitude=${curLat}&longitude=${curLon}`+
+      `&start_date=${year}-01-01&end_date=${year}-12-31`+
+      `&daily=temperature_2m_mean&timezone=Europe%2FParis`;
+    const resp=await fetch(url).catch(e=>{ throw new Error('Open-Meteo réseau: '+e.message); });
+    if(!resp.ok) throw new Error('API Open-Meteo indisponible');
+    const data=await resp.json();
     // Calculer moyenne mensuelle
-    const temps=Array(12).fill(0), counts=Array(12).fill(0);
+    const temps=Array(12).fill(0);
+    const counts=Array(12).fill(0);
     data.daily.time.forEach((date,i)=>{
       const m=parseInt(date.split('-')[1])-1;
       const t=data.daily.temperature_2m_mean[i];
-      if(t!==null&&m>=0&&m<12){ temps[m]+=t; counts[m]++; }
+      if(t!==null){ temps[m]+=t; counts[m]++; }
     });
     const monthly=temps.map((t,i)=>counts[i]>0?Math.round(t/counts[i]*10)/10:TEMP_EXT[i]);
     _meteoCache={lat:curLat,lon:curLon,temps:monthly};
     applyMeteo(monthly);
-    toast('🌤️ Températures réelles '+year+' chargées pour '+curLocName,'success',4000);
+    toast(`🌤️ Températures réelles ${year} chargées pour ${curLocName}`,'success',4000);
   } catch(e){
-    // Fallback silencieux — pas de warning console sur iOS
-    // Fallback silencieux : températures locales selon ville
-    const localTemps=TEMP_EXT.slice(); // déjà initialisé selon la ville
-    applyMeteo(localTemps);
-    toast('📍 Météo en ligne indisponible — températures locales estimées utilisées','info',3000);
+    _con.warn('Météo API error:',e);
+    toast('Météo indisponible — données Météo-France par défaut utilisées','info',3000);
   } finally{
     _meteoFetching=false;
     const b=document.getElementById('btn-meteo');
@@ -12703,362 +10938,6 @@ document.addEventListener('DOMContentLoaded', function(){
   // Init UI
   if(typeof buildLangMenu==='function') buildLangMenu();
   if(typeof initSwipe==='function') initSwipe();
-// (assignations déplacées en fin de script)
-if(typeof initSwipe==='function') initSwipe();
-
-// ══════════════════════════════════════════════════════════════
-// WIZARD GUIDE 5 ÉTAPES
-// ══════════════════════════════════════════════════════════════
-var WIZARD_STEPS = [
-  {
-    icon:"🏠", title:"Votre chauffage actuel",
-    desc:"Commençons par sélectionner votre système de chauffage actuel. Cela nous permet de calculer vos économies potentielles.",
-    tab:"home",
-    action:"<div style='font-size:.72rem;color:var(--muted);padding:8px 10px;background:var(--surface2);border-radius:8px;'>👇 Choisissez votre énergie dans les cartes ci-dessous une fois ce guide fermé.</div>"
-  },
-  {
-    icon:"📂", title:"Importez vos données EDF",
-    desc:"Téléchargez vos données depuis monespace.edf.fr : Mes données de consommation, puis ZIP. Glissez le fichier dans l'onglet Mes données.",
-    tab:"data",
-    action:"<div style='font-size:.72rem;color:var(--muted);padding:8px 10px;background:var(--surface2);border-radius:8px;'>💡 Sans fichier EDF, des données de référence Brignais sont pré-chargées.</div>"
-  },
-  {
-    icon:"⚙️", title:"Configurez vos équipements",
-    desc:"Dans Ma simulation, activez les équipements que vous envisagez d'installer : PAC, panneaux solaires, batterie, chauffe-eau thermodynamique.",
-    tab:"config",
-    action:"<div style='font-size:.72rem;color:var(--muted);padding:8px 10px;background:var(--surface2);border-radius:8px;'>✅ Chaque équipement peut être activé/désactivé pour comparer les configurations.</div>"
-  },
-  {
-    icon:"📊", title:"Analysez vos résultats",
-    desc:"L'onglet Résultats affiche vos économies annuelles, le retour sur investissement et une simulation de votre future facture EDF.",
-    tab:"results",
-    action:"<div style='font-size:.72rem;color:var(--muted);padding:8px 10px;background:var(--surface2);border-radius:8px;'>📈 Les résultats se mettent à jour en temps réel à chaque modification.</div>"
-  },
-  {
-    icon:"🔬", title:"Explorez le bilan complet",
-    desc:"L'onglet Bilan & Conseils propose 3 scénarios recommandés, la projection sur 10 ans, le bilan CO2 et les aides disponibles.",
-    tab:"analyses",
-    action:"<div style='font-size:.72rem;color:var(--muted);padding:8px 10px;background:var(--surface2);border-radius:8px;'>💡 Le menu ☰ en haut à droite donne accès aux exports Excel, PDF et au partage.</div>"
-  },
-];
-var _wizardStep = 0;
-
-function startWizard(){
-  _wizardStep = 0;
-  var ov = document.getElementById('wizard-overlay');
-  if(!ov){ alert('Wizard introuvable — rechargez la page'); return; }
-  // Forcer display flex directement (double sécurité CSS + inline)
-  ov.style.display = 'flex';
-  ov.classList.add('open');
-  renderWizardStep();
-}
-function skipWizard(){
-  var ov = document.getElementById('wizard-overlay');
-  if(ov){ ov.style.display='none'; ov.classList.remove('open'); }
-  try{ localStorage.setItem('wizard-done','1'); } catch(e){}
-  // Masquer la bannière guide aussi
-  var b = document.getElementById('home-guide-banner');
-  if(b) b.style.display='none';
-}
-function wizardNext(){
-  // Marquer l'onglet courant comme fait
-  const step = WIZARD_STEPS[_wizardStep];
-  if(step.tab){
-    const btn = document.getElementById('apptab-'+step.tab);
-    if(btn) btn.classList.add('step-done');
-  }
-  _wizardStep++;
-  if(_wizardStep >= WIZARD_STEPS.length){
-    skipWizard();
-    // Afficher tooltip final
-    showGuideTooltip('🎉 Guide terminé ! Utilisez ☰ pour exporter ou relancer le guide.', null, 4000);
-    return;
-  }
-  renderWizardStep();
-}
-function renderWizardStep(){
-  const s = WIZARD_STEPS[_wizardStep];
-  const total = WIZARD_STEPS.length;
-  // Progress
-  const pct = Math.round((_wizardStep / total) * 100);
-  const pb = document.getElementById('wizard-progress-bar');
-  if(pb) pb.style.width = Math.max(pct,8)+'%';
-  // Dots
-  const dotsEl = document.getElementById('wizard-dots');
-  if(dotsEl) dotsEl.innerHTML = WIZARD_STEPS.map((_,i)=>
-    '<div class="wizard-dot'+(i<_wizardStep?' done':i===_wizardStep?' active':'')+'"></div>'
-  ).join('');
-  // Contenu
-  const ic = document.getElementById('wizard-icon');    if(ic) ic.textContent = s.icon;
-  const ti = document.getElementById('wizard-title');   if(ti) ti.textContent = s.title;
-  const de = document.getElementById('wizard-desc');    if(de) de.innerHTML   = s.desc;
-  const az = document.getElementById('wizard-action-zone'); if(az) az.innerHTML = s.action||'';
-  // Bouton
-  const nb = document.getElementById('wizard-btn-next');
-  if(nb) nb.textContent = _wizardStep===total-1 ? 'Terminer ✓' : 'Suivant →';
-  // Naviguer vers l'onglet
-  if(s.tab && typeof switchAppTab==='function') switchAppTab(s.tab);
-}
-
-// ══════════════════════════════════════════════════════════════
-// HAMBURGER MENU
-// ══════════════════════════════════════════════════════════════
-// ── Toggle des sections énergie dans Config ──
-function toggleEnergySection(id){
-  const section = document.getElementById(id);
-  const body    = document.getElementById(id+'-body');
-  if(!section||!body) return;
-  const isCollapsed = body.classList.contains('collapsed');
-  body.classList.toggle('collapsed', !isCollapsed);
-  section.classList.toggle('collapsed', !isCollapsed);
-}
-
-// Synchroniser les pills ON/OFF des sections énergie avec l'état réel
-// ── DIAGNOSTIC BOUTONS ON/OFF ──
-function syncEnergyPills(){
-  var sections = [
-    {pill:'pill-pac-es', section:'es-pac', state:function(){ return usePac; }, color:'var(--pac)'},
-    {pill:'pill-sol-es', section:'es-sol', state:function(){ return useSol; }, color:'var(--sol)'},
-    {pill:'pill-cet-es', section:'es-cet', state:function(){ return useCet; }, color:'#16a34a'},
-    {pill:'pill-bat-es', section:'es-bat', state:function(){ return useBat; }, color:'var(--bat)'},
-  ];
-  sections.forEach(function(s){
-    var on = s.state();
-    // Mettre à jour le pill
-    var el = document.getElementById(s.pill);
-    if(el){
-      el.textContent = on ? 'ON' : 'OFF';
-      el.style.background  = on ? s.color : 'var(--surface2)';
-      el.style.color       = on ? '#fff'   : 'var(--muted)';
-      el.style.borderColor = on ? s.color  : 'var(--border)';
-    }
-    // Mettre à jour la bordure de la section
-    var sec = document.getElementById(s.section);
-    if(sec){
-      sec.style.borderColor = on ? s.color.replace('var(--','').replace(')','') === s.color ? s.color : 'var(--border)' : 'var(--border)';
-      // Simplification: juste changer opacity si OFF
-      sec.style.opacity = on ? '1' : '0.7';
-    }
-  });
-  // Sync sous-titres
-  var cop2 = document.getElementById('pac-cop-label2');
-  if(cop2){ var cop=document.getElementById('pac-cop-label'); if(cop) cop2.textContent=cop.textContent; }
-  var kwc2 = document.getElementById('tc-sol-kwc2');
-  if(kwc2){ var kwc=document.getElementById('tc-sol-kwc'); if(kwc) kwc2.textContent=kwc.textContent; }
-  var prod2 = document.getElementById('tc-sol-prod2');
-  if(prod2){ var prod=document.getElementById('tc-sol-prod'); if(prod) prod2.textContent=prod.textContent; }
-  var cap2 = document.getElementById('tc-cet-cap2');
-  if(cap2){ var cap=document.getElementById('tc-cet-cap'); if(cap) cap2.textContent=cap.textContent; }
-  var cop3 = document.getElementById('tc-cet-cop2');
-  if(cop3){ var cop4=document.getElementById('tc-cet-cop'); if(cop4) cop3.textContent=cop4.textContent; }
-  var bcap2 = document.getElementById('tc-bat-cap2');
-  if(bcap2){ var bcap=document.getElementById('tc-bat-cap'); if(bcap) bcap2.textContent=bcap.textContent; }
-  var butile2 = document.getElementById('tc-bat-utile2');
-  if(butile2){ var butile=document.getElementById('tc-bat-utile'); if(butile) butile2.textContent=butile.textContent; }
-  // Adapter labels bois/pellets
-  var uLabel = document.getElementById('bois-unit-label');
-  var pLabel = document.getElementById('bois-prix-label');
-  var pUnit  = document.getElementById('bois-prix-unit');
-  if(energieRef==='pellet'){
-    if(uLabel) uLabel.firstChild.textContent='Conso (tonnes/an) ';
-    if(pLabel) pLabel.firstChild.textContent='Prix (€/tonne) ';
-    if(pUnit)  pUnit.textContent='€/tonne';
-    var inp = document.getElementById('bois-steres');
-    if(inp && parseFloat(inp.value)>20) inp.value=5;
-    var inp2 = document.getElementById('bois-prix');
-    if(inp2 && parseFloat(inp2.value)<200) inp2.value=350;
-  } else {
-    if(uLabel) uLabel.firstChild.textContent='Conso (stères/an) ';
-    if(pLabel) pLabel.firstChild.textContent='Prix (€/stère) ';
-    if(pUnit)  pUnit.textContent='€/stère';
-  }
-}
-
-// ══════════════════════════════════════════════════════════════
-// CARTE SIMULATION EN PAGE ACCUEIL
-// ══════════════════════════════════════════════════════════════
-var usePacAir = false; // PAC air/air
-var SIM_COLORS = {
-  'pac':    {color:'#2563eb',   bg:'#eff6ff', label:'PAC air/eau'},
-  'pacair': {color:'#0891b2',   bg:'#ecfeff', label:'PAC air/air'},
-  'sol':    {color:'#ca8a04',   bg:'#fefce8', label:'Solaire PV'},
-  'cet':    {color:'#16a34a',   bg:'#f0fdf4', label:'CET'},
-  'bat':    {color:'#7c3aed',   bg:'#faf5ff', label:'Batterie'},
-  'bois':   {color:'#6b3a1f',   bg:'#fef9f0', label:'Chaud. bois'},
-  'pellet': {color:'#92400e',   bg:'#fef3c7', label:'Chaud. pellets'},
-};
-
-function toggleSimCard(k){
-  if(k==='pac')    { toggle('pac'); setTimeout(function(){if(typeof syncSimCards==='function')syncSimCards();},50); }
-  else if(k==='sol')    { toggle('sol'); setTimeout(function(){if(typeof syncSimCards==='function')syncSimCards();},50); }
-  else if(k==='cet')    { toggle('cet'); setTimeout(function(){if(typeof syncSimCards==='function')syncSimCards();},50); }
-  else if(k==='bat')    { toggle('bat'); setTimeout(function(){if(typeof syncSimCards==='function')syncSimCards();},50); }
-  else if(k==='pacair') { usePacAir=!usePacAir; syncSimCards(); update(); }
-  else if(k==='bois'){
-    var p=document.getElementById('sim-bois-params');
-    var on=p&&p.style.display!=='none';
-    if(p) p.style.display=on?'none':'';
-    syncSimCards(); update();
-  }
-  else if(k==='pellet'){
-    var p2=document.getElementById('sim-pellet-params');
-    var on2=p2&&p2.style.display!=='none';
-    if(p2) p2.style.display=on2?'none':'';
-    syncSimCards(); update();
-  }
-}
-
-function clearSimCards(){
-  if(usePac) toggle('pac');
-  if(useSol) toggle('sol');
-  if(useCet) toggle('cet');
-  if(useBat) toggle('bat');
-  usePacAir = false;
-  var bp = document.getElementById('sim-bois-params');
-  var pp = document.getElementById('sim-pellet-params');
-  if(bp) bp.style.display='none';
-  if(pp) pp.style.display='none';
-  syncSimCards();
-  update();
-}
-
-function updateSimBoisPrix(){
-  var steres = parseFloat(document.getElementById('sim-bois-steres')?.value)||15;
-  var prix   = parseFloat(document.getElementById('sim-bois-prix-input')?.value)||100;
-  var total  = Math.round(steres * prix);
-  var el = document.getElementById('sim-bois-cout');
-  if(el) el.textContent = steres+' stères × '+prix+' €/stère = '+total+' €/an';
-  var badge = document.getElementById('sim-bois-prix');
-  if(badge) badge.textContent = prix+' €/stère';
-  // Sync avec D_BOIS
-  if(window.D_BOIS){
-    var coeffs=[11,8,7,4,1.5,0.9,0.7,0.5,0.9,2,6.5,10.5];
-    var sumC=coeffs.reduce(function(a,b){return a+b;},0);
-    D_BOIS.steres = coeffs.map(function(c){return Math.round(steres*c/sumC*10)/10;});
-    D_BOIS.prixS  = prix;
-  }
-}
-
-function updateSimPelletPrix(){
-  var tonnes = parseFloat(document.getElementById('sim-pellet-tonnes')?.value)||5;
-  var prix   = parseFloat(document.getElementById('sim-pellet-prix-input')?.value)||350;
-  var total  = Math.round(tonnes * prix);
-  var el = document.getElementById('sim-pellet-cout');
-  if(el) el.textContent = tonnes+' t × '+prix+' €/t = '+total+' €/an';
-  var badge = document.getElementById('sim-pellet-prix');
-  if(badge) badge.textContent = prix+' €/tonne';
-  if(window.D_PELLET){
-    var coeffs=[11,8,7,4,1.5,0.9,0.7,0.5,0.9,2,6.5,10.5];
-    var sumC=coeffs.reduce(function(a,b){return a+b;},0);
-    D_PELLET.tonnes = coeffs.map(function(c){return Math.round(tonnes*c/sumC*100)/100;});
-    D_PELLET.prixT  = prix;
-  }
-}
-
-function syncSimCards(){
-  if(window._syncSimBusy) return;
-  window._syncSimBusy = true;
-  try {
-  var states = {
-    'pac':    usePac,
-    'pacair': usePacAir,
-    'sol':    useSol,
-    'cet':    useCet,
-    'bat':    useBat,
-    'bois':   (function(){ var p=document.getElementById('sim-bois-params'); return p&&p.style.display!=='none'; })(),
-    'pellet': (function(){ var p=document.getElementById('sim-pellet-params'); return p&&p.style.display!=='none'; })(),
-  };
-  var active = [];
-  Object.keys(states).forEach(function(k){
-    var on  = states[k];
-    var cfg = SIM_COLORS[k];
-    var card = document.getElementById('sim-card-'+k);
-    if(card){
-      card.setAttribute('data-on', on?'1':'0');
-      card.style.background  = on ? cfg.bg    : '';
-      card.style.borderColor = on ? cfg.color : '';
-      card.style.color       = on ? cfg.color : '';
-      var titleEl = card.querySelector('div:nth-child(2)');
-      if(titleEl) titleEl.style.color = on ? cfg.color : '';
-    }
-    if(on) active.push(cfg.label);
-  });
-  var summary    = document.getElementById('sim-summary');
-  var summaryTxt = document.getElementById('sim-summary-text');
-  if(summary){ summary.style.display = active.length>0 ? '' : 'none'; }
-  if(summaryTxt){ summaryTxt.textContent = active.join(' + '); }
-  } finally { window._syncSimBusy = false; }
-}
-
-function openHamburger(){
-  document.getElementById('hamburger-menu').classList.add('open');
-  document.getElementById('hamburger-overlay').classList.add('open');
-}
-function closeHamburger(){
-  document.getElementById('hamburger-menu').classList.remove('open');
-  document.getElementById('hamburger-overlay').classList.remove('open');
-}
-
-// ══════════════════════════════════════════════════════════════
-// TOOLTIPS SUR LES ONGLETS
-// ══════════════════════════════════════════════════════════════
-var _tooltipTimer = null;
-function showGuideTooltip(msg, anchorEl, duration){
-  const el = document.getElementById('guide-tooltip');
-  if(!el) return;
-  el.textContent = msg;
-  if(anchorEl){
-    const r = anchorEl.getBoundingClientRect();
-    el.style.top  = (r.bottom + 8)+'px';
-    el.style.left = Math.max(8, r.left)+'px';
-  } else {
-    el.style.top = '80px'; el.style.left = '50%';
-    el.style.transform = 'translateX(-50%)';
-  }
-  el.classList.add('visible');
-  clearTimeout(_tooltipTimer);
-  _tooltipTimer = setTimeout(()=>el.classList.remove('visible'), duration||2500);
-}
-
-// Attacher les tooltips aux onglets au survol (desktop) et au focus
-document.addEventListener('DOMContentLoaded', function(){
-  document.querySelectorAll('.nav-tab[data-tooltip]').forEach(function(btn){
-    btn.addEventListener('mouseenter', function(){
-      showGuideTooltip(btn.getAttribute('data-tooltip'), btn, 3000);
-    });
-  });
-
-  // Masquer bannière si guide déjà fait
-  try{
-    if(localStorage.getItem('wizard-done')||localStorage.getItem('guide-dismissed')){
-      const b = document.getElementById('home-guide-banner');
-      if(b) b.style.display='none';
-    }
-  } catch(e){}
-
-  // Lancer wizard au 1er lancement
-  try{
-    if(!localStorage.getItem('wizard-done') && !localStorage.getItem('guide-dismissed')){
-      setTimeout(startWizard, 1200);
-    }
-  } catch(e){}
-
-  // Marquer les onglets visités
-  document.querySelectorAll('.nav-tab[id^="apptab-"]').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      const tab = btn.id.replace('apptab-','');
-      try{
-        const visited = JSON.parse(localStorage.getItem('visited-tabs')||'[]');
-        if(!visited.includes(tab)){ visited.push(tab); localStorage.setItem('visited-tabs',JSON.stringify(visited)); }
-        // Marquer step-done les onglets visités
-        visited.forEach(function(t){
-          const b = document.getElementById('apptab-'+t);
-          if(b && !b.classList.contains('active')) b.classList.add('step-done');
-        });
-      } catch(e){}
-    });
-  });
-});
 // ── Initialiser les statuts visuels si données EDF pré-chargées ──
 (function initDataStatus(){
   try {
@@ -13117,7 +10996,7 @@ document.addEventListener('DOMContentLoaded', function(){
   // Init HC/HP summary
   if(typeof updateHCHP==='function') updateHCHP();
 
-  // Chargement initial (AVANT setEnergieRef pour récupérer energieRef sauvegardé)
+  // Chargement initial
   if(window.location.search.includes('pac=')){
     typeof loadStateFromParams==='function' && loadStateFromParams();
   } else if(localStorage.getItem(STORAGE_KEY)){
@@ -13126,23 +11005,7 @@ document.addEventListener('DOMContentLoaded', function(){
     typeof updateNow==='function' && updateNow();
   }
 
-  // Sync pills Config
-  if(typeof syncSimCards==='function') syncSimCards();
-  // Init énergie référence APRÈS loadFromStorage (energieRef est maintenant restauré)
-  window.D_BOIS = window.D_BOIS||{steres:Array(12).fill(1.25),prixS:100};
-  if(typeof updateBoisMensuel==='function') updateBoisMensuel();
-  if(typeof updatePelletMensuel==='function') updatePelletMensuel();
-  if(typeof updateFioulMensuel==='function') updateFioulMensuel();
-  if(typeof setEnergieRef==='function') setEnergieRef(energieRef||'gaz');
-  if(typeof syncSimCards==='function') syncSimCards();
-
 });
-
-// Assigner les vraies implémentations (noms différents des alias pour éviter les boucles)
-window._startWizardReal  = startWizard;
-window._toggleFinal      = toggle;        // window.toggle() → _toggleFinal (la vraie)
-window._toggleSimFinal   = toggleSimCard; // window.toggleSimCard() → _toggleSimFinal (la vraie)
-window._setRefReal       = setEnergieRef;
 </script>
 <!-- ══════════════ MODAL LOCALISATION ══════════════ -->
 <div id="loc-modal" style="display:none;position:fixed;inset:0;background:#0006;z-index:300;
@@ -13283,22 +11146,70 @@ window._setRefReal       = setEnergieRef;
     </div>
   </div>
 </div>
-<!-- ══════════════ WIZARD GUIDE ══════════════ -->
-<div class="wizard-overlay" id="wizard-overlay">
-  <div class="wizard-box">
-    <div class="wizard-progress"><div class="wizard-progress-bar" id="wizard-progress-bar" style="width:20%"></div></div>
-    <div class="wizard-step-dots" id="wizard-dots"></div>
-    <div class="wizard-icon" id="wizard-icon">🏠</div>
-    <div class="wizard-title" id="wizard-title">Bienvenue !</div>
-    <div class="wizard-desc"  id="wizard-desc">Configurons votre simulation ensemble.</div>
-    <div id="wizard-action-zone" style="margin-bottom:14px;"></div>
-    <div class="wizard-actions">
-      <button class="wizard-btn-skip" onclick="skipWizard()">Passer le guide</button>
-      <button class="wizard-btn-next" id="wizard-btn-next" onclick="wizardNext()">Suivant →</button>
+<!-- ════ WIZARD GUIDED ════ -->
+<div id="wizard-overlay" style="display:none;position:fixed;inset:0;z-index:400;
+  background:#0008;align-items:center;justify-content:center;">
+  <div style="background:var(--surface);border-radius:18px;width:min(96vw,520px);
+    max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px #0005;
+    border:1px solid var(--border);">
+    <!-- Header wizard -->
+    <div style="background:linear-gradient(135deg,var(--pac),#7c3aed);padding:18px 22px;border-radius:18px 18px 0 0;">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div style="color:#fff;">
+          <div style="font-size:1rem;font-weight:900;" id="wiz-title">Assistant de configuration</div>
+          <div style="font-size:.68rem;opacity:.8;" id="wiz-subtitle">Étape 1 sur 5</div>
+        </div>
+        <button onclick="closeWizard()" style="background:rgba(255,255,255,.2);border:none;
+          color:#fff;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:1rem;">✕</button>
+      </div>
+      <!-- Barre de progression -->
+      <div style="margin-top:12px;background:rgba(255,255,255,.2);border-radius:10px;height:6px;overflow:hidden;">
+        <div id="wiz-progress" style="height:100%;background:#fff;border-radius:10px;transition:width .4s;width:20%;"></div>
+      </div>
+    </div>
+    <!-- Corps wizard -->
+    <div id="wiz-body" style="padding:22px;"></div>
+    <!-- Footer wizard -->
+    <div style="padding:14px 22px;border-top:1px solid var(--border);
+      display:flex;justify-content:space-between;align-items:center;">
+      <button id="wiz-prev" onclick="wizardPrev()"
+        style="padding:8px 18px;font-size:.75rem;font-weight:700;border-radius:8px;cursor:pointer;
+        border:1px solid var(--border2);background:var(--surface2);color:var(--text);">← Précédent</button>
+      <div id="wiz-dots" style="display:flex;gap:5px;"></div>
+      <button id="wiz-next" onclick="wizardNext()"
+        style="padding:8px 20px;font-size:.75rem;font-weight:800;border-radius:8px;cursor:pointer;
+        border:none;background:var(--pac);color:#fff;">Suivant →</button>
     </div>
   </div>
 </div>
-<!-- Tooltip guide flottant -->
-<div class="guide-tooltip" id="guide-tooltip"></div>
+<!-- ════ TEMPLATES WIZARD (évite 9Ko de strings JS) ════ -->
+<template id="wiz-tpl-0">
+  <div style="text-align:center;margin-bottom:16px;">
+    <div style="font-size:2rem;">📍</div>
+    <div style="font-size:.82rem;color:var(--muted);margin-top:6px;">
+      Votre localisation détermine la production solaire estimée et les températures pour le COP de la PAC.
+    </div>
+  </div>
+  <div style="font-size:.74rem;font-weight:700;margin-bottom:6px;">Localisation actuelle :</div>
+  <div style="background:var(--surface2);border-radius:9px;padding:10px 14px;
+    display:flex;align-items:center;justify-content:space-between;border:1px solid var(--border);">
+    <span id="wiz-loc-display" style="font-weight:700;"></span>
+    <button onclick="openLocModal()" style="font-size:.68rem;padding:4px 10px;
+      background:var(--pac);color:#fff;border:none;border-radius:6px;cursor:pointer;">📍 Changer</button>
+  </div>
+  <div style="margin-top:12px;font-size:.68rem;color:var(--muted);" id="wiz-coords"></div>
+</template>
+<template id="wiz-tpl-4">
+  <div style="text-align:center;padding:10px 0;">
+    <div style="font-size:2.5rem;margin-bottom:8px;">🎉</div>
+    <div style="font-size:.95rem;font-weight:900;color:var(--text);margin-bottom:4px;">Simulation configurée !</div>
+    <div id="wiz-result-kpis" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0;"></div>
+    <div style="font-size:.72rem;color:var(--muted);">
+      Consultez l'onglet <strong>📊 Résultats</strong> pour le détail complet.
+    </div>
+  </div>
+</template>
+
+<div id="toast-container"></div>
 </body>
 </html>
