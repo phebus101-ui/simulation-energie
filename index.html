@@ -720,6 +720,86 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   margin-left: 2px;
 }
 
+/* ── Blocs énergie dans Configuration ── */
+.energy-section {
+  border-radius: 14px;
+  border: 2px solid var(--es-color, var(--border));
+  overflow: hidden;
+  margin-bottom: 14px;
+  transition: box-shadow .2s;
+}
+.energy-section:hover { box-shadow: 0 4px 20px var(--es-color, #0002)22; }
+.energy-section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--es-bg, var(--surface2));
+  border-bottom: 1px solid var(--es-color, var(--border));
+  cursor: pointer;
+  user-select: none;
+}
+.energy-section-icon {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  background: var(--es-color, var(--muted));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; flex-shrink: 0;
+  color: #fff;
+}
+.energy-section-title {
+  font-size: .82rem; font-weight: 800;
+  color: var(--es-color, var(--text));
+}
+.energy-section-sub {
+  font-size: .65rem; color: var(--muted); margin-top: 1px;
+}
+.energy-section-badge {
+  margin-left: auto;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: .65rem;
+  font-weight: 700;
+  background: var(--es-color, var(--border));
+  color: #fff;
+  white-space: nowrap;
+}
+.energy-section-body {
+  padding: 14px 16px;
+  background: var(--surface);
+}
+.energy-section-body.collapsed { display: none; }
+.energy-section-chevron {
+  margin-left: 6px;
+  font-size: .75rem;
+  color: var(--es-color);
+  transition: transform .2s;
+}
+.energy-section.collapsed .energy-section-chevron { transform: rotate(-90deg); }
+
+/* ── ref-badge dans Config ── */
+#config-ref-badge {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px;
+  background: var(--surface2);
+  border-radius: 11px;
+  border: 1.5px solid var(--border);
+  margin-bottom: 14px;
+}
+
+/* ── Séparateur visuel entre sections ── */
+.config-divider {
+  display: flex; align-items: center; gap: 10px;
+  margin: 6px 0 12px;
+  font-size: .62rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .06em;
+  color: var(--muted);
+}
+.config-divider::before, .config-divider::after {
+  content: ''; flex: 1;
+  height: 1px; background: var(--border);
+}
+
 /* ── Sous-onglets de comparaison dans Résultats ── */
 .cmp-tabs {
   display: flex;
@@ -1436,7 +1516,177 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 </div><!-- end panel-data -->
 <div class="tab-panel" id="panel-config">
 <div class="si-mt16">
-<div class="sec-head"><div class="sec-head-icon">🎛️</div><div><div class="sec-head-title" data-i18n="equipTitle">Équipements</div><div class="sec-head-sub" data-i18n="equipSub">Activez et configurez vos équipements</div></div></div>
+
+<!-- ══ BADGE RÉFÉRENCE ══ -->
+<div id="config-ref-badge" style="display:flex;align-items:center;gap:10px;padding:10px 14px;
+  background:var(--surface2);border-radius:11px;border:1.5px solid var(--border);margin-bottom:14px;">
+  <div>
+    <div style="font-size:.68rem;color:var(--muted);font-weight:600;margin-bottom:2px;">🏠 Chauffage de référence</div>
+    <div id="config-ref-label" style="font-size:.85rem;font-weight:800;"></div>
+    <div id="config-ref-params" style="font-size:.65rem;color:var(--muted);margin-top:1px;"></div>
+  </div>
+  <button onclick="switchAppTab('home');setTimeout(()=>document.getElementById('home-ref-section').scrollIntoView({behavior:'smooth'}),200)"
+    style="margin-left:auto;padding:5px 12px;font-size:.68rem;font-weight:700;border-radius:7px;
+    cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--muted);">
+    ✏️ Modifier
+  </button>
+</div>
+
+<!-- ══ SECTION : PARAMÈTRES ÉNERGIE DE RÉFÉRENCE ══ -->
+<div class="energy-section" id="es-ref" style="--es-color:#6b7280;--es-bg:#f9fafb;">
+  <div class="energy-section-header" onclick="toggleEnergySection('es-ref')">
+    <div class="energy-section-icon" style="background:#6b7280;">⚙️</div>
+    <div>
+      <div class="energy-section-title" style="color:#4b5563;">Paramètres de votre énergie actuelle</div>
+      <div class="energy-section-sub">Prix, consommation — utilisés comme base de comparaison</div>
+    </div>
+    <span class="energy-section-chevron">▼</span>
+  </div>
+  <div class="energy-section-body" id="es-ref-body">
+    <!-- Prix gaz -->
+    <div class="p-item" id="pgaz-item">
+      <label>Prix gaz (€/kWh PCS) <span class="tip-icon tip" data-tip="TRVe 2025 ≈ 0,113 €/kWh&#10;1 m³ ≈ 11,05 kWh PCS">?</span></label>
+      <input type="range" id="pgaz" min="0.08" max="0.20" step="0.005" value="0.1129" oninput="update()">
+      <span class="pval si-gaz" id="pgazV">0.113 €</span>
+    </div>
+    <!-- Fioul -->
+    <div class="p-item" id="pfioul-item" style="display:none;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
+          <label style="font-size:.7rem;color:var(--muted);">Conso fioul (L/an) <span class="tip-icon tip" data-tip="Consommation annuelle de fioul&#10;Maison ~100m² : 1500–2000 L/an">?</span></label>
+          <input type="number" id="fioul-litres" min="500" max="8000" step="50" value="1500"
+            style="width:100%;padding:5px 8px;font-size:.78rem;font-weight:700;color:#b45309;
+            background:var(--surface2);border:1px solid var(--border);border-radius:7px;"
+            oninput="updateFioulMensuel();update()">
+          <span style="font-size:.62rem;color:var(--muted);" id="fioul-conso-moy"></span>
+        </div>
+        <div>
+          <label style="font-size:.7rem;color:var(--muted);">Prix fioul (€/L) <span class="tip-icon tip" data-tip="Prix moyen 2025 : 0,95–1,15 €/L">?</span></label>
+          <input type="number" id="fioul-prix" min="0.70" max="1.80" step="0.01" value="1.05"
+            style="width:100%;padding:5px 8px;font-size:.78rem;font-weight:700;color:#b45309;
+            background:var(--surface2);border:1px solid var(--border);border-radius:7px;"
+            oninput="update()">
+          <span style="font-size:.62rem;color:var(--muted);">€/L · ~<span id="fioul-kwh-price"></span> €/kWh</span>
+        </div>
+      </div>
+      <div style="margin-top:5px;font-size:.65rem;color:#b45309;font-weight:600;" id="fioul-cout-estime"></div>
+    </div>
+    <!-- Bois / Pellets -->
+    <div class="p-item" id="pbois-item" style="display:none;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
+          <label style="font-size:.7rem;color:var(--muted);" id="bois-unit-label">Conso (stères/an) <span class="tip-icon tip" data-tip="1 stère bois sec ≈ 1700 kWh PCI&#10;1 tonne pellets ≈ 4800 kWh PCI">?</span></label>
+          <input type="number" id="bois-steres" min="0.5" max="50" step="0.5" value="15"
+            style="width:100%;padding:5px 8px;font-size:.78rem;font-weight:700;color:#6b3a1f;
+            background:var(--surface2);border:1px solid var(--border);border-radius:7px;"
+            oninput="updateBoisMensuel();update()">
+          <span style="font-size:.62rem;color:var(--muted);" id="bois-conso-moy"></span>
+        </div>
+        <div>
+          <label style="font-size:.7rem;color:var(--muted);" id="bois-prix-label">Prix (€/stère) <span class="tip-icon tip" data-tip="Bois bûches sec 2025 : 80–140 €/stère&#10;Pellets 2025 : 300–420 €/tonne">?</span></label>
+          <input type="number" id="bois-prix" min="50" max="500" step="5" value="100"
+            style="width:100%;padding:5px 8px;font-size:.78rem;font-weight:700;color:#6b3a1f;
+            background:var(--surface2);border:1px solid var(--border);border-radius:7px;"
+            oninput="updateBoisMensuel();update()">
+          <span style="font-size:.62rem;color:var(--muted);" id="bois-prix-unit">€/stère</span>
+        </div>
+      </div>
+      <div style="margin-top:5px;font-size:.65rem;color:#6b3a1f;font-weight:600;" id="bois-cout-estime"></div>
+    </div>
+    <!-- PAC existante -->
+    <div class="p-item" id="pac-exist-item" style="display:none;">
+      <label style="font-size:.7rem;color:var(--muted);">COP PAC existante <span class="tip-icon tip" data-tip="COP moyen annuel de votre PAC actuelle&#10;PAC air/air : 2.5–3.5 · PAC air/eau : 3.0–4.5">?</span></label>
+      <input type="range" id="pac-exist-cop" min="2.0" max="5.0" step="0.1" value="3.0" oninput="update()">
+      <span class="pval pac" id="pac-exist-copV">3.0</span>
+    </div>
+    <!-- Électrique direct -->
+    <div class="p-item" id="elec-direct-item" style="display:none;">
+      <label style="font-size:.7rem;color:var(--muted);">Conso électrique chauffage (kWh/an)</label>
+      <input type="number" id="elec-direct-kwh" min="1000" max="30000" step="100" value="8000"
+        style="width:100%;padding:5px 8px;font-size:.78rem;font-weight:700;color:var(--pac);
+        background:var(--surface2);border:1px solid var(--border);border-radius:7px;"
+        oninput="update()">
+      <span style="font-size:.62rem;color:var(--muted);">kWh/an · <span id="elec-direct-cout"></span></span>
+    </div>
+  </div>
+</div>
+
+<div class="config-divider">Équipements à installer ou simuler</div>
+
+<!-- ══ SECTION : PAC ══ -->
+<div class="energy-section" id="es-pac" style="--es-color:var(--pac);--es-bg:var(--pac-tint);">
+  <div class="energy-section-header" onclick="toggle('pac');toggleEnergySection('es-pac')">
+    <div class="energy-section-icon">⚡</div>
+    <div>
+      <div class="energy-section-title">PAC réversible</div>
+      <div class="energy-section-sub">Pompe à chaleur air/eau · COP <span id="pac-cop-label2">3.0</span></div>
+    </div>
+    <div id="pill-pac-es" style="margin-left:auto;padding:4px 12px;border-radius:20px;
+      font-size:.65rem;font-weight:700;background:var(--surface2);color:var(--muted);
+      border:1px solid var(--border);white-space:nowrap;cursor:pointer;"
+      onclick="event.stopPropagation();toggle('pac')">OFF</div>
+  </div>
+  <div class="energy-section-body collapsed" id="es-pac-body">
+    <div id="tc-pac-inner"><!-- contenu PAC injecté ici --></div>
+  </div>
+</div>
+
+<!-- ══ SECTION : SOLAIRE ══ -->
+<div class="energy-section" id="es-sol" style="--es-color:var(--sol);--es-bg:var(--sol-tint);">
+  <div class="energy-section-header" onclick="toggle('sol');toggleEnergySection('es-sol')">
+    <div class="energy-section-icon" style="background:var(--sol);">☀️</div>
+    <div>
+      <div class="energy-section-title" style="color:var(--sol);">Panneaux solaires</div>
+      <div class="energy-section-sub"><span id="tc-sol-kwc2">4 kWc</span> · <span id="tc-sol-prod2">5 210 kWh/an</span></div>
+    </div>
+    <div id="pill-sol-es" style="margin-left:auto;padding:4px 12px;border-radius:20px;
+      font-size:.65rem;font-weight:700;background:var(--surface2);color:var(--muted);
+      border:1px solid var(--border);white-space:nowrap;cursor:pointer;"
+      onclick="event.stopPropagation();toggle('sol')">OFF</div>
+  </div>
+  <div class="energy-section-body collapsed" id="es-sol-body">
+    <div id="tc-sol-inner"><!-- contenu Solaire injecté ici --></div>
+  </div>
+</div>
+
+<!-- ══ SECTION : CET ══ -->
+<div class="energy-section" id="es-cet" style="--es-color:#16a34a;--es-bg:#f0fdf4;">
+  <div class="energy-section-header" onclick="toggle('cet');toggleEnergySection('es-cet')">
+    <div class="energy-section-icon" style="background:#16a34a;">🚿</div>
+    <div>
+      <div class="energy-section-title" style="color:#16a34a;">Chauffe-eau thermodynamique</div>
+      <div class="energy-section-sub"><span id="tc-cet-cap2">200 L</span> · COP <span id="tc-cet-cop2">2.5</span></div>
+    </div>
+    <div id="pill-cet-es" style="margin-left:auto;padding:4px 12px;border-radius:20px;
+      font-size:.65rem;font-weight:700;background:var(--surface2);color:var(--muted);
+      border:1px solid var(--border);white-space:nowrap;cursor:pointer;"
+      onclick="event.stopPropagation();toggle('cet')">OFF</div>
+  </div>
+  <div class="energy-section-body collapsed" id="es-cet-body">
+    <div id="tc-cet-inner"><!-- contenu CET injecté ici --></div>
+  </div>
+</div>
+
+<!-- ══ SECTION : BATTERIE ══ -->
+<div class="energy-section" id="es-bat" style="--es-color:var(--bat);--es-bg:#faf5ff;">
+  <div class="energy-section-header" onclick="toggle('bat');toggleEnergySection('es-bat')">
+    <div class="energy-section-icon" style="background:var(--bat);">🔋</div>
+    <div>
+      <div class="energy-section-title" style="color:var(--bat);">Batterie de stockage</div>
+      <div class="energy-section-sub"><span id="tc-bat-cap2">5,28 kWh</span> brut · <span id="tc-bat-utile2">4,28 kWh</span> utiles</div>
+    </div>
+    <div id="pill-bat-es" style="margin-left:auto;padding:4px 12px;border-radius:20px;
+      font-size:.65rem;font-weight:700;background:var(--surface2);color:var(--muted);
+      border:1px solid var(--border);white-space:nowrap;cursor:pointer;"
+      onclick="event.stopPropagation();toggle('bat')">OFF</div>
+  </div>
+  <div class="energy-section-body collapsed" id="es-bat-body">
+    <div id="tc-bat-inner"><!-- contenu Batterie injecté ici --></div>
+  </div>
+</div>
+
+<div class="config-divider">Paramètres avancés</div>
+
 <div class="card">
 <div class="config-row">
 <!-- ══ PAC CARD avec contrôle par couleur Tempo ══ -->
@@ -3757,6 +4007,7 @@ function updateFioulMensuel(){
 var markDirty = function(){
   _autosaveDirty=true;
   markSectionDirty && markSectionDirty("all");
+  typeof syncEnergyPills==='function' && syncEnergyPills();
   const badge=$el('autosave-badge');
   const label=$el('autosave-label');
   if(badge) badge.style.display='flex';
@@ -12203,6 +12454,67 @@ function renderWizardStep(){
 // ══════════════════════════════════════════════════════════════
 // HAMBURGER MENU
 // ══════════════════════════════════════════════════════════════
+// ── Toggle des sections énergie dans Config ──
+function toggleEnergySection(id){
+  const section = document.getElementById(id);
+  const body    = document.getElementById(id+'-body');
+  if(!section||!body) return;
+  const isCollapsed = body.classList.contains('collapsed');
+  body.classList.toggle('collapsed', !isCollapsed);
+  section.classList.toggle('collapsed', !isCollapsed);
+}
+
+// Synchroniser les pills ON/OFF des sections énergie avec l'état réel
+function syncEnergyPills(){
+  var map = {
+    'pill-pac-es': {state: function(){ return usePac; }, color:'var(--pac)'},
+    'pill-sol-es': {state: function(){ return useSol; }, color:'var(--sol)'},
+    'pill-cet-es': {state: function(){ return useCet; }, color:'#16a34a'},
+    'pill-bat-es': {state: function(){ return useBat; }, color:'var(--bat)'},
+  };
+  Object.keys(map).forEach(function(id){
+    var el = document.getElementById(id);
+    if(!el) return;
+    var on = map[id].state();
+    el.textContent = on ? 'ON' : 'OFF';
+    el.style.background   = on ? map[id].color : 'var(--surface2)';
+    el.style.color        = on ? '#fff' : 'var(--muted)';
+    el.style.borderColor  = on ? map[id].color : 'var(--border)';
+  });
+  // Sync sous-titres
+  var cop2 = document.getElementById('pac-cop-label2');
+  if(cop2){ var cop=document.getElementById('pac-cop-label'); if(cop) cop2.textContent=cop.textContent; }
+  var kwc2 = document.getElementById('tc-sol-kwc2');
+  if(kwc2){ var kwc=document.getElementById('tc-sol-kwc'); if(kwc) kwc2.textContent=kwc.textContent; }
+  var prod2 = document.getElementById('tc-sol-prod2');
+  if(prod2){ var prod=document.getElementById('tc-sol-prod'); if(prod) prod2.textContent=prod.textContent; }
+  var cap2 = document.getElementById('tc-cet-cap2');
+  if(cap2){ var cap=document.getElementById('tc-cet-cap'); if(cap) cap2.textContent=cap.textContent; }
+  var cop3 = document.getElementById('tc-cet-cop2');
+  if(cop3){ var cop4=document.getElementById('tc-cet-cop'); if(cop4) cop3.textContent=cop4.textContent; }
+  var bcap2 = document.getElementById('tc-bat-cap2');
+  if(bcap2){ var bcap=document.getElementById('tc-bat-cap'); if(bcap) bcap2.textContent=bcap.textContent; }
+  var butile2 = document.getElementById('tc-bat-utile2');
+  if(butile2){ var butile=document.getElementById('tc-bat-utile'); if(butile) butile2.textContent=butile.textContent; }
+  // Adapter labels bois/pellets
+  var uLabel = document.getElementById('bois-unit-label');
+  var pLabel = document.getElementById('bois-prix-label');
+  var pUnit  = document.getElementById('bois-prix-unit');
+  if(energieRef==='pellet'){
+    if(uLabel) uLabel.firstChild.textContent='Conso (tonnes/an) ';
+    if(pLabel) pLabel.firstChild.textContent='Prix (€/tonne) ';
+    if(pUnit)  pUnit.textContent='€/tonne';
+    var inp = document.getElementById('bois-steres');
+    if(inp && parseFloat(inp.value)>20) inp.value=5;
+    var inp2 = document.getElementById('bois-prix');
+    if(inp2 && parseFloat(inp2.value)<200) inp2.value=350;
+  } else {
+    if(uLabel) uLabel.firstChild.textContent='Conso (stères/an) ';
+    if(pLabel) pLabel.firstChild.textContent='Prix (€/stère) ';
+    if(pUnit)  pUnit.textContent='€/stère';
+  }
+}
+
 function openHamburger(){
   document.getElementById('hamburger-menu').classList.add('open');
   document.getElementById('hamburger-overlay').classList.add('open');
@@ -12339,6 +12651,8 @@ document.addEventListener('DOMContentLoaded', function(){
     typeof updateNow==='function' && updateNow();
   }
 
+  // Sync pills Config
+  if(typeof syncEnergyPills==='function') syncEnergyPills();
   // Init énergie référence APRÈS loadFromStorage (energieRef est maintenant restauré)
   window.D_BOIS = window.D_BOIS||{steres:Array(12).fill(1.25),prixS:100};
   if(typeof updateBoisMensuel==='function') updateBoisMensuel();
