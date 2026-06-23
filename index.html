@@ -1615,7 +1615,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 
 <!-- ══ SECTION : PAC ══ -->
 <div class="energy-section" id="es-pac" style="--es-color:var(--pac);--es-bg:var(--pac-tint);">
-  <div class="energy-section-header" onclick="toggle('pac');toggleEnergySection('es-pac')">
+  <div class="energy-section-header" onclick="toggleEnergySection('es-pac')">
     <div class="energy-section-icon">⚡</div>
     <div>
       <div class="energy-section-title">PAC réversible</div>
@@ -1633,7 +1633,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 
 <!-- ══ SECTION : SOLAIRE ══ -->
 <div class="energy-section" id="es-sol" style="--es-color:var(--sol);--es-bg:var(--sol-tint);">
-  <div class="energy-section-header" onclick="toggle('sol');toggleEnergySection('es-sol')">
+  <div class="energy-section-header" onclick="toggleEnergySection('es-sol')">
     <div class="energy-section-icon" style="background:var(--sol);">☀️</div>
     <div>
       <div class="energy-section-title" style="color:var(--sol);">Panneaux solaires</div>
@@ -1651,7 +1651,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 
 <!-- ══ SECTION : CET ══ -->
 <div class="energy-section" id="es-cet" style="--es-color:#16a34a;--es-bg:#f0fdf4;">
-  <div class="energy-section-header" onclick="toggle('cet');toggleEnergySection('es-cet')">
+  <div class="energy-section-header" onclick="toggleEnergySection('es-cet')">
     <div class="energy-section-icon" style="background:#16a34a;">🚿</div>
     <div>
       <div class="energy-section-title" style="color:#16a34a;">Chauffe-eau thermodynamique</div>
@@ -1669,7 +1669,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 
 <!-- ══ SECTION : BATTERIE ══ -->
 <div class="energy-section" id="es-bat" style="--es-color:var(--bat);--es-bg:#faf5ff;">
-  <div class="energy-section-header" onclick="toggle('bat');toggleEnergySection('es-bat')">
+  <div class="energy-section-header" onclick="toggleEnergySection('es-bat')">
     <div class="energy-section-icon" style="background:var(--bat);">🔋</div>
     <div>
       <div class="energy-section-title" style="color:var(--bat);">Batterie de stockage</div>
@@ -2598,6 +2598,44 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <input type="number" id="inv-sol" value="3200" style="display:none">
 <div class="invest-total"><span data-i18n="totalBat">Total batterie</span><strong class="bat-c" id="invest-bat-val">1 798 €</strong></div>
 <div class="invest-row" style="margin-top:8px;"><span class="invest-lbl" style="font-size:.6rem;">Durée amort.</span><input type="range" id="vie-bat" min="5" max="20" step="1" value="10" style="flex:1;accent-color:var(--bat)" oninput="update()"><span class="pval bat" id="vieBatV" style="font-size:.72rem;width:38px;text-align:right;">10 ans</span></div>
+</div>
+</div>
+<!-- CHAUDIÈRE À PELLETS -->
+<div class="invest-block" id="row-inv-pellet" style="display:none;">
+<div class="invest-header" style="background:#fef3c7;border-color:#92400e;">
+<span style="font-size:1.1rem;">🌾</span>
+<div><div class="invest-name" style="color:#92400e;">Chaudière à pellets</div><div class="invest-sub">Remplacement chaudière actuelle</div></div>
+</div>
+<div class="invest-body">
+<div class="invest-row">
+<span class="invest-lbl">Modèle</span>
+<select id="pellet-preset" onchange="applyPelletPreset(this.value)"
+  style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.68rem;padding:4px 6px;">
+<optgroup label="🇦🇹 Autriche / Allemagne (premium)">
+<option value="froling_15">Fröling P4 Pellet – 15 kW · 12 500 €</option>
+<option value="viessmann_20">Viessmann Vitoligno 300-P – 20 kW · 14 000 €</option>
+<option value="windhager_20">Windhager BioWIN 2 Touch – 20 kW · 13 500 €</option>
+</optgroup>
+<optgroup label="🇫🇷 Fabricants français">
+<option value="mcz_10">MCZ Pellet Hydromatic – 10 kW · 8 500 €</option>
+<option value="edilkamin_15">Edilkamin Idro Pellet – 15 kW · 9 800 €</option>
+</optgroup>
+<optgroup label="💰 Entrée de gamme">
+<option value="generic_10">Chaudière générique – 10 kW · 6 000 €</option>
+<option value="generic_15">Chaudière générique – 15 kW · 7 500 €</option>
+</optgroup>
+<optgroup label="✏️ Personnalisé">
+<option value="custom_pellet">Saisir mes propres valeurs</option>
+</optgroup>
+</select>
+</div>
+<div class="invest-row"><span class="invest-lbl">Puissance nominale</span><input type="number" id="pellet-kw" value="15" min="5" max="50" step="1" style="width:60px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 6px;font-size:.72rem;text-align:center;color:#92400e;font-weight:700;" oninput="update()"> kW</div>
+<div class="invest-row"><span class="invest-lbl">Rendement chaudière</span><input type="range" id="pellet-rdt" min="80" max="98" step="1" value="92" style="flex:1;accent-color:#92400e;" oninput="document.getElementById('pellet-rdt-val').textContent=this.value+'%'"><span id="pellet-rdt-val" style="font-size:.72rem;font-weight:700;width:38px;text-align:right;color:#92400e;">92%</span></div>
+<div class="invest-row"><span class="invest-lbl">Matériel + pose</span><input type="number" id="inv-pellet-mat" value="10000" min="4000" max="30000" step="500" style="width:80px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 6px;font-size:.72rem;color:#92400e;font-weight:700;" oninput="update()"> €</div>
+<div class="invest-row"><span class="invest-lbl">Silo à granulés</span><input type="number" id="inv-pellet-silo" value="2500" min="500" max="8000" step="250" style="width:80px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 6px;font-size:.72rem;color:#92400e;font-weight:700;" oninput="update()"> €</div>
+<div class="invest-total"><span>Total chaudière pellets</span><strong style="color:#92400e;" id="invest-pellet-val">12 500 €</strong></div>
+<div class="invest-row" style="margin-top:8px;"><span class="invest-lbl" style="font-size:.6rem;">Durée amort.</span><input type="range" id="vie-pellet" min="10" max="25" step="1" value="20" style="flex:1;accent-color:#92400e;" oninput="update()"><span id="viePelletV" style="font-size:.72rem;font-weight:700;width:38px;text-align:right;color:#92400e;">20 ans</span></div>
+<div style="margin-top:8px;font-size:.62rem;color:var(--muted);line-height:1.5;">💡 MaPrimeRénov' : <strong style="color:#15803d;">jusqu'à 10 000 €</strong><br>CEE : <strong style="color:#15803d;">~1 000–3 000 €</strong><br>Éco-PTZ possible</div>
 </div>
 </div>
 </div>
@@ -3928,6 +3966,7 @@ function setEnergieRef(type){
     'pbois-item':       type==='bois'||type==='pellet',
     'pac-exist-item':   type==='pac-exist',
     'elec-direct-item': type==='elec-direct',
+    'row-inv-pellet':   type==='pellet',
   };
   Object.entries(blocsMap).forEach(([id, show])=>{
     const el = document.getElementById(id);
@@ -4970,6 +5009,44 @@ const BAT_PRESETS={
   enphase_10:  {nom:'Enphase IQ Battery 10T',      cap:10.08,dod:90, rend:96, prix:8200,  garantie:15, chimie:'LFP'},
   custom:      {nom:'Personnalisé',                cap:5.0,  dod:90, rend:90, prix:3000,  garantie:10, chimie:'—'},
 };
+function applyPelletPreset(val){
+  var presets = {
+    'froling_15':   {mat:12500, silo:2500, kw:15, rdt:94},
+    'viessmann_20': {mat:14000, silo:3000, kw:20, rdt:93},
+    'windhager_20': {mat:13500, silo:2800, kw:20, rdt:95},
+    'mcz_10':       {mat:8500,  silo:2000, kw:10, rdt:91},
+    'edilkamin_15': {mat:9800,  silo:2200, kw:15, rdt:90},
+    'generic_10':   {mat:6000,  silo:1800, kw:10, rdt:88},
+    'generic_15':   {mat:7500,  silo:2000, kw:15, rdt:88},
+  };
+  var p = presets[val];
+  if(!p) return;
+  var mat = document.getElementById('inv-pellet-mat');
+  var silo = document.getElementById('inv-pellet-silo');
+  var kw = document.getElementById('pellet-kw');
+  var rdt = document.getElementById('pellet-rdt');
+  if(mat) mat.value = p.mat;
+  if(silo) silo.value = p.silo;
+  if(kw) kw.value = p.kw;
+  if(rdt){ rdt.value = p.rdt; document.getElementById('pellet-rdt-val').textContent = p.rdt+'%'; }
+  var total = document.getElementById('invest-pellet-val');
+  if(total) total.textContent = (p.mat+p.silo).toLocaleString('fr')+' €';
+  update();
+}
+
+function iPellet(){
+  var mat  = parseFloat(document.getElementById('inv-pellet-mat')?.value)||10000;
+  var silo = parseFloat(document.getElementById('inv-pellet-silo')?.value)||2500;
+  return mat + silo;
+}
+
+function updateInvestPellet(){
+  var mat  = parseFloat(document.getElementById('inv-pellet-mat')?.value)||10000;
+  var silo = parseFloat(document.getElementById('inv-pellet-silo')?.value)||2500;
+  var el = document.getElementById('invest-pellet-val');
+  if(el) el.textContent = (mat+silo).toLocaleString('fr')+' €';
+}
+
 function applyBatPreset(key){
   const p = BAT_PRESETS[key] || BAT_PRESETS.custom;
   const setEl=(id,v)=>{ const e=document.getElementById(id); if(e) e.value=v; };
@@ -5265,6 +5342,8 @@ function toggle(k){
     if(show) initSolarConfig();
   }
   update();
+
+  if(typeof syncEnergyPills==='function') syncEnergyPills();
 }
 function toggleEditor(){
   editorOpen=!editorOpen;
