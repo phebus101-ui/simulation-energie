@@ -2474,7 +2474,7 @@ window.setEnergieRef = function(t){ if(typeof window._setRefReal==='function') w
 <div class="invest-block" id="row-inv-pac">
 <div class="invest-header" style="background:var(--pac-tint);border-color:var(--pac);">
 <span style="font-size:1.1rem;">⚡</span>
-<div><div class="invest-name" data-i18n="pac">PAC réversible</div><div class="invest-sub" data-i18n="pacSub">Pompe à chaleur</div></div>
+<div><div class="invest-name">PAC air/eau</div><div class="invest-sub">Pompe à chaleur · eau/eau</div></div>
 <div style="margin-left:auto;display:flex;flex-direction:column;align-items:center;gap:3px;">
 <div style="font-size:.58rem;color:var(--muted);text-align:center;"><span data-i18n="installed">Installée ?</span></div>
 <div style="display:flex;gap:4px;">
@@ -2493,6 +2493,44 @@ window.setEnergieRef = function(t){ if(typeof window._setRefReal==='function') w
 </div>
 </div>
 <!-- PANNEAUX -->
+<!-- PAC AIR/AIR -->
+<div class="invest-block" id="row-inv-pacair">
+<div class="invest-header" style="background:#ecfeff;border-color:#0891b2;">
+  <span style="font-size:1.1rem;">🌬️</span>
+  <div><div class="invest-name" style="color:#0891b2;">PAC air/air</div>
+  <div class="invest-sub">Climatisation réversible</div></div>
+</div>
+<div class="invest-body">
+  <div class="invest-row"><span class="invest-lbl">Modèle</span>
+    <select id="pacair-preset" onchange="applyPacAirPreset(this.value)"
+      style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.68rem;padding:3px 6px;">
+      <option value="daikin_35">Daikin Sensira 3.5 kW · 1 200 €</option>
+      <option value="daikin_50">Daikin Sensira 5.0 kW · 1 600 €</option>
+      <option value="mitsu_25">Mitsubishi MSZ 2.5 kW · 1 100 €</option>
+      <option value="mitsu_42">Mitsubishi MSZ 4.2 kW · 1 500 €</option>
+      <option value="atlantic_35">Atlantic Fujitsu 3.5 kW · 1 300 €</option>
+      <option value="custom_pacair">Personnalisé</option>
+    </select>
+  </div>
+  <div class="invest-row"><span class="invest-lbl">Puissance (kW froid)</span>
+    <input type="number" id="pacair-kw" value="3.5" min="1.5" max="12" step="0.5"
+      style="width:60px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 6px;font-size:.72rem;color:#0891b2;font-weight:700;"
+      oninput="update()"> kW
+  </div>
+  <div class="invest-row"><span class="invest-lbl">Matériel + pose</span>
+    <input type="number" id="inv-pacair-mat" value="1200" min="800" max="6000" step="100"
+      style="width:80px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 6px;font-size:.72rem;color:#0891b2;font-weight:700;"
+      oninput="updateInvestPacAir()"> €
+  </div>
+  <div class="invest-total"><span>Total PAC air/air</span>
+    <strong style="color:#0891b2;" id="invest-pacair-val">1 200 €</strong></div>
+  <div style="margin-top:6px;font-size:.62rem;color:var(--muted);line-height:1.5;">
+    ℹ️ Ne couvre pas l'ECS · Idéal en complément d'un CET<br>
+    💡 <strong style="color:#15803d;">Crédit d'impôt</strong> possible selon revenus
+  </div>
+</div>
+</div>
+
 <div class="invest-block" id="row-inv-sol">
 <div class="invest-header" style="background:var(--sol-tint);border-color:var(--sol);">
 <span style="font-size:1.1rem;">☀️</span>
@@ -2653,6 +2691,91 @@ window.setEnergieRef = function(t){ if(typeof window._setRefReal==='function') w
 </div>
 </div>
 </div>
+<!-- CHAUDIÈRE BOIS -->
+<div class="invest-block" id="row-inv-bois">
+<div class="invest-header" style="background:#fef9f0;border-color:#6b3a1f;">
+  <span style="font-size:1.1rem;">🪵</span>
+  <div><div class="invest-name" style="color:#6b3a1f;">Chaudière à bois</div>
+  <div class="invest-sub">Remplacement ou appoint · Bûches / gazéification</div></div>
+</div>
+<div class="invest-body">
+  <div class="invest-row"><span class="invest-lbl">Modèle</span>
+    <select id="bois-chaud-preset2" onchange="applyBoisChaudPreset2(this.value)"
+      style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.68rem;padding:3px 6px;">
+      <option value="atmos_25">Atmos DC25S gazéification – 25 kW · 6 500 €</option>
+      <option value="fro_bois_20">Fröling S4 – 20 kW · 9 500 €</option>
+      <option value="viess_bois">Viessmann Vitoligno 100 – 15 kW · 8 000 €</option>
+      <option value="poele_boul">Poêle bouilleur hydro – 15 kW · 5 000 €</option>
+      <option value="custom_bois2">Personnalisé</option>
+    </select>
+  </div>
+  <div class="invest-row"><span class="invest-lbl">Prix stère (€)</span>
+    <input type="number" id="bois-prix-stere" value="100" min="50" max="300" step="5"
+      style="width:70px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 6px;font-size:.72rem;color:#6b3a1f;font-weight:700;"
+      oninput="update()"> €/stère
+  </div>
+  <div class="invest-row"><span class="invest-lbl">Conso annuelle</span>
+    <input type="number" id="bois-steres-an" value="15" min="2" max="50" step="0.5"
+      style="width:70px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 6px;font-size:.72rem;color:#6b3a1f;font-weight:700;"
+      oninput="update()"> stères/an
+  </div>
+  <div class="invest-row"><span class="invest-lbl">Matériel + pose</span>
+    <input type="number" id="inv-bois2-mat" value="6500" min="3000" max="20000" step="500"
+      style="width:80px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 6px;font-size:.72rem;color:#6b3a1f;font-weight:700;"
+      oninput="updateInvestBois2()"> €
+  </div>
+  <div class="invest-total"><span>Total chaudière bois</span>
+    <strong style="color:#6b3a1f;" id="invest-bois2-val">6 500 €</strong></div>
+  <div style="margin-top:6px;font-size:.62rem;color:var(--muted);line-height:1.5;">
+    💡 MaPrimeRénov' : <strong style="color:#15803d;">jusqu'à 8 000 €</strong> · Éco-PTZ possible<br>
+    🌡️ Coût annuel estimé : <strong style="color:#6b3a1f;" id="bois-cout-an">1 500 €/an</strong>
+  </div>
+</div>
+</div>
+
+<!-- CHAUDIÈRE PELLETS -->
+<div class="invest-block" id="row-inv-pellets2">
+<div class="invest-header" style="background:#fef3c7;border-color:#92400e;">
+  <span style="font-size:1.1rem;">🌾</span>
+  <div><div class="invest-name" style="color:#92400e;">Chaudière à pellets</div>
+  <div class="invest-sub">Automatique · Confort maximal · Silo intégré</div></div>
+</div>
+<div class="invest-body">
+  <div class="invest-row"><span class="invest-lbl">Modèle</span>
+    <select id="pellet-preset2" onchange="applyPelletPreset2(this.value)"
+      style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.68rem;padding:3px 6px;">
+      <option value="generic_15">Chaudière 15 kW – 7 500 €</option>
+      <option value="froling_15">Fröling P4 – 15 kW · 12 500 €</option>
+      <option value="viessmann_20">Viessmann 300-P – 20 kW · 14 000 €</option>
+      <option value="windhager_20">Windhager BioWIN – 20 kW · 13 500 €</option>
+      <option value="mcz_10">MCZ Hydromatic – 10 kW · 8 500 €</option>
+      <option value="custom_pellet2">Personnalisé</option>
+    </select>
+  </div>
+  <div class="invest-row"><span class="invest-lbl">Prix tonne (€)</span>
+    <input type="number" id="pellet-prix-tonne" value="350" min="200" max="600" step="10"
+      style="width:70px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 6px;font-size:.72rem;color:#92400e;font-weight:700;"
+      oninput="update()"> €/tonne
+  </div>
+  <div class="invest-row"><span class="invest-lbl">Conso annuelle</span>
+    <input type="number" id="pellet-tonnes-an" value="5" min="0.5" max="20" step="0.5"
+      style="width:70px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 6px;font-size:.72rem;color:#92400e;font-weight:700;"
+      oninput="update()"> tonnes/an
+  </div>
+  <div class="invest-row"><span class="invest-lbl">Matériel + silo</span>
+    <input type="number" id="inv-pellet2-mat" value="7500" min="4000" max="20000" step="500"
+      style="width:80px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 6px;font-size:.72rem;color:#92400e;font-weight:700;"
+      oninput="updateInvestPellet2()"> €
+  </div>
+  <div class="invest-total"><span>Total chaudière pellets</span>
+    <strong style="color:#92400e;" id="invest-pellet2-val">7 500 €</strong></div>
+  <div style="margin-top:6px;font-size:.62rem;color:var(--muted);line-height:1.5;">
+    💡 MaPrimeRénov' : <strong style="color:#15803d;">jusqu'à 10 000 €</strong> · CEE possible<br>
+    🌡️ Coût annuel estimé : <strong style="color:#92400e;" id="pellet-cout-an">1 750 €/an</strong>
+  </div>
+</div>
+</div>
+
 <div class="section-label mt14" id="sol-config-label" style="display:none;" data-i18n="solConfig">☀️ Configuration panneaux solaires</div>
 <div class="card" id="sol-config-card" style="display:none;">
 <!-- Localisation + kWc -->
@@ -3819,7 +3942,7 @@ var exportExcel = function(){
     ['% économie',Math.round((tRef-tCur)/tRef*100),'%',''],
     ['','','',''],
     ['ÉQUIPEMENTS ACTIFS','','',''],
-    ['PAC réversible',usePac?'✓':'✗','','COP '+p.cop.toFixed(1)],
+    ['PAC air/eau',usePac?'✓':'✗','','COP '+p.cop.toFixed(1)],
     ['Chauffe-eau thermo.',useCet?'✓':'✗','','COP 2.5'],
     ['Panneaux solaires',useSol?'✓':'✗','',curKwc+' kWc '+curOrient+' '+curAngle+'°'],
     ['Batterie',useBat?'✓':'✗','',batCapBrute.toFixed(1)+' kWh'],
@@ -5022,6 +5145,49 @@ const BAT_PRESETS={
   enphase_10:  {nom:'Enphase IQ Battery 10T',      cap:10.08,dod:90, rend:96, prix:8200,  garantie:15, chimie:'LFP'},
   custom:      {nom:'Personnalisé',                cap:5.0,  dod:90, rend:90, prix:3000,  garantie:10, chimie:'—'},
 };
+function applyPacAirPreset(val){
+  var presets={
+    'daikin_35':{mat:1200,kw:3.5},'daikin_50':{mat:1600,kw:5.0},
+    'mitsu_25':{mat:1100,kw:2.5},'mitsu_42':{mat:1500,kw:4.2},
+    'atlantic_35':{mat:1300,kw:3.5},
+  };
+  var p=presets[val]; if(!p) return;
+  var m=document.getElementById('inv-pacair-mat'); if(m) m.value=p.mat;
+  var k=document.getElementById('pacair-kw'); if(k) k.value=p.kw;
+  updateInvestPacAir();
+}
+function updateInvestPacAir(){
+  var mat=parseFloat(document.getElementById('inv-pacair-mat')?.value)||1200;
+  var el=document.getElementById('invest-pacair-val');
+  if(el) el.textContent=mat.toLocaleString('fr')+' €';
+}
+function applyBoisChaudPreset2(val){
+  var p={'atmos_25':{mat:6500},'fro_bois_20':{mat:9500},'viess_bois':{mat:8000},'poele_boul':{mat:5000}};
+  var pr=p[val]; if(!pr) return;
+  var m=document.getElementById('inv-bois2-mat'); if(m) m.value=pr.mat;
+  updateInvestBois2();
+}
+function updateInvestBois2(){
+  var mat=parseFloat(document.getElementById('inv-bois2-mat')?.value)||6500;
+  var el=document.getElementById('invest-bois2-val'); if(el) el.textContent=mat.toLocaleString('fr')+' €';
+  var steres=parseFloat(document.getElementById('bois-steres-an')?.value)||15;
+  var prix=parseFloat(document.getElementById('bois-prix-stere')?.value)||100;
+  var el2=document.getElementById('bois-cout-an'); if(el2) el2.textContent=Math.round(steres*prix).toLocaleString('fr')+' €/an';
+}
+function applyPelletPreset2(val){
+  var p={'generic_15':{mat:7500},'froling_15':{mat:12500},'viessmann_20':{mat:14000},'windhager_20':{mat:13500},'mcz_10':{mat:8500}};
+  var pr=p[val]; if(!pr) return;
+  var m=document.getElementById('inv-pellet2-mat'); if(m) m.value=pr.mat;
+  updateInvestPellet2();
+}
+function updateInvestPellet2(){
+  var mat=parseFloat(document.getElementById('inv-pellet2-mat')?.value)||7500;
+  var el=document.getElementById('invest-pellet2-val'); if(el) el.textContent=mat.toLocaleString('fr')+' €';
+  var tonnes=parseFloat(document.getElementById('pellet-tonnes-an')?.value)||5;
+  var prix=parseFloat(document.getElementById('pellet-prix-tonne')?.value)||350;
+  var el2=document.getElementById('pellet-cout-an'); if(el2) el2.textContent=Math.round(tonnes*prix).toLocaleString('fr')+' €/an';
+}
+
 function applyBoisChaudPreset(val){
   var presets = {
     'fro_bois_20':   {mat:9500,  silo:1500, kw:20},
