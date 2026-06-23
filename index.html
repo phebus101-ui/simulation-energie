@@ -837,6 +837,70 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   text-align: center;
   flex-shrink: 0;
 }
+
+/* ── Numéros d'étapes sur les onglets ── */
+.tab-step{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;background:var(--muted);color:#fff;border-radius:50%;font-size:.55rem;font-weight:800;flex-shrink:0;}
+.nav-tab.active .tab-step{background:var(--pac);}
+.nav-tab.step-done .tab-step{background:#15803d;}
+
+/* ── Hamburger ── */
+.hamburger-btn{background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:8px 12px;font-size:.9rem;cursor:pointer;color:var(--text);transition:.15s;white-space:nowrap;}
+.hamburger-btn:hover{border-color:var(--pac);color:var(--pac);}
+.hamburger-menu{display:none;position:fixed;top:0;right:0;width:min(92vw,320px);height:100vh;background:var(--surface);border-left:1px solid var(--border);box-shadow:-8px 0 32px #0003;z-index:500;overflow-y:auto;padding:20px;}
+.hamburger-menu.open{display:block;}
+.hamburger-overlay{display:none;position:fixed;inset:0;background:#0005;z-index:499;}
+.hamburger-overlay.open{display:block;}
+
+/* ── Blocs énergie Config ── */
+.energy-section{border-radius:14px;border:2px solid var(--es-color,var(--border));overflow:visible;margin-bottom:14px;transition:box-shadow .2s;}
+.energy-section-header{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--es-bg,var(--surface2));border-bottom:1px solid var(--es-color,var(--border));user-select:none;}
+.energy-section-icon{width:38px;height:38px;border-radius:10px;background:var(--es-color,var(--muted));display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;color:#fff;}
+.energy-section-title{font-size:.82rem;font-weight:800;color:var(--es-color,var(--text));}
+.energy-section-sub{font-size:.65rem;color:var(--muted);margin-top:1px;}
+.energy-section-body{padding:14px 16px;background:var(--surface);}
+.energy-section-body.collapsed{display:none;}
+.config-divider{display:flex;align-items:center;gap:10px;margin:6px 0 12px;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);}
+.config-divider::before,.config-divider::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* ── Comparateur ── */
+.cmp-tabs{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;margin-bottom:16px;scrollbar-width:none;}
+.cmp-tabs::-webkit-scrollbar{display:none;}
+.cmp-tab{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:20px;font-size:.72rem;font-weight:700;cursor:pointer;white-space:nowrap;border:2px solid var(--border);background:var(--surface2);color:var(--muted);transition:.15s;flex-shrink:0;}
+.cmp-tab.active{border-color:var(--cmp-color,var(--pac));background:var(--cmp-color,var(--pac));color:#fff;}
+.cmp-panel{display:none;}
+.cmp-panel.active{display:block;}
+.cmp-kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:14px;}
+.cmp-kpi{padding:12px 14px;border-radius:11px;border:1px solid var(--border);background:var(--surface2);text-align:center;}
+.cmp-kpi-val{font-size:1.1rem;font-weight:800;margin:4px 0 2px;}
+.cmp-kpi-lbl{font-size:.62rem;color:var(--muted);font-weight:600;}
+.cmp-bar-wrap{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.cmp-bar-lbl{font-size:.67rem;font-weight:600;width:90px;flex-shrink:0;}
+.cmp-bar-track{flex:1;height:10px;background:var(--border);border-radius:5px;overflow:hidden;}
+.cmp-bar-fill{height:100%;border-radius:5px;transition:width .4s;}
+.cmp-bar-val{font-size:.67rem;font-weight:700;width:55px;text-align:right;flex-shrink:0;}
+
+/* ── Wizard ── */
+.wizard-overlay{display:none;position:fixed;inset:0;background:#000a;z-index:600;align-items:center;justify-content:center;}
+.wizard-overlay.open{display:flex;}
+.wizard-box{background:var(--surface);border-radius:20px;padding:28px 24px;width:min(92vw,440px);box-shadow:0 20px 60px #0004;position:relative;}
+.wizard-step-dots{display:flex;gap:6px;justify-content:center;margin-bottom:20px;}
+.wizard-dot{width:8px;height:8px;border-radius:50%;background:var(--border2);transition:.2s;}
+.wizard-dot.active{background:var(--pac);width:22px;border-radius:4px;}
+.wizard-dot.done{background:#15803d;}
+.wizard-icon{font-size:2.8rem;text-align:center;margin-bottom:10px;}
+.wizard-title{font-size:1.05rem;font-weight:800;text-align:center;margin-bottom:6px;}
+.wizard-desc{font-size:.78rem;color:var(--muted);text-align:center;line-height:1.6;margin-bottom:18px;}
+.wizard-actions{display:flex;gap:8px;justify-content:space-between;}
+.wizard-btn-skip{font-size:.7rem;color:var(--muted);background:none;border:none;cursor:pointer;padding:8px;}
+.wizard-btn-next{flex:1;padding:10px;font-size:.82rem;font-weight:700;border-radius:10px;background:var(--pac);color:#fff;border:none;cursor:pointer;transition:.15s;}
+.wizard-progress{height:3px;background:var(--border);border-radius:2px;margin-bottom:18px;}
+.wizard-progress-bar{height:100%;background:var(--pac);border-radius:2px;transition:width .3s;}
+
+/* ── Responsive mobile ── */
+@media(max-width:520px){
+  #home-ref-section>div[style*="grid"]{grid-template-columns:1fr!important;}
+  .cmp-kpi-grid{grid-template-columns:repeat(2,1fr)!important;}
+}
 </style>
 
 
@@ -932,27 +996,90 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <div class="main">
 <nav class="app-nav" role="tablist" aria-label="Navigation principale">
 <div class="nav-tabs">
-<button class="nav-tab active" onclick="switchAppTab('home')" id="apptab-home">
-<span class="tab-icon">🏠</span> Accueil
-    </button>
-<button class="nav-tab" onclick="switchAppTab('data')" id="apptab-data">
-<span class="tab-icon">📂</span> Mes données
-    </button>
-<button class="nav-tab" onclick="switchAppTab('config')" id="apptab-config">
-<span class="tab-icon">⚙️</span> Configuration
-    </button>
-<button class="nav-tab" onclick="switchAppTab('results')" id="apptab-results">
-<span class="tab-icon">📊</span> Résultats
-    </button>
-<button class="nav-tab" onclick="switchAppTab('analyses')" id="apptab-analyses">
-<span class="tab-icon">🔬</span> Analyses <span class="tab-badge">NEW</span>
-</button>
-<button class="nav-tab" onclick="switchAppTab('export')" id="apptab-export">
-<span class="tab-icon">📱</span> Installer
-    </button>
+  <button class="nav-tab active" ontouchstart="" onclick="switchAppTab('home')" id="apptab-home">
+    <span class="tab-step">1</span><span class="tab-icon">🏠</span> Accueil
+  </button>
+  <button class="nav-tab" ontouchstart="" onclick="switchAppTab('data')" id="apptab-data">
+    <span class="tab-step">2</span><span class="tab-icon">📂</span> Mes données
+  </button>
+  <button class="nav-tab" ontouchstart="" onclick="switchAppTab('config')" id="apptab-config">
+    <span class="tab-step">3</span><span class="tab-icon">⚙️</span> Ma simulation
+  </button>
+  <button class="nav-tab" ontouchstart="" onclick="switchAppTab('results')" id="apptab-results">
+    <span class="tab-step">4</span><span class="tab-icon">📊</span> Résultats
+  </button>
+  <button class="nav-tab" ontouchstart="" onclick="switchAppTab('analyses')" id="apptab-analyses">
+    <span class="tab-step">5</span><span class="tab-icon">🔬</span> Bilan &amp; Conseils
+  </button>
+  <button class="hamburger-btn" onclick="openHamburger()" id="btn-hamburger" title="Plus">☰</button>
 </div>
-</nav>
+<div class="hamburger-overlay" id="hamburger-overlay" onclick="closeHamburger()"></div>
+<div class="hamburger-menu" id="hamburger-menu">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+    <div style="font-size:.85rem;font-weight:800;">Menu</div>
+    <button type="button" onclick="closeHamburger()" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--muted);">✕</button>
+  </div>
+  <div style="margin-bottom:16px;">
+    <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px;">📤 Export</div>
+    <button type="button" onclick="closeHamburger();typeof exportExcel==='function'&&exportExcel()" style="width:100%;text-align:left;padding:10px 14px;border-radius:9px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:.78rem;font-weight:600;cursor:pointer;margin-bottom:6px;">📗 Exporter Excel</button>
+    <button type="button" onclick="closeHamburger();typeof shareBase64Link==='function'&&shareBase64Link()" style="width:100%;text-align:left;padding:10px 14px;border-radius:9px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:.78rem;font-weight:600;cursor:pointer;">🔗 Partager le lien</button>
+  </div>
+  <div style="border-top:1px solid var(--border);margin-bottom:16px;padding-top:16px;">
+    <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px;">🎓 Guide</div>
+    <button type="button" onclick="closeHamburger();startWizard()" style="width:100%;text-align:left;padding:10px 14px;border-radius:9px;border:1px solid var(--pac);background:var(--pac-tint);color:var(--pac);font-size:.78rem;font-weight:700;cursor:pointer;">🧭 Relancer le guide</button>
+  </div>
+</div>
+
+
+</div><!-- end panel-data -->
 <div class="tab-panel active" id="panel-home">
+<!-- ══ CHAUFFAGE ACTUEL + MA SIMULATION ══ -->
+<div id="home-ref-section" class="si-mt16">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+<div class="card" style="padding:12px 14px;">
+  <div style="font-size:.75rem;font-weight:800;margin-bottom:8px;">🏠 Mon chauffage actuel</div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:5px;">
+    <div class="ref-card" id="ref-card-gaz" ontouchstart="" onclick="setEnergieRef('gaz')" style="border:2px solid var(--gaz);background:var(--gaz);color:#fff;border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;"><div>🔥</div><div style="font-size:.6rem;font-weight:800;margin-top:2px;">Gaz</div></div>
+    <div class="ref-card" id="ref-card-fioul" ontouchstart="" onclick="setEnergieRef('fioul')" style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;"><div>🛢️</div><div style="font-size:.6rem;font-weight:800;margin-top:2px;">Fioul</div></div>
+    <div class="ref-card" id="ref-card-bois" ontouchstart="" onclick="setEnergieRef('bois')" style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;"><div>🪵</div><div style="font-size:.6rem;font-weight:800;margin-top:2px;">Bois</div></div>
+    <div class="ref-card" id="ref-card-pellet" ontouchstart="" onclick="setEnergieRef('pellet')" style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;"><div>🌾</div><div style="font-size:.6rem;font-weight:800;margin-top:2px;">Pellets</div></div>
+    <div class="ref-card" id="ref-card-pac-exist" ontouchstart="" onclick="setEnergieRef('pac-exist')" style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;"><div>♨️</div><div style="font-size:.6rem;font-weight:800;margin-top:2px;">PAC exist.</div></div>
+    <div class="ref-card" id="ref-card-elec-direct" ontouchstart="" onclick="setEnergieRef('elec-direct')" style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;"><div>⚡</div><div style="font-size:.6rem;font-weight:800;margin-top:2px;">Électrique</div></div>
+  </div>
+  <div id="ref-summary" style="margin-top:6px;padding:5px 8px;background:var(--surface2);border-radius:6px;font-size:.65rem;display:none;"><span id="ref-summary-text"></span></div>
+</div>
+<div class="card" style="padding:12px 14px;">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+    <div style="font-size:.75rem;font-weight:800;">⚡ Ma simulation</div>
+    <button type="button" onclick="clearSimCards()" style="padding:2px 7px;font-size:.58rem;border-radius:5px;border:1px solid var(--border);background:none;color:var(--muted);cursor:pointer;">✕</button>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:5px;" id="sim-cards-grid">
+    <button type="button" id="sim-card-pac"    onclick="toggleSimCard('pac')"    style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;transition:.15s;"><div>⚡</div><div style="font-size:.58rem;font-weight:800;margin-top:2px;">PAC air/eau</div></button>
+    <button type="button" id="sim-card-pacair" onclick="toggleSimCard('pacair')" style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;transition:.15s;"><div>🌬️</div><div style="font-size:.58rem;font-weight:800;margin-top:2px;">PAC air/air</div></button>
+    <button type="button" id="sim-card-sol"    onclick="toggleSimCard('sol')"    style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;transition:.15s;"><div>☀️</div><div style="font-size:.58rem;font-weight:800;margin-top:2px;">Solaire PV</div></button>
+    <button type="button" id="sim-card-cet"    onclick="toggleSimCard('cet')"    style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;transition:.15s;"><div>🚿</div><div style="font-size:.58rem;font-weight:800;margin-top:2px;">CET</div></button>
+    <button type="button" id="sim-card-bat"    onclick="toggleSimCard('bat')"    style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;transition:.15s;"><div>🔋</div><div style="font-size:.58rem;font-weight:800;margin-top:2px;">Batterie</div></button>
+    <button type="button" id="sim-card-bois"   onclick="toggleSimCard('bois')"   style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;transition:.15s;"><div>🪵</div><div style="font-size:.58rem;font-weight:800;margin-top:2px;">Chaud. bois</div></button>
+    <button type="button" id="sim-card-pellet" onclick="toggleSimCard('pellet')" style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;transition:.15s;"><div>🌾</div><div style="font-size:.58rem;font-weight:800;margin-top:2px;">Pellets</div></button>
+  </div>
+  <div id="sim-bois-params" style="display:none;margin-top:6px;padding:7px;background:#fef9f0;border-radius:6px;border:1px solid #6b3a1f33;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;"><div><label style="font-size:.55rem;color:var(--muted);">Stères/an</label><input type="number" id="sim-bois-steres" value="15" min="2" max="50" step="0.5" style="width:100%;padding:3px;font-size:.68rem;font-weight:700;color:#6b3a1f;background:var(--surface);border:1px solid #6b3a1f33;border-radius:4px;" oninput="updateSimBoisPrix();update()"></div>
+    <div><label style="font-size:.55rem;color:var(--muted);">€/stère</label><input type="number" id="sim-bois-prix-input" value="100" min="50" max="300" step="5" style="width:100%;padding:3px;font-size:.68rem;font-weight:700;color:#6b3a1f;background:var(--surface);border:1px solid #6b3a1f33;border-radius:4px;" oninput="updateSimBoisPrix();update()"></div></div>
+    <div style="font-size:.58rem;color:#6b3a1f;font-weight:600;margin-top:2px;" id="sim-bois-cout"></div>
+  </div>
+  <div id="sim-pellet-params" style="display:none;margin-top:6px;padding:7px;background:#fef3c7;border-radius:6px;border:1px solid #92400e33;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;"><div><label style="font-size:.55rem;color:var(--muted);">Tonnes/an</label><input type="number" id="sim-pellet-tonnes" value="5" min="0.5" max="20" step="0.5" style="width:100%;padding:3px;font-size:.68rem;font-weight:700;color:#92400e;background:var(--surface);border:1px solid #92400e33;border-radius:4px;" oninput="updateSimPelletPrix();update()"></div>
+    <div><label style="font-size:.55rem;color:var(--muted);">€/tonne</label><input type="number" id="sim-pellet-prix-input" value="350" min="200" max="600" step="10" style="width:100%;padding:3px;font-size:.68rem;font-weight:700;color:#92400e;background:var(--surface);border:1px solid #92400e33;border-radius:4px;" oninput="updateSimPelletPrix();update()"></div></div>
+    <div style="font-size:.58rem;color:#92400e;font-weight:600;margin-top:2px;" id="sim-pellet-cout"></div>
+  </div>
+  <div id="sim-summary" style="margin-top:6px;padding:5px 8px;background:var(--pac-tint);border-radius:6px;font-size:.65rem;display:none;border:1px solid var(--pac)33;"><span style="font-weight:700;color:var(--pac);">⚡ </span><span id="sim-summary-text" style="color:var(--muted);"></span><button type="button" onclick="switchAppTab('results')" style="margin-left:5px;padding:2px 7px;font-size:.6rem;border-radius:5px;border:none;background:var(--pac);color:#fff;cursor:pointer;">📊 →</button></div>
+</div>
+</div></div>
+<div id="home-guide-banner" class="si-mt16" style="padding:8px 12px;background:linear-gradient(135deg,var(--pac-tint),var(--surface2));border:1px solid var(--pac);border-radius:11px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+  <div style="flex:1;"><div style="font-size:.72rem;font-weight:800;color:var(--pac);">🧭 Première utilisation ?</div></div>
+  <button type="button" onclick="try{localStorage.removeItem('wizard-done');}catch(e){}startWizard()" style="padding:6px 14px;font-size:.7rem;font-weight:700;border-radius:8px;background:var(--pac);color:#fff;border:none;cursor:pointer;">Guide →</button>
+  <button type="button" onclick="document.getElementById('home-guide-banner').style.display='none';try{localStorage.setItem('guide-dismissed','1');}catch(e){}" style="padding:4px 7px;font-size:.65rem;border-radius:6px;border:1px solid var(--border);background:none;color:var(--muted);cursor:pointer;">✕</button>
+</div>
 <!-- Hero KPIs -->
 <div class="si-mt16" id="hero-kpis"></div>
 <!-- Quick config row -->
@@ -1049,6 +1176,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 </div>
 
 </div><!-- end panel-data -->
+
 <div class="tab-panel" id="panel-config">
 <div class="si-mt16">
 <div class="sec-head"><div class="sec-head-icon">🎛️</div><div><div class="sec-head-title" data-i18n="equipTitle">Équipements</div><div class="sec-head-sub" data-i18n="equipSub">Activez et configurez vos équipements</div></div></div>
@@ -4693,9 +4821,9 @@ function compute(p){
     const gaz_chauf_m3  = kwh_gaz_chauf_total / (COEFF*RDT);
     const gaz_total_m3  = gaz_chauf_m3 + ecs;
     const cout_gaz_total = gaz_total_m3 * COEFF * pg_i;
-    const kwh_cet_i = useCet ? kwhCetMois(i) : 0; // kWh élec CET ce mois — déclaré AVANT usage
+    const kwh_cet_i = useCet ? kwhCetMois(i) : 0; // kWh élec CET ce mois
     const cout_cet_i = useCet ? kwh_cet_i * (_sp?(_sp.pe_hp*0.7+_sp.pe_hc*0.3):p.pe) : 0;
-    const cout_ecs_gaz_i = useCet ? 0 : 0; // déjà inclus dans cout_gaz_total
+    const cout_ecs_gaz_i = useCet ? 0 : 0;
     const c_pac = cout_gaz_total + cout_elec_pac + cout_cet_i;
     const conso_tot = D.elec[i] + kwh_pac_total + kwh_cet_i;
     const auto  = Math.min(D.solar[i], conso_tot);
@@ -8026,6 +8154,13 @@ function loadFromStorage(){
     return true;
   } catch(e){ _con.warn('loadFromStorage error:',e); return false; }
 }
+var energieRef = 'gaz'; // 'gaz'|'fioul'|'bois'|'pellet'|'pac-exist'|'elec-direct'
+var D_FIOUL  = { litres:[135,100,87,45,19,11,9,6,11,24,79,125], prixL:1.05 };
+var D_BOIS   = { steres:[1.8,1.3,1.1,.6,.2,.1,.1,.1,.1,.3,1.0,1.7], prixS:100 };
+var D_PELLET = { tonnes:[0.22,0.16,0.14,.08,.02,.01,.01,.01,.01,.04,0.12,0.20], prixT:350 };
+var FIOUL_KWH_L = 10.35;
+var usePacAir = false;
+
 let cAmort = null;
 function renderAmortChart(tSol, tBat, inv_sol, inv_bat, vie_sol, vie_bat){
   const wrap = document.getElementById('amort-chart-wrap');
@@ -10932,6 +11067,291 @@ function promptSaveSnapshot(){
 }
 
 // ════════ DOMContentLoaded UNIQUE CONSOLIDÉ ════════
+
+// ════════════════════════════════════════════════════════════════
+// NOUVELLES FONCTIONS — Énergies de référence + Ma simulation
+// ════════════════════════════════════════════════════════════════
+
+var REF_CONFIG = {
+  'gaz':        {icon:'🔥', label:'Gaz naturel',       color:'var(--gaz)',  bg:'var(--gaz)',  txt:'#fff'},
+  'fioul':      {icon:'🛢️', label:'Chaudière fioul',    color:'#b45309',    bg:'#b45309',     txt:'#fff'},
+  'bois':       {icon:'🪵', label:'Poêle/chaud. bois',  color:'#6b3a1f',    bg:'#6b3a1f',     txt:'#fff'},
+  'pellet':     {icon:'🌾', label:'Chaudière pellets',  color:'#92400e',    bg:'#92400e',     txt:'#fff'},
+  'pac-exist':  {icon:'♨️', label:'PAC existante',      color:'var(--pac)', bg:'var(--pac)',  txt:'#fff'},
+  'elec-direct':{icon:'⚡', label:'Électrique direct',  color:'#1e40af',    bg:'#1e40af',     txt:'#fff'},
+};
+
+function setEnergieRef(type){
+  energieRef = type;
+  var cfg = REF_CONFIG[type] || REF_CONFIG['gaz'];
+  // Mettre à jour les cartes accueil
+  Object.keys(REF_CONFIG).forEach(function(k){
+    var card = document.getElementById('ref-card-'+k);
+    if(!card) return;
+    var c = REF_CONFIG[k];
+    var isActive = k===type;
+    card.style.border    = '2px solid '+(isActive?c.color:'var(--border)');
+    card.style.background= isActive?c.bg:'var(--surface2)';
+    card.style.color     = isActive?c.txt:'var(--text)';
+  });
+  // Résumé
+  var sum = document.getElementById('ref-summary');
+  var txt = document.getElementById('ref-summary-text');
+  if(sum) sum.style.display='';
+  if(txt) txt.innerHTML = cfg.icon+' <strong>'+cfg.label+'</strong>';
+  // Params Config
+  var blocsMap = {
+    'pgaz-item':        type==='gaz',
+    'pfioul-item':      type==='fioul',
+    'pbois-item':       type==='bois'||type==='pellet',
+    'pac-exist-item':   type==='pac-exist',
+    'elec-direct-item': type==='elec-direct',
+  };
+  Object.entries(blocsMap).forEach(function(entry){
+    var el=document.getElementById(entry[0]);
+    if(el) el.style.display=entry[1]?'':'none';
+  });
+  // Badge config
+  var lbl=document.getElementById('config-ref-label');
+  if(lbl) lbl.innerHTML=cfg.icon+' '+cfg.label;
+  // Bois/pellet : adapter labels
+  if(type==='bois'||type==='pellet'){
+    var isPellet=type==='pellet';
+    var ul=document.getElementById('bois-unit-label');
+    var pl=document.getElementById('bois-prix-label');
+    var pu=document.getElementById('bois-prix-unit');
+    if(ul&&ul.firstChild) ul.firstChild.textContent=isPellet?'Conso (tonnes/an) ':'Conso (stères/an) ';
+    if(pl&&pl.firstChild) pl.firstChild.textContent=isPellet?'Prix (€/tonne) ':'Prix (€/stère) ';
+    if(pu) pu.textContent=isPellet?'€/tonne':'€/stère';
+  }
+  if(typeof updateFioulMensuel==='function') updateFioulMensuel();
+  if(typeof updateBoisMensuel==='function'&&(type==='bois')) updateBoisMensuel();
+  if(typeof updatePelletMensuel==='function'&&type==='pellet') updatePelletMensuel();
+  if(typeof syncSimCards==='function') syncSimCards();
+  if(typeof update==='function') update();
+}
+
+function getTRef(p){
+  p = p || getParams();
+  if(energieRef==='fioul') return D_FIOUL.litres.reduce(function(a,b){return a+b;},0)*D_FIOUL.prixL;
+  if(energieRef==='bois'){ var DB=window.D_BOIS||{steres:Array(12).fill(1.25),prixS:100}; return DB.steres.reduce(function(a,b){return a+b;},0)*DB.prixS; }
+  if(energieRef==='pellet'){ var DP=window.D_PELLET||{tonnes:Array(12).fill(0.08),prixT:350}; return DP.tonnes.reduce(function(a,b){return a+b;},0)*DP.prixT; }
+  if(energieRef==='pac-exist'){ var copE=parseFloat((document.getElementById('pac-exist-cop')||{value:'3'}).value)||3.0; var kwhTh=D.gaz.reduce(function(a,_,i){return a+D.gaz[i]*COEFF*RDT;},0); return (kwhTh/copE)*p.pe; }
+  if(energieRef==='elec-direct'){ var kwhAn=parseFloat((document.getElementById('elec-direct-kwh')||{value:'8000'}).value)||8000; return kwhAn*p.pe; }
+  return D.gaz.reduce(function(a,_,i){return a+D.gaz[i]*COEFF*p.pg;},0);
+}
+
+var SIM_COLORS = {
+  pac:{color:'#2563eb',bg:'#eff6ff',label:'PAC air/eau'},
+  pacair:{color:'#0891b2',bg:'#ecfeff',label:'PAC air/air'},
+  sol:{color:'#ca8a04',bg:'#fefce8',label:'Solaire PV'},
+  cet:{color:'#16a34a',bg:'#f0fdf4',label:'CET'},
+  bat:{color:'#7c3aed',bg:'#faf5ff',label:'Batterie'},
+  bois:{color:'#6b3a1f',bg:'#fef9f0',label:'Chaud. bois'},
+  pellet:{color:'#92400e',bg:'#fef3c7',label:'Pellets'},
+};
+
+function toggleSimCard(k){
+  if(k==='pac')    { if(typeof toggle==='function') toggle('pac'); setTimeout(function(){syncSimCards();},50); return; }
+  if(k==='sol')    { if(typeof toggle==='function') toggle('sol'); setTimeout(function(){syncSimCards();},50); return; }
+  if(k==='cet')    { if(typeof toggle==='function') toggle('cet'); setTimeout(function(){syncSimCards();},50); return; }
+  if(k==='bat')    { if(typeof toggle==='function') toggle('bat'); setTimeout(function(){syncSimCards();},50); return; }
+  // Pour les autres : toggle visuel direct
+  var card = document.getElementById('sim-card-'+k);
+  if(!card) return;
+  var isOn = card.getAttribute('data-on')==='1';
+  var nowOn = !isOn;
+  card.setAttribute('data-on', nowOn?'1':'0');
+  var cfg = SIM_COLORS[k]||{color:'#333',bg:'#f5f5f5'};
+  card.style.background  = nowOn ? cfg.bg : '';
+  card.style.borderColor = nowOn ? cfg.color : '';
+  var t = card.querySelector('div:nth-child(2)');
+  if(t) t.style.color = nowOn ? cfg.color : '';
+  if(k==='bois'||k==='pacair'){ usePacAir = (k==='pacair') ? nowOn : usePacAir; }
+  var pp = document.getElementById('sim-'+k+'-params');
+  if(pp) pp.style.display = nowOn ? '' : 'none';
+  syncSimCards();
+  if(typeof update==='function') update();
+}
+
+function syncSimCards(){
+  var stateGet = {
+    pac:    function(){return typeof usePac!=='undefined'?usePac:false;},
+    pacair: function(){return typeof usePacAir!=='undefined'?usePacAir:false;},
+    sol:    function(){return typeof useSol!=='undefined'?useSol:false;},
+    cet:    function(){return typeof useCet!=='undefined'?useCet:false;},
+    bat:    function(){return typeof useBat!=='undefined'?useBat:false;},
+    bois:   function(){ var p=document.getElementById('sim-bois-params'); return p&&p.style.display!=='none'; },
+    pellet: function(){ var p=document.getElementById('sim-pellet-params'); return p&&p.style.display!=='none'; },
+  };
+  var active=[];
+  Object.keys(stateGet).forEach(function(k){
+    var on=stateGet[k]();
+    var card=document.getElementById('sim-card-'+k);
+    var cfg=SIM_COLORS[k]||{color:'#333',bg:'#f5f5f5'};
+    if(card){
+      card.setAttribute('data-on',on?'1':'0');
+      card.style.background  = on?cfg.bg:'';
+      card.style.borderColor = on?cfg.color:'';
+      var t=card.querySelector('div:nth-child(2)');
+      if(t) t.style.color=on?cfg.color:'';
+    }
+    if(on) active.push(cfg.label);
+  });
+  var sum=document.getElementById('sim-summary');
+  var txt=document.getElementById('sim-summary-text');
+  if(sum) sum.style.display=active.length?'':'none';
+  if(txt) txt.textContent=active.join(' + ');
+}
+
+function clearSimCards(){
+  if(typeof usePac!=='undefined'&&usePac&&typeof toggle==='function') toggle('pac');
+  if(typeof useSol!=='undefined'&&useSol&&typeof toggle==='function') toggle('sol');
+  if(typeof useCet!=='undefined'&&useCet&&typeof toggle==='function') toggle('cet');
+  if(typeof useBat!=='undefined'&&useBat&&typeof toggle==='function') toggle('bat');
+  usePacAir=false;
+  ['bois','pellet'].forEach(function(k){
+    var p=document.getElementById('sim-'+k+'-params');
+    if(p) p.style.display='none';
+  });
+  syncSimCards();
+  if(typeof update==='function') update();
+}
+
+function updateSimBoisPrix(){
+  var steres=parseFloat((document.getElementById('sim-bois-steres')||{value:'15'}).value)||15;
+  var prix=parseFloat((document.getElementById('sim-bois-prix-input')||{value:'100'}).value)||100;
+  var el=document.getElementById('sim-bois-cout');
+  if(el) el.textContent=steres+' stères × '+prix+' €/stère = '+Math.round(steres*prix)+' €/an';
+  if(window.D_BOIS){var c=[11,8,7,4,1.5,0.9,0.7,0.5,0.9,2,6.5,10.5],s=c.reduce(function(a,b){return a+b;},0);D_BOIS.steres=c.map(function(v){return Math.round(steres*v/s*10)/10;});D_BOIS.prixS=prix;}
+}
+
+function updateSimPelletPrix(){
+  var tonnes=parseFloat((document.getElementById('sim-pellet-tonnes')||{value:'5'}).value)||5;
+  var prix=parseFloat((document.getElementById('sim-pellet-prix-input')||{value:'350'}).value)||350;
+  var el=document.getElementById('sim-pellet-cout');
+  if(el) el.textContent=tonnes+' t × '+prix+' €/t = '+Math.round(tonnes*prix)+' €/an';
+  if(window.D_PELLET){var c=[11,8,7,4,1.5,0.9,0.7,0.5,0.9,2,6.5,10.5],s=c.reduce(function(a,b){return a+b;},0);D_PELLET.tonnes=c.map(function(v){return Math.round(tonnes*v/s*100)/100;});D_PELLET.prixT=prix;}
+}
+
+function updateFioulMensuel(){
+  var litresAn=parseFloat((document.getElementById('fioul-litres')||{value:'1500'}).value)||1500;
+  var prixL=parseFloat((document.getElementById('fioul-prix')||{value:'1.05'}).value)||1.05;
+  var c=[11,8,7,4,1.5,0.9,0.7,0.5,0.9,2,6.5,10.5],s=c.reduce(function(a,b){return a+b;},0);
+  D_FIOUL.litres=c.map(function(v){return Math.round(litresAn*v/s);});
+  D_FIOUL.prixL=prixL;
+  var el=document.getElementById('fioul-cout-estime');
+  if(el) el.textContent='💰 '+Math.round(litresAn*prixL)+' €/an';
+  var kw=document.getElementById('fioul-kwh-price');
+  if(kw) kw.textContent=(prixL/(10.35*0.85)).toFixed(3);
+  var moy=document.getElementById('fioul-conso-moy');
+  if(moy) moy.textContent='≈ '+Math.round(litresAn/12)+' L/mois';
+}
+
+function openHamburger(){
+  var m=document.getElementById('hamburger-menu');
+  var o=document.getElementById('hamburger-overlay');
+  if(m) m.classList.add('open');
+  if(o) o.classList.add('open');
+}
+function closeHamburger(){
+  var m=document.getElementById('hamburger-menu');
+  var o=document.getElementById('hamburger-overlay');
+  if(m) m.classList.remove('open');
+  if(o) o.classList.remove('open');
+}
+
+function toggleEnergySection(id){
+  var body=document.getElementById(id+'-body');
+  if(body) body.classList.toggle('collapsed');
+}
+
+function setBatInstall(yn){
+  var oui=document.getElementById('bat-inst-oui'),non=document.getElementById('bat-inst-non');
+  if(oui){oui.style.background=yn?'var(--bat)':'var(--surface2)';oui.style.color=yn?'#fff':'var(--muted)';}
+  if(non){non.style.background=yn?'var(--surface2)':'var(--bat)';non.style.color=yn?'var(--muted)':'#fff';}
+}
+function setPacAirInstall(yn){
+  var oui=document.getElementById('pacair-inst-oui'),non=document.getElementById('pacair-inst-non');
+  if(oui){oui.style.background=yn?'#0891b2':'var(--surface2)';oui.style.color=yn?'#fff':'var(--muted)';}
+  if(non){non.style.background=yn?'var(--surface2)':'#0891b2';non.style.color=yn?'var(--muted)':'#fff';}
+}
+
+function applyPacAirPreset(val){
+  var p={daikin_35:{mat:1200,kw:3.5},daikin_50:{mat:1600,kw:5.0},mitsu_25:{mat:1100,kw:2.5},mitsu_42:{mat:1500,kw:4.2},atlantic_35:{mat:1300,kw:3.5}};
+  var pr=p[val]; if(!pr) return;
+  var m=document.getElementById('inv-pacair-mat'); if(m) m.value=pr.mat;
+  var k=document.getElementById('pacair-kw'); if(k) k.value=pr.kw;
+  if(typeof updateInvestPacAir==='function') updateInvestPacAir();
+}
+function updateInvestPacAir(){
+  var mat=parseFloat((document.getElementById('inv-pacair-mat')||{value:'1200'}).value)||1200;
+  var el=document.getElementById('invest-pacair-val'); if(el) el.textContent=mat.toLocaleString('fr')+' €';
+}
+function applyBoisChaudPreset(val){}
+function applyPelletPreset2(val){
+  var p={generic_15:{mat:7500},froling_15:{mat:12500},viessmann_20:{mat:14000},windhager_20:{mat:13500},mcz_10:{mat:8500}};
+  var pr=p[val]; if(!pr) return;
+  var m=document.getElementById('inv-pellet2-mat'); if(m) m.value=pr.mat;
+  if(typeof updateInvestPellet2==='function') updateInvestPellet2();
+}
+function updateInvestBois2(){
+  var mat=parseFloat((document.getElementById('inv-bois2-mat')||{value:'6500'}).value)||6500;
+  var el=document.getElementById('invest-bois2-val'); if(el) el.textContent=mat.toLocaleString('fr')+' €';
+}
+function updateInvestPellet2(){
+  var mat=parseFloat((document.getElementById('inv-pellet2-mat')||{value:'7500'}).value)||7500;
+  var el=document.getElementById('invest-pellet2-val'); if(el) el.textContent=mat.toLocaleString('fr')+' €';
+}
+
+// ════ Wizard guide ════
+// WIZARD_STEPS déjà déclaré dans le script principal
+// On l'étend ou on le remplace
+if(typeof WIZARD_STEPS==='undefined' || !WIZARD_STEPS.length){
+WIZARD_STEPS=[
+  {icon:"🏠",title:"Votre chauffage actuel",desc:"Sélectionnez votre énergie de référence dans les cartes ci-dessous.",tab:"home"},
+  {icon:"📂",title:"Importez vos données EDF",desc:"Téléchargez le ZIP depuis monespace.edf.fr → Mes données → ZIP.",tab:"data"},
+  {icon:"⚙️",title:"Configurez vos équipements",desc:"Activez PAC, solaire, batterie, CET dans Ma simulation.",tab:"home"},
+  {icon:"📊",title:"Analysez vos résultats",desc:"Consultez économies, ROI et comparateur dans Résultats.",tab:"results"},
+  {icon:"🔬",title:"Bilan complet",desc:"Scénarios recommandés, CO₂ et aides disponibles dans Bilan.",tab:"analyses"},
+];
+}
+if(typeof _wizardStep==="undefined") var _wizardStep=0;
+
+function startWizard(){
+  _wizardStep=0;
+  var ov=document.getElementById('wizard-overlay');
+  if(!ov) return;
+  ov.style.display='flex'; ov.classList.add('open');
+  renderWizardStep();
+}
+function skipWizard(){
+  var ov=document.getElementById('wizard-overlay');
+  if(ov){ov.style.display='none';ov.classList.remove('open');}
+  try{localStorage.setItem('wizard-done','1');}catch(e){}
+  var b=document.getElementById('home-guide-banner');
+  if(b) b.style.display='none';
+}
+var _wizardNext_new = function(){
+  _wizardStep++;
+  if(_wizardStep>=WIZARD_STEPS.length){skipWizard();return;}
+  renderWizardStep();
+}
+var _renderWizardStep_new = function(){
+  var s=WIZARD_STEPS[_wizardStep];
+  var total=WIZARD_STEPS.length;
+  var pb=document.getElementById('wizard-progress-bar');
+  if(pb) pb.style.width=Math.round((_wizardStep/total)*100)+'%';
+  var dots=document.getElementById('wizard-dots');
+  if(dots) dots.innerHTML=WIZARD_STEPS.map(function(_,i){return '<div class="wizard-dot'+(i<_wizardStep?' done':i===_wizardStep?' active':'')+'"></div>';}).join('');
+  var ic=document.getElementById('wizard-icon');if(ic) ic.textContent=s.icon;
+  var ti=document.getElementById('wizard-title');if(ti) ti.textContent=s.title;
+  var de=document.getElementById('wizard-desc');if(de) de.textContent=s.desc;
+  var nb=document.getElementById('wizard-btn-next');
+  if(nb) nb.textContent=_wizardStep===total-1?'Terminer ✓':'Suivant →';
+  if(s.tab&&typeof switchAppTab==='function') switchAppTab(s.tab);
+}
+
 document.addEventListener('DOMContentLoaded', function(){
   initDOMCache();
 
@@ -11004,6 +11424,21 @@ document.addEventListener('DOMContentLoaded', function(){
   } else {
     typeof updateNow==='function' && updateNow();
   }
+
+  // ── Init nouvelles fonctions ──
+  if(typeof setEnergieRef==='function') setEnergieRef(energieRef||'gaz');
+  if(typeof syncSimCards==='function') syncSimCards();
+  if(typeof updateSimBoisPrix==='function') updateSimBoisPrix();
+  if(typeof updateSimPelletPrix==='function') updateSimPelletPrix();
+  // Bannière guide
+  try{
+    var banner=document.getElementById('home-guide-banner');
+    if(banner&&(localStorage.getItem('wizard-done')||localStorage.getItem('guide-dismissed'))){
+      banner.style.display='none';
+    } else if(!localStorage.getItem('wizard-done')){
+      setTimeout(function(){if(typeof startWizard==='function') startWizard();},1500);
+    }
+  }catch(e){}
 
 });
 </script>
@@ -11211,5 +11646,26 @@ document.addEventListener('DOMContentLoaded', function(){
 </template>
 
 <div id="toast-container"></div>
+<!-- ══ WIZARD GUIDE ══ -->
+<div class="wizard-overlay" id="wizard-overlay">
+  <div class="wizard-box">
+    <div class="wizard-progress"><div class="wizard-progress-bar" id="wizard-progress-bar" style="width:20%"></div></div>
+    <div class="wizard-step-dots" id="wizard-dots"></div>
+    <div class="wizard-icon" id="wizard-icon">🏠</div>
+    <div class="wizard-title" id="wizard-title">Bienvenue !</div>
+    <div class="wizard-desc" id="wizard-desc">Configurons votre simulation ensemble.</div>
+    <div class="wizard-actions">
+      <button class="wizard-btn-skip" type="button" onclick="skipWizard()">Passer</button>
+      <button class="wizard-btn-next" type="button" id="wizard-btn-next" onclick="wizardNext()">Suivant →</button>
+    </div>
+  </div>
+</div>
+<!-- IDs cachés pour compatibilité -->
+<div style="display:none;" aria-hidden="true">
+  <div id="config-ref-label"></div>
+  <div id="pgaz-item"></div><div id="pfioul-item"></div>
+  <div id="pbois-item"></div><div id="pac-exist-item"></div>
+  <div id="elec-direct-item"></div>
+</div>
 </body>
 </html>
