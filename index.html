@@ -738,6 +738,8 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   border-bottom: 1px solid var(--es-color, var(--border));
   cursor: pointer;
   user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  /* Safari iOS : les div reçoivent les taps si cursor:pointer ET ontouchstart défini */
 }
 .energy-section-icon {
   width: 38px; height: 38px;
@@ -1267,7 +1269,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   </button>
 </div>
 <!-- Overlay hamburger -->
-<div class="hamburger-overlay" id="hamburger-overlay" onclick="closeHamburger()"></div>
+<div class="hamburger-overlay" id="hamburger-overlay" ontouchstart="" onclick="closeHamburger()"></div>
 <!-- Menu hamburger -->
 <div class="hamburger-menu" id="hamburger-menu">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
@@ -1338,7 +1340,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   </div>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;" id="ref-cards-grid">
     <!-- Gaz -->
-    <div class="ref-card" id="ref-card-gaz" onclick="setEnergieRef('gaz')" style="
+    <div class="ref-card" id="ref-card-gaz" ontouchstart="" onclick="setEnergieRef('gaz')" style="
       border:2px solid var(--gaz);background:var(--gaz);color:#fff;
       border-radius:11px;padding:12px 8px;text-align:center;cursor:pointer;transition:.18s;">
       <div style="font-size:1.6rem;">🔥</div>
@@ -1346,7 +1348,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
       <div style="font-size:.6rem;margin-top:2px;opacity:.85;">Chaudière gaz</div>
     </div>
     <!-- Fioul -->
-    <div class="ref-card" id="ref-card-fioul" onclick="setEnergieRef('fioul')" style="
+    <div class="ref-card" id="ref-card-fioul" ontouchstart="" onclick="setEnergieRef('fioul')" style="
       border:2px solid var(--border);background:var(--surface2);color:var(--text);
       border-radius:11px;padding:12px 8px;text-align:center;cursor:pointer;transition:.18s;">
       <div style="font-size:1.6rem;">🛢️</div>
@@ -1354,7 +1356,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
       <div style="font-size:.6rem;margin-top:2px;color:var(--muted);">Chaudière fioul</div>
     </div>
     <!-- Bois -->
-    <div class="ref-card" id="ref-card-bois" onclick="setEnergieRef('bois')" style="
+    <div class="ref-card" id="ref-card-bois" ontouchstart="" onclick="setEnergieRef('bois')" style="
       border:2px solid var(--border);background:var(--surface2);color:var(--text);
       border-radius:11px;padding:12px 8px;text-align:center;cursor:pointer;transition:.18s;">
       <div style="font-size:1.6rem;">🪵</div>
@@ -1362,7 +1364,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
       <div style="font-size:.6rem;margin-top:2px;color:var(--muted);">Poêle / chaudière</div>
     </div>
     <!-- Pellets -->
-    <div class="ref-card" id="ref-card-pellet" onclick="setEnergieRef('pellet')" style="
+    <div class="ref-card" id="ref-card-pellet" ontouchstart="" onclick="setEnergieRef('pellet')" style="
       border:2px solid var(--border);background:var(--surface2);color:var(--text);
       border-radius:11px;padding:12px 8px;text-align:center;cursor:pointer;transition:.18s;">
       <div style="font-size:1.6rem;">🌾</div>
@@ -1370,7 +1372,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
       <div style="font-size:.6rem;margin-top:2px;color:var(--muted);">Chaudière à pellets</div>
     </div>
     <!-- PAC existante -->
-    <div class="ref-card" id="ref-card-pac-exist" onclick="setEnergieRef('pac-exist')" style="
+    <div class="ref-card" id="ref-card-pac-exist" ontouchstart="" onclick="setEnergieRef('pac-exist')" style="
       border:2px solid var(--border);background:var(--surface2);color:var(--text);
       border-radius:11px;padding:12px 8px;text-align:center;cursor:pointer;transition:.18s;">
       <div style="font-size:1.6rem;">♨️</div>
@@ -1378,7 +1380,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
       <div style="font-size:.6rem;margin-top:2px;color:var(--muted);">Déjà installée</div>
     </div>
     <!-- Électrique direct -->
-    <div class="ref-card" id="ref-card-elec-direct" onclick="setEnergieRef('elec-direct')" style="
+    <div class="ref-card" id="ref-card-elec-direct" ontouchstart="" onclick="setEnergieRef('elec-direct')" style="
       border:2px solid var(--border);background:var(--surface2);color:var(--text);
       border-radius:11px;padding:12px 8px;text-align:center;cursor:pointer;transition:.18s;">
       <div style="font-size:1.6rem;">⚡</div>
@@ -1403,16 +1405,16 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <!-- Quick config row -->
 <div class="quick-config" id="quick-config-row">
 <span style="font-size:.72rem;font-weight:700;color:var(--muted);margin-right:4px;">Équipements actifs :</span>
-<div class="quick-toggle" id="qt-pac" style="--qt-color:var(--pac);--qt-tint:var(--pac-tint);" onclick="toggle('pac')">
+<div class="quick-toggle" id="qt-pac" style="--qt-color:var(--pac);--qt-tint:var(--pac-tint);" ontouchstart="" onclick="toggle('pac')">
 <div class="qt-dot"></div>⚡ PAC
     </div>
-<div class="quick-toggle" id="qt-cet" style="--qt-color:var(--grn);--qt-tint:var(--grn-tint);" onclick="toggle('cet')">
+<div class="quick-toggle" id="qt-cet" style="--qt-color:var(--grn);--qt-tint:var(--grn-tint);" ontouchstart="" onclick="toggle('cet')">
 <div class="qt-dot"></div>🚿 CET
     </div>
-<div class="quick-toggle" id="qt-sol" style="--qt-color:var(--sol);--qt-tint:var(--sol-tint);" onclick="toggle('sol')">
+<div class="quick-toggle" id="qt-sol" style="--qt-color:var(--sol);--qt-tint:var(--sol-tint);" ontouchstart="" onclick="toggle('sol')">
 <div class="qt-dot"></div>☀️ Solaire
     </div>
-<div class="quick-toggle" id="qt-bat" style="--qt-color:var(--bat);--qt-tint:var(--bat-tint);" onclick="toggle('bat')">
+<div class="quick-toggle" id="qt-bat" style="--qt-color:var(--bat);--qt-tint:var(--bat-tint);" ontouchstart="" onclick="toggle('bat')">
 <div class="qt-dot"></div>🔋 Batterie
     </div>
 <button onclick="switchAppTab('config')" class="btn" style="margin-left:auto;font-size:.7rem;">
@@ -1498,13 +1500,13 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <!-- ÉDITEUR -->
 <div class="data-editor" id="data-editor">
 <div class="dtabs">
-<div class="dtab active" id="dt-gaz"   onclick="switchTab('gaz')">🔥 Gaz m³</div>
-<div class="dtab"        id="dt-elec"  onclick="switchTab('elec')">⚡ Élec base kWh</div>
-<div class="dtab"        id="dt-conso" onclick="switchTab('conso')">📊 Conso totale + PAC</div>
-<div class="dtab"        id="dt-ecs"   onclick="switchTab('ecs')">🚿 ECS m³</div>
-<div class="dtab"        id="dt-jr"    onclick="switchTab('jr')">🔴 Jours rouges</div>
-<div class="dtab"        id="dt-jbl"   onclick="switchTab('jbl')">⬜ Jours blancs</div>
-<div class="dtab"        id="dt-sol"   onclick="switchTab('sol')">☀️ Solaire kWh</div>
+<div class="dtab active" id="dt-gaz"   ontouchstart="" onclick="switchTab('gaz')">🔥 Gaz m³</div>
+<div class="dtab"        id="dt-elec"  ontouchstart="" onclick="switchTab('elec')">⚡ Élec base kWh</div>
+<div class="dtab"        id="dt-conso" ontouchstart="" onclick="switchTab('conso')">📊 Conso totale + PAC</div>
+<div class="dtab"        id="dt-ecs"   ontouchstart="" onclick="switchTab('ecs')">🚿 ECS m³</div>
+<div class="dtab"        id="dt-jr"    ontouchstart="" onclick="switchTab('jr')">🔴 Jours rouges</div>
+<div class="dtab"        id="dt-jbl"   ontouchstart="" onclick="switchTab('jbl')">⬜ Jours blancs</div>
+<div class="dtab"        id="dt-sol"   ontouchstart="" onclick="switchTab('sol')">☀️ Solaire kWh</div>
 </div>
 <div id="edit-body"></div>
 <div style="font-size:.64rem;color:var(--muted);margin-top:8px;">Les modifications sont prises en compte immédiatement dans la simulation.</div>
@@ -1534,7 +1536,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 
 <!-- ══ SECTION : PARAMÈTRES ÉNERGIE DE RÉFÉRENCE ══ -->
 <div class="energy-section" id="es-ref" style="--es-color:#6b7280;--es-bg:#f9fafb;">
-  <div class="energy-section-header" onclick="toggleEnergySection('es-ref')">
+  <div class="energy-section-header" ontouchstart="" onclick="toggleEnergySection('es-ref')">
     <div class="energy-section-icon" style="background:#6b7280;">⚙️</div>
     <div>
       <div class="energy-section-title" style="color:#4b5563;">Paramètres de votre énergie actuelle</div>
@@ -1615,13 +1617,13 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 
 <!-- ══ SECTION : PAC ══ -->
 <div class="energy-section" id="es-pac" style="--es-color:var(--pac);--es-bg:var(--pac-tint);">
-  <div class="energy-section-header" onclick="toggleEnergySection('es-pac')">
+  <div class="energy-section-header" ontouchstart="" onclick="toggleEnergySection('es-pac')">
     <div class="energy-section-icon">⚡</div>
     <div>
       <div class="energy-section-title">PAC réversible</div>
       <div class="energy-section-sub">Pompe à chaleur air/eau · COP <span id="pac-cop-label2">3.0</span></div>
     </div>
-    <button type="button" id="pill-pac-es" type="button" style="margin-left:auto;padding:5px 14px;border-radius:20px;font-size:.65rem;font-weight:700;background:var(--surface2);color:var(--muted);border:1.5px solid var(--border);white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="event.stopPropagation();alert('Clic pac');toggle('pac')">OFF</button>
+    <button type="button" id="pill-pac-es" type="button" style="margin-left:auto;padding:5px 14px;border-radius:20px;font-size:.65rem;font-weight:700;background:var(--surface2);color:var(--muted);border:1.5px solid var(--border);white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;" ontouchstart="" onclick="event.stopPropagation();toggle('pac')">OFF</button>
   </div>
   <div class="energy-section-body collapsed" id="es-pac-body">
     <div id="tc-pac-inner"><!-- contenu PAC injecté ici --></div>
@@ -1630,13 +1632,13 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 
 <!-- ══ SECTION : SOLAIRE ══ -->
 <div class="energy-section" id="es-sol" style="--es-color:var(--sol);--es-bg:var(--sol-tint);">
-  <div class="energy-section-header" onclick="toggleEnergySection('es-sol')">
+  <div class="energy-section-header" ontouchstart="" onclick="toggleEnergySection('es-sol')">
     <div class="energy-section-icon" style="background:var(--sol);">☀️</div>
     <div>
       <div class="energy-section-title" style="color:var(--sol);">Panneaux solaires</div>
       <div class="energy-section-sub"><span id="tc-sol-kwc2">4 kWc</span> · <span id="tc-sol-prod2">5 210 kWh/an</span></div>
     </div>
-    <button type="button" id="pill-sol-es" type="button" style="margin-left:auto;padding:5px 14px;border-radius:20px;font-size:.65rem;font-weight:700;background:var(--surface2);color:var(--muted);border:1.5px solid var(--border);white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="event.stopPropagation();alert('Clic sol');toggle('sol')">OFF</button>
+    <button type="button" id="pill-sol-es" type="button" style="margin-left:auto;padding:5px 14px;border-radius:20px;font-size:.65rem;font-weight:700;background:var(--surface2);color:var(--muted);border:1.5px solid var(--border);white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;" ontouchstart="" onclick="event.stopPropagation();toggle('sol')">OFF</button>
   </div>
   <div class="energy-section-body collapsed" id="es-sol-body">
     <div id="tc-sol-inner"><!-- contenu Solaire injecté ici --></div>
@@ -1645,13 +1647,13 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 
 <!-- ══ SECTION : CET ══ -->
 <div class="energy-section" id="es-cet" style="--es-color:#16a34a;--es-bg:#f0fdf4;">
-  <div class="energy-section-header" onclick="toggleEnergySection('es-cet')">
+  <div class="energy-section-header" ontouchstart="" onclick="toggleEnergySection('es-cet')">
     <div class="energy-section-icon" style="background:#16a34a;">🚿</div>
     <div>
       <div class="energy-section-title" style="color:#16a34a;">Chauffe-eau thermodynamique</div>
       <div class="energy-section-sub"><span id="tc-cet-cap2">200 L</span> · COP <span id="tc-cet-cop2">2.5</span></div>
     </div>
-    <button type="button" id="pill-cet-es" type="button" style="margin-left:auto;padding:5px 14px;border-radius:20px;font-size:.65rem;font-weight:700;background:var(--surface2);color:var(--muted);border:1.5px solid var(--border);white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="event.stopPropagation();alert('Clic cet');toggle('cet')">OFF</button>
+    <button type="button" id="pill-cet-es" type="button" style="margin-left:auto;padding:5px 14px;border-radius:20px;font-size:.65rem;font-weight:700;background:var(--surface2);color:var(--muted);border:1.5px solid var(--border);white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;" ontouchstart="" onclick="event.stopPropagation();toggle('cet')">OFF</button>
   </div>
   <div class="energy-section-body collapsed" id="es-cet-body">
     <div id="tc-cet-inner"><!-- contenu CET injecté ici --></div>
@@ -1660,13 +1662,13 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 
 <!-- ══ SECTION : BATTERIE ══ -->
 <div class="energy-section" id="es-bat" style="--es-color:var(--bat);--es-bg:#faf5ff;">
-  <div class="energy-section-header" onclick="toggleEnergySection('es-bat')">
+  <div class="energy-section-header" ontouchstart="" onclick="toggleEnergySection('es-bat')">
     <div class="energy-section-icon" style="background:var(--bat);">🔋</div>
     <div>
       <div class="energy-section-title" style="color:var(--bat);">Batterie de stockage</div>
       <div class="energy-section-sub"><span id="tc-bat-cap2">5,28 kWh</span> brut · <span id="tc-bat-utile2">4,28 kWh</span> utiles</div>
     </div>
-    <button type="button" id="pill-bat-es" type="button" style="margin-left:auto;padding:5px 14px;border-radius:20px;font-size:.65rem;font-weight:700;background:var(--surface2);color:var(--muted);border:1.5px solid var(--border);white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="event.stopPropagation();alert('Clic bat');toggle('bat')">OFF</button>
+    <button type="button" id="pill-bat-es" type="button" style="margin-left:auto;padding:5px 14px;border-radius:20px;font-size:.65rem;font-weight:700;background:var(--surface2);color:var(--muted);border:1.5px solid var(--border);white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;" ontouchstart="" onclick="event.stopPropagation();toggle('bat')">OFF</button>
   </div>
   <div class="energy-section-body collapsed" id="es-bat-body">
     <div id="tc-bat-inner"><!-- contenu Batterie injecté ici --></div>
@@ -1675,7 +1677,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 
 <!-- ══ SECTION : CHAUDIÈRE BOIS ══ -->
 <div class="energy-section" id="es-bois" style="--es-color:#6b3a1f;--es-bg:#fef9f0;">
-  <div class="energy-section-header" onclick="toggleEnergySection('es-bois')">
+  <div class="energy-section-header" ontouchstart="" onclick="toggleEnergySection('es-bois')">
     <div class="energy-section-icon" style="background:#6b3a1f;">🪵</div>
     <div>
       <div class="energy-section-title" style="color:#6b3a1f;">Chaudière à bois</div>
@@ -1748,7 +1750,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 
 <!-- ══ SECTION : CHAUDIÈRE PELLETS ══ -->
 <div class="energy-section" id="es-pellet" style="--es-color:#92400e;--es-bg:#fef3c7;">
-  <div class="energy-section-header" onclick="toggleEnergySection('es-pellet')">
+  <div class="energy-section-header" ontouchstart="" onclick="toggleEnergySection('es-pellet')">
     <div class="energy-section-icon" style="background:#92400e;">🌾</div>
     <div>
       <div class="energy-section-title" style="color:#92400e;">Chaudière à pellets</div>
@@ -10700,7 +10702,7 @@ function renderHomeScenariosGrid(){
   const sub = document.getElementById('home-reco-sub');
   if(sub) sub.textContent = 'Vs '+getRefLabel()+' ('+getRefIcon()+')';
   el.innerHTML = scens.map((s,i)=>`
-    <div onclick="applyScenario('${s.id}',${s.pac},${s.sol},${s.bat},${s.cet})"
+    <div ontouchstart="" onclick="applyScenario('${s.id}',${s.pac},${s.sol},${s.bat},${s.cet})"
       style="padding:10px 12px;border-radius:10px;border:2px solid ${i===0?s.color:'var(--border)'};
       background:${i===0?'var(--surface2)':'var(--surface)'};cursor:pointer;transition:.15s;"
       onmouseover="this.style.borderColor='${s.color}'"
@@ -10901,7 +10903,7 @@ function renderOffres(type){
       : Math.round(D.elec.reduce((a,b)=>a+b,0) * prix);
     const badgeHTML = o.badge ? `<span class="offre-badge ${o.badge}">${o.badgeLabel}</span>` : '';
     h += `<div class="offre-card ${sel?(gaz?'selected-gaz':'selected'):''}"
-      onclick="selectOffre('${type}','${o.id}')"
+      ontouchstart="" onclick="selectOffre('${type}','${o.id}')"
       style="${sel?`border-color:${accentColor};background:${accentTint};box-shadow:0 0 0 2px ${accentColor}33;`:''}"
     >
       <!-- Top : nom + badge -->
@@ -11705,7 +11707,7 @@ function buildLangMenu(){
   const menu = document.getElementById('lang-menu');
   if(!menu) return;
   const inner = LANGS.map(l=>`
-    <div onclick="setLang('${l.code}')"
+    <div ontouchstart="" onclick="setLang('${l.code}')"
       style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;
       cursor:pointer;transition:.15s;font-size:.78rem;font-weight:600;
       ${l.code===currentLang?'background:var(--pac-tint);color:var(--pac);':'color:var(--text);'}
@@ -12640,10 +12642,6 @@ function toggleEnergySection(id){
 
 // Synchroniser les pills ON/OFF des sections énergie avec l'état réel
 // ── DIAGNOSTIC BOUTONS ON/OFF ──
-function testToggle(k){
-  alert('testToggle appelé avec k=' + k + ' | usePac=' + usePac + ' useSol=' + useSol);
-}
-
 function syncEnergyPills(){
   var sections = [
     {pill:'pill-pac-es', section:'es-pac', state:function(){ return usePac; }, color:'var(--pac)'},
