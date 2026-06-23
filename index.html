@@ -1245,6 +1245,37 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 </div>
 </div>
 </div>
+<!-- ══ SECTION PAC AIR/AIR ══ -->
+<div id="tc-pacair" style="background:var(--surface);border:2px solid #0891b2;border-radius:12px;padding:14px 16px;margin-bottom:10px;display:none;">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+    <div style="width:36px;height:36px;border-radius:9px;background:#0891b2;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">🌬️</div>
+    <div>
+      <div style="font-size:.82rem;font-weight:800;color:#0891b2;">PAC air/air</div>
+      <div style="font-size:.65rem;color:var(--muted);">Remplacement complet · Sans ECS</div>
+    </div>
+  </div>
+  <div class="p-item">
+    <label>COP PAC air/air <span class="tip-icon" title="COP moyen annuel. PAC air/air typique : 2.5–4.0&#10;Valeur conseillée : 3.0">?</span></label>
+    <input type="range" id="cop-air" min="2.0" max="5.0" step="0.1" value="3.0"
+      oninput="document.getElementById('cop-air-val').textContent=parseFloat(this.value).toFixed(1);update()">
+    <span class="pval" id="cop-air-val" style="color:#0891b2;">3.0</span>
+  </div>
+  <div style="margin-top:8px;padding:8px 10px;background:#ecfeff;border-radius:8px;font-size:.65rem;color:#0891b2;line-height:1.5;">
+    ⚠️ <strong>Sans ECS</strong> — la production d'eau chaude reste assurée par votre système actuel<br>
+    🌡️ Moins efficace que air/eau par grand froid (COP réel variable)
+  </div>
+  <div style="margin-top:8px;">
+    <div style="font-size:.65rem;color:var(--muted);margin-bottom:4px;">Investissement (matériel + pose)</div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <input type="number" id="inv-pacair-mat" value="1400" min="500" max="5000" step="100"
+        style="width:90px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 7px;font-size:.78rem;font-weight:700;color:#0891b2;"
+        oninput="updateInvestPacAir()">
+      <span style="font-size:.68rem;color:var(--muted);">€ · <span id="invest-pacair-val">1 400 €</span></span>
+    </div>
+    <div style="font-size:.6rem;color:var(--muted);margin-top:3px;">💡 MaPrimeRénov' : jusqu'à 4 000 € selon revenus</div>
+  </div>
+</div>
+
 <div class="toggle-card sol" id="tc-sol" onclick="toggle('sol')">
 <div class="t-ico">☀️</div>
 <div class="t-info">
@@ -4780,12 +4811,14 @@ function setStatus(k,msg,col){
   el.textContent=msg; el.style.color=col;
 }
 function getParams(){
+  var copAirEl = document.getElementById('cop-air');
   return {
-    cop:+document.getElementById('cop').value,
-    pg:+document.getElementById('pgaz').value,
-    pe:+document.getElementById('pelec').value,
-    pv: useRachat ? +document.getElementById('pven').value : 0,
-    cf:+document.getElementById('cycf').value,
+    cop:    +document.getElementById('cop').value,
+    cop_air: copAirEl ? +copAirEl.value : 3.0,
+    pg:     +document.getElementById('pgaz').value,
+    pe:     +document.getElementById('pelec').value,
+    pv:     useRachat ? +document.getElementById('pven').value : 0,
+    cf:     +document.getElementById('cycf').value,
     rachat: useRachat,
   };
 }
@@ -4805,14 +4838,20 @@ function compute(p){
     const kwh_chauf_rouge = kwh_c * fRouge;
     const kwh_chauf_blanc = kwh_c * fBlanc;
     const kwh_chauf_bleu  = kwh_c * fBleu;
-    const cop_i = copFromTemp(TEMP_EXT[i], p.cop); // COP réel ce mois
-    const _hcRatio=typeof getHCRatio==='function'?getHCRatio():0.333;
-    const kwh_pac_rouge = (usePac && pacRouge) ? kwh_chauf_rouge / cop_i : 0;
-    const kwh_pac_blanc = (usePac && pacBlanc) ? kwh_chauf_blanc / cop_i : 0;
-    const kwh_pac_bleu  = (usePac && pacBleu)  ? kwh_chauf_bleu  / cop_i : 0;
-    const kwh_gaz_rouge = (!usePac || !pacRouge) ? kwh_chauf_rouge : 0;
-    const kwh_gaz_blanc = (!usePac || !pacBlanc) ? kwh_chauf_blanc : 0;
-    const kwh_gaz_bleu  = (!usePac || !pacBleu)  ? kwh_chauf_bleu  : 0;
+    const cop_i     = copFromTemp(TEMP_EXT[i], p.cop);       // COP PAC air/eau réel
+    const cop_air_i = p.cop_air || 3.0;                       // COP PAC air/air (fixe)
+    const _hcRatio  = typeof getHCRatio==='function'?getHCRatio():0.333;
+    // PAC active = air/eau OU air/air (mutuellement exclusifs dans calcul)
+    const usePacCalc    = usePac && !usePacAir;   // PAC air/eau seulement
+    const usePacAirCalc = usePacAir && !usePac;   // PAC air/air seulement
+    const usePacEither  = usePac || usePacAir;    // l'un ou l'autre
+    const cop_eff = usePacAirCalc ? cop_air_i : cop_i; // COP effectif selon type
+    const kwh_pac_rouge = (usePacEither && pacRouge) ? kwh_chauf_rouge / cop_eff : 0;
+    const kwh_pac_blanc = (usePacEither && pacBlanc) ? kwh_chauf_blanc / cop_eff : 0;
+    const kwh_pac_bleu  = (usePacEither && pacBleu)  ? kwh_chauf_bleu  / cop_eff : 0;
+    const kwh_gaz_rouge = (!usePacEither || !pacRouge) ? kwh_chauf_rouge : 0;
+    const kwh_gaz_blanc = (!usePacEither || !pacBlanc) ? kwh_chauf_blanc : 0;
+    const kwh_gaz_bleu  = (!usePacEither || !pacBleu)  ? kwh_chauf_bleu  : 0;
     const kwh_pac_total = kwh_pac_rouge + kwh_pac_blanc + kwh_pac_bleu;
     const kwh_gaz_chauf_total = kwh_gaz_rouge + kwh_gaz_blanc + kwh_gaz_bleu;
     const pe_rouge = 0.7*T.rhp + 0.3*T.rhc;
@@ -11207,6 +11246,9 @@ function syncSimCards(){
   var txt=document.getElementById('sim-summary-text');
   if(sum) sum.style.display=active.length?'':'none';
   if(txt) txt.textContent=active.join(' + ');
+  // Afficher/masquer section Config PAC air/air
+  var tcPacAir=document.getElementById('tc-pacair');
+  if(tcPacAir) tcPacAir.style.display=(typeof usePacAir!=='undefined'&&usePacAir)?'':'none';
 }
 
 function clearSimCards(){
