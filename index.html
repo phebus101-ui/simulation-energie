@@ -12485,11 +12485,7 @@ document.addEventListener('DOMContentLoaded', function(){
   // Init UI
   if(typeof buildLangMenu==='function') buildLangMenu();
   if(typeof initSwipe==='function') initSwipe();
-// Assigner les vraies fonctions aux aliases du premier script
-window._startWizardReal = startWizard;
-window._toggleReal      = toggle;
-window._toggleSimReal   = toggleSimCard;
-window._setRefReal      = setEnergieRef;
+// (assignations déplacées en fin de script)
 if(typeof initSwipe==='function') initSwipe();
 
 // ══════════════════════════════════════════════════════════════
@@ -12927,6 +12923,12 @@ document.addEventListener('DOMContentLoaded', function(){
   if(typeof setEnergieRef==='function') setEnergieRef(energieRef||'gaz');
 
 });
+
+// Assigner les vraies fonctions aux aliases (après toutes les définitions)
+window._startWizardReal = typeof startWizard==='function'  ? startWizard  : null;
+window._toggleReal      = typeof toggle==='function'        ? toggle        : null;
+window._toggleSimReal   = typeof toggleSimCard==='function' ? toggleSimCard : null;
+window._setRefReal      = typeof setEnergieRef==='function' ? setEnergieRef : null;
 </script>
 <!-- ══════════════ MODAL LOCALISATION ══════════════ -->
 <div id="loc-modal" style="display:none;position:fixed;inset:0;background:#0006;z-index:300;
