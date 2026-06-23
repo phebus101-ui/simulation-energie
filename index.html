@@ -1687,108 +1687,18 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 
 <div class="config-divider">Paramètres avancés</div>
 
-<div class="card">
-<div class="config-row">
-<!-- ══ PAC CARD avec contrôle par couleur Tempo ══ -->
-<div id="tc-pac" style="flex:1;min-width:220px;background:var(--pac-tint);border:2px solid var(--pac);
-      border-radius:12px;padding:14px 16px;user-select:none;transition:all .2s;">
-<!-- Ligne 1 : titre + ON/OFF global -->
-<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-<div class="t-ico" style="cursor:pointer;" onclick="toggle('pac')">⚡</div>
-<div class="t-info" style="flex:1;cursor:pointer;" onclick="toggle('pac')">
-<div class="t-name si-pac" data-i18n="pac">PAC réversible</div>
-<div class="t-desc" id="pac-desc">COP <span id="pac-cop-label">3.0</span> ·
-            <span id="pac-install-label" class="si-pac">Déjà installée</span>
+<!-- IDs cachés pour compatibilité avec toggle() -->
+<div style="display:none;" aria-hidden="true">
+<div id="tc-pac"></div>
+<div id="pill-pac"></div>
+<div id="tc-sol"></div>
+<div id="pill-sol"></div>
+<div id="tc-cet"></div>
+<div id="pill-cet"></div>
+<div id="tc-bat"></div>
+<div id="pill-bat"></div>
 </div>
-</div>
-<div id="pill-pac" onclick="toggle('pac')" style="cursor:pointer;
-          padding:4px 12px;border-radius:20px;font-size:.65rem;font-weight:700;
-          background:var(--pac);color:#fff;white-space:nowrap;transition:all .2s;">ON</div>
-</div>
-<!-- Ligne 2 : boutons par couleur Tempo -->
-<div style="background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:9px 10px;">
-<div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:7px;">
-          Utilisation PAC par type de jour Tempo
-        </div>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
-<!-- Bleus -->
-<div class="si-tac">
-<div class="si-f6-mb" style="">🔵 Jours bleus<br><span style="font-size:.55rem;">(300 j/an)</span></div>
-<button id="pac-btn-bleu" onclick="togglePacDay('bleu')"
-              style="width:100%;padding:5px 0;font-size:.7rem;font-weight:700;border-radius:7px;cursor:pointer;
-              border:2px solid #2563eb;background:#2563eb;color:#fff;transition:.2s;">
-              PAC ✓
-            </button>
-<div class="si-f58-mt" style="" id="pac-bleu-sub">écart HC/HP : 0,031 €/kWh</div>
-</div>
-<!-- Blancs -->
-<div class="si-tac">
-<div class="si-f6-mb" style="">⬜ Jours blancs<br><span style="font-size:.55rem;">(43 j/an)</span></div>
-<button id="pac-btn-blanc" onclick="togglePacDay('blanc')"
-              style="width:100%;padding:5px 0;font-size:.7rem;font-weight:700;border-radius:7px;cursor:pointer;
-              border:2px solid #94a3b8;background:#94a3b8;color:#fff;transition:.2s;">
-              PAC ✓
-            </button>
-<div class="si-f58-mt" style="" id="pac-blanc-sub">écart HC/HP : 0,038 €/kWh</div>
-</div>
-<!-- Rouges -->
-<div class="si-tac">
-<div class="si-f6-mb" style="">🔴 Jours rouges<br><span style="font-size:.55rem;">(22 j/an)</span></div>
-<button id="pac-btn-rouge" onclick="togglePacDay('rouge')"
-              style="width:100%;padding:5px 0;font-size:.7rem;font-weight:700;border-radius:7px;cursor:pointer;
-              border:2px solid #dc2626;background:var(--surface2);color:var(--red);transition:.2s;">
-              GAZ ✗
-            </button>
-<div class="si-f58-mt" style="" id="pac-rouge-sub">HP rouge : 0,756 €/kWh</div>
-</div>
-</div>
-<!-- Résumé mode -->
-<div id="pac-mode-summary" style="margin-top:8px;font-size:.63rem;color:var(--text2);line-height:1.5;
-          padding:6px 8px;background:var(--surface);border-radius:6px;border:1px solid var(--border);">
-</div>
-</div>
-</div>
-<div class="toggle-card sol" id="tc-sol" onclick="toggle('sol')">
-<div class="t-ico">☀️</div>
-<div class="t-info">
-<div class="t-name" style="color:var(--sol)">Panneaux solaires</div>
-<div class="t-desc">
-<span id="tc-sol-kwc">4 kWc</span> · <span id="tc-sol-orient">Plein Sud 35°</span><br>
-<span id="tc-sol-loc">Brignais</span> · <span id="tc-sol-prod">5 210 kWh/an</span><br>
-<span id="tc-sol-install" style="font-size:.6rem;">Installation : <strong style="color:var(--sol)" id="tc-sol-install-label">Non installés</strong></span>
-</div>
-</div>
-<div class="t-pill sol" id="pill-sol">OFF</div>
-</div>
-<div class="toggle-card" id="tc-cet" onclick="toggle('cet')"
-      style="flex:1;min-width:180px;background:#f0fdf4;border:2px solid var(--grn);
-      border-radius:12px;padding:14px 16px;cursor:pointer;user-select:none;
-      display:flex;align-items:center;gap:12px;transition:all .2s;">
-<div class="t-ico">🚿</div>
-<div class="t-info">
-<div class="t-name si-grn" data-i18n="cet">Chauffe-eau thermo.</div>
-<div class="t-desc">
-<span id="tc-cet-cap">200 L</span> · COP <span id="tc-cet-cop">2.5</span><br>
-<span id="tc-cet-kwh" class="si-f6m">~800 kWh/an élec</span>
-</div>
-</div>
-<div class="t-pill" id="pill-cet"
-        style="padding:4px 10px;border-radius:20px;font-size:.65rem;font-weight:700;
-        background:var(--surface2);color:var(--muted);border:1px solid var(--border2);white-space:nowrap;transition:all .2s;">OFF</div>
-</div>
-<div class="toggle-card bat" id="tc-bat" onclick="toggle('bat')">
-<div class="t-ico">🔋</div>
-<div class="t-info">
-<div class="t-name" style="color:var(--bat)">Batterie de stockage</div>
-<div class="t-desc">
-<span id="tc-bat-cap">5,28 kWh brut</span> · <span id="tc-bat-utile">4,28 kWh utiles</span><br>
-<span id="tc-bat-nom" class="si-f6m">Batterie sélectionnée</span>
-</div>
-</div>
-<div class="t-pill bat" id="pill-bat">OFF</div>
-</div>
-</div>
-</div>
+<!-- ══ PAC CARD avec contrôle par couleur Tempo ══ (contenu déplacé dans energy-section) -->
 <!-- Fournisseurs & Contrats -->
 <div class="sec-head si-mt18"><div class="sec-head-icon">📋</div><div><div class="sec-head-title">Fournisseurs &amp; contrats énergie</div><div class="sec-head-sub">Sélectionnez votre fournisseur · Comparez les offres · Modifiez les tarifs</div></div></div>
 <div class="card" id="fournisseurs-card" style="padding:0;overflow:hidden;">
@@ -12545,20 +12455,29 @@ function toggleEnergySection(id){
 
 // Synchroniser les pills ON/OFF des sections énergie avec l'état réel
 function syncEnergyPills(){
-  var map = {
-    'pill-pac-es': {state: function(){ return usePac; }, color:'var(--pac)'},
-    'pill-sol-es': {state: function(){ return useSol; }, color:'var(--sol)'},
-    'pill-cet-es': {state: function(){ return useCet; }, color:'#16a34a'},
-    'pill-bat-es': {state: function(){ return useBat; }, color:'var(--bat)'},
-  };
-  Object.keys(map).forEach(function(id){
-    var el = document.getElementById(id);
-    if(!el) return;
-    var on = map[id].state();
-    el.textContent = on ? 'ON' : 'OFF';
-    el.style.background   = on ? map[id].color : 'var(--surface2)';
-    el.style.color        = on ? '#fff' : 'var(--muted)';
-    el.style.borderColor  = on ? map[id].color : 'var(--border)';
+  var sections = [
+    {pill:'pill-pac-es', section:'es-pac', state:function(){ return usePac; }, color:'var(--pac)'},
+    {pill:'pill-sol-es', section:'es-sol', state:function(){ return useSol; }, color:'var(--sol)'},
+    {pill:'pill-cet-es', section:'es-cet', state:function(){ return useCet; }, color:'#16a34a'},
+    {pill:'pill-bat-es', section:'es-bat', state:function(){ return useBat; }, color:'var(--bat)'},
+  ];
+  sections.forEach(function(s){
+    var on = s.state();
+    // Mettre à jour le pill
+    var el = document.getElementById(s.pill);
+    if(el){
+      el.textContent = on ? 'ON' : 'OFF';
+      el.style.background  = on ? s.color : 'var(--surface2)';
+      el.style.color       = on ? '#fff'   : 'var(--muted)';
+      el.style.borderColor = on ? s.color  : 'var(--border)';
+    }
+    // Mettre à jour la bordure de la section
+    var sec = document.getElementById(s.section);
+    if(sec){
+      sec.style.borderColor = on ? s.color.replace('var(--','').replace(')','') === s.color ? s.color : 'var(--border)' : 'var(--border)';
+      // Simplification: juste changer opacity si OFF
+      sec.style.opacity = on ? '1' : '0.7';
+    }
   });
   // Sync sous-titres
   var cop2 = document.getElementById('pac-cop-label2');
