@@ -4229,7 +4229,6 @@ function updateFioulMensuel(){
 var markDirty = function(){
   _autosaveDirty=true;
   markSectionDirty && markSectionDirty("all");
-  typeof syncEnergyPills==='function' && syncEnergyPills();
   const badge=$el('autosave-badge');
   const label=$el('autosave-label');
   if(badge) badge.style.display='flex';
@@ -5618,7 +5617,7 @@ function toggle(k){
 
   if(typeof syncEnergyPills==='function') syncEnergyPills();
 
-  if(typeof syncSimCards==="function") syncSimCards();}
+}
 function toggleEditor(){
   editorOpen=!editorOpen;
   document.getElementById('data-editor').classList.toggle('open',editorOpen);
@@ -13000,7 +12999,6 @@ function syncSimCards(){
   var summaryTxt = document.getElementById('sim-summary-text');
   if(summary){ summary.style.display = active.length>0 ? '' : 'none'; }
   if(summaryTxt){ summaryTxt.textContent = active.join(' + '); }
-  if(typeof syncEnergyPills==='function') syncEnergyPills();
 }
 
 function openHamburger(){
@@ -13140,7 +13138,6 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 
   // Sync pills Config
-  if(typeof syncEnergyPills==='function') syncEnergyPills();
   if(typeof syncSimCards==='function') syncSimCards();
   // Init énergie référence APRÈS loadFromStorage (energieRef est maintenant restauré)
   window.D_BOIS = window.D_BOIS||{steres:Array(12).fill(1.25),prixS:100};
