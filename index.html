@@ -1329,13 +1329,16 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 </div>
 <!-- Sélecteur chaudière de référence -->
 <div id="home-ref-section" class="si-mt16">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+
+<!-- ══ CARTE 1 : MON CHAUFFAGE ACTUEL ══ -->
 <div class="card" style="padding:14px 16px;">
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
     <div style="width:34px;height:34px;background:var(--gaz);border-radius:9px;
       display:flex;align-items:center;justify-content:center;font-size:1.1rem;">🏠</div>
     <div>
       <div style="font-size:.82rem;font-weight:800;">Mon chauffage actuel</div>
-      <div style="font-size:.66rem;color:var(--muted);">Sélectionnez votre système de référence pour calculer vos économies</div>
+      <div style="font-size:.66rem;color:var(--muted);">Votre situation de départ</div>
     </div>
   </div>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;" id="ref-cards-grid">
@@ -1399,6 +1402,81 @@ body { padding-bottom: env(safe-area-inset-bottom); }
     </button>
   </div>
 </div>
+
+<!-- ══ CARTE 2 : MA SIMULATION ══ -->
+<div class="card" style="padding:14px 16px;">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+    <div style="width:34px;height:34px;background:var(--pac);border-radius:9px;
+      display:flex;align-items:center;justify-content:center;font-size:1.1rem;">⚡</div>
+    <div>
+      <div style="font-size:.82rem;font-weight:800;">Ma simulation</div>
+      <div style="font-size:.66rem;color:var(--muted);">Équipements à installer</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">
+    <!-- PAC -->
+    <button type="button" id="sim-card-pac" onclick="toggleSimCard('pac')"
+      style="border:2px solid var(--border);background:var(--surface2);
+      border-radius:11px;padding:12px 8px;text-align:center;cursor:pointer;transition:.18s;">
+      <div style="font-size:1.4rem;">⚡</div>
+      <div style="font-size:.72rem;font-weight:800;margin-top:4px;color:var(--text);">PAC air/eau</div>
+      <div style="font-size:.58rem;margin-top:2px;color:var(--muted);">Pompe à chaleur</div>
+    </button>
+    <!-- Solaire -->
+    <button type="button" id="sim-card-sol" onclick="toggleSimCard('sol')"
+      style="border:2px solid var(--border);background:var(--surface2);
+      border-radius:11px;padding:12px 8px;text-align:center;cursor:pointer;transition:.18s;">
+      <div style="font-size:1.4rem;">☀️</div>
+      <div style="font-size:.72rem;font-weight:800;margin-top:4px;color:var(--text);">Solaire PV</div>
+      <div style="font-size:.58rem;margin-top:2px;color:var(--muted);">Panneaux solaires</div>
+    </button>
+    <!-- CET -->
+    <button type="button" id="sim-card-cet" onclick="toggleSimCard('cet')"
+      style="border:2px solid var(--border);background:var(--surface2);
+      border-radius:11px;padding:12px 8px;text-align:center;cursor:pointer;transition:.18s;">
+      <div style="font-size:1.4rem;">🚿</div>
+      <div style="font-size:.72rem;font-weight:800;margin-top:4px;color:var(--text);">CET</div>
+      <div style="font-size:.58rem;margin-top:2px;color:var(--muted);">Chauffe-eau thermo.</div>
+    </button>
+    <!-- Batterie -->
+    <button type="button" id="sim-card-bat" onclick="toggleSimCard('bat')"
+      style="border:2px solid var(--border);background:var(--surface2);
+      border-radius:11px;padding:12px 8px;text-align:center;cursor:pointer;transition:.18s;">
+      <div style="font-size:1.4rem;">🔋</div>
+      <div style="font-size:.72rem;font-weight:800;margin-top:4px;color:var(--text);">Batterie</div>
+      <div style="font-size:.58rem;margin-top:2px;color:var(--muted);">Stockage énergie</div>
+    </button>
+    <!-- Chaudière bois -->
+    <button type="button" id="sim-card-bois" onclick="toggleSimCard('bois')"
+      style="border:2px solid var(--border);background:var(--surface2);
+      border-radius:11px;padding:12px 8px;text-align:center;cursor:pointer;transition:.18s;">
+      <div style="font-size:1.4rem;">🪵</div>
+      <div style="font-size:.72rem;font-weight:800;margin-top:4px;color:var(--text);">Chaud. bois</div>
+      <div style="font-size:.58rem;margin-top:2px;color:var(--muted);">Chaudière à bois</div>
+    </button>
+    <!-- Chaudière pellets -->
+    <button type="button" id="sim-card-pellet" onclick="toggleSimCard('pellet')"
+      style="border:2px solid var(--border);background:var(--surface2);
+      border-radius:11px;padding:12px 8px;text-align:center;cursor:pointer;transition:.18s;">
+      <div style="font-size:1.4rem;">🌾</div>
+      <div style="font-size:.72rem;font-weight:800;margin-top:4px;color:var(--text);">Chaud. pellets</div>
+      <div style="font-size:.58rem;margin-top:2px;color:var(--muted);">Chaudière à granulés</div>
+    </button>
+  </div>
+  <!-- Résumé simulation -->
+  <div id="sim-summary" style="margin-top:10px;padding:8px 12px;background:var(--pac-tint);
+    border-radius:8px;font-size:.68rem;display:none;border:1px solid var(--pac)33;">
+    <div style="font-weight:700;color:var(--pac);margin-bottom:3px;">⚡ Simulation active</div>
+    <div id="sim-summary-text" style="color:var(--muted);"></div>
+    <button onclick="switchAppTab('results')"
+      style="margin-top:6px;padding:3px 12px;font-size:.65rem;font-weight:700;border-radius:5px;
+      cursor:pointer;border:none;background:var(--pac);color:#fff;">
+      📊 Voir les résultats →
+    </button>
+  </div>
+</div>
+
+</div><!-- fin grid 2 colonnes -->
 </div>
 <!-- Hero KPIs -->
 <div class="si-mt16" id="hero-kpis"></div>
@@ -5457,7 +5535,8 @@ function toggle(k){
   update();
 
   if(typeof syncEnergyPills==='function') syncEnergyPills();
-}
+
+  if(typeof syncSimCards==="function") syncSimCards();}
 function toggleEditor(){
   editorOpen=!editorOpen;
   document.getElementById('data-editor').classList.toggle('open',editorOpen);
@@ -12725,6 +12804,88 @@ function syncEnergyPills(){
   }
 }
 
+// ══════════════════════════════════════════════════════════════
+// CARTE SIMULATION EN PAGE ACCUEIL
+// ══════════════════════════════════════════════════════════════
+var SIM_COLORS = {
+  'pac':    {color:'var(--pac)',  bg:'#eff6ff', label:'PAC air/eau'},
+  'sol':    {color:'var(--sol)',  bg:'#fefce8', label:'Solaire PV'},
+  'cet':    {color:'#16a34a',    bg:'#f0fdf4', label:'CET'},
+  'bat':    {color:'var(--bat)', bg:'#faf5ff', label:'Batterie'},
+  'bois':   {color:'#6b3a1f',   bg:'#fef9f0', label:'Chaud. bois'},
+  'pellet': {color:'#92400e',   bg:'#fef3c7', label:'Chaud. pellets'},
+};
+
+function toggleSimCard(k){
+  // Mapper k sur la variable usePac/useSol etc.
+  var stateMap = {
+    'pac': function(){ usePac = !usePac; return usePac; },
+    'sol': function(){ useSol = !useSol; return useSol; },
+    'cet': function(){ useCet = !useCet; return useCet; },
+    'bat': function(){ useBat = !useBat; return useBat; },
+    'bois':   function(){ if(typeof useBoisChaud!=='undefined') useBoisChaud=!useBoisChaud; return typeof useBoisChaud!=='undefined'?useBoisChaud:false; },
+    'pellet': function(){ if(typeof usePelletChaud!=='undefined') usePelletChaud=!usePelletChaud; return typeof usePelletChaud!=='undefined'?usePelletChaud:false; },
+  };
+  var fn = stateMap[k];
+  if(!fn) return;
+  var newState = fn();
+  
+  // Mettre à jour la carte
+  syncSimCards();
+  
+  // Aussi déclencher toggle() pour PAC/Sol/CET/Bat (met à jour les calculs)
+  if(['pac','sol','cet','bat'].includes(k)){
+    // toggle() inverse l'état — on vient de l'inverser, re-inverser pour toggle()
+    if(k==='pac') usePac = !usePac;
+    if(k==='sol') useSol = !useSol;
+    if(k==='cet') useCet = !useCet;
+    if(k==='bat') useBat = !useBat;
+    toggle(k);
+  } else {
+    update();
+  }
+}
+
+function syncSimCards(){
+  var stateGet = {
+    'pac':    function(){ return usePac; },
+    'sol':    function(){ return useSol; },
+    'cet':    function(){ return useCet; },
+    'bat':    function(){ return useBat; },
+    'bois':   function(){ return typeof useBoisChaud!=='undefined'?useBoisChaud:false; },
+    'pellet': function(){ return typeof usePelletChaud!=='undefined'?usePelletChaud:false; },
+  };
+  
+  var active = [];
+  Object.keys(stateGet).forEach(function(k){
+    var on = stateGet[k]();
+    var card = document.getElementById('sim-card-'+k);
+    if(!card) return;
+    var cfg = SIM_COLORS[k];
+    if(on){
+      card.style.background   = cfg.bg;
+      card.style.borderColor  = cfg.color;
+      card.querySelector('div:nth-child(2)').style.color = cfg.color;
+      active.push(cfg.label);
+    } else {
+      card.style.background   = 'var(--surface2)';
+      card.style.borderColor  = 'var(--border)';
+      card.querySelector('div:nth-child(2)').style.color = 'var(--text)';
+    }
+  });
+  
+  // Résumé
+  var summary = document.getElementById('sim-summary');
+  var summaryTxt = document.getElementById('sim-summary-text');
+  if(summary){
+    summary.style.display = active.length > 0 ? '' : 'none';
+    if(summaryTxt) summaryTxt.textContent = active.join(' + ');
+  }
+  
+  // Aussi sync les pills dans config
+  if(typeof syncEnergyPills==='function') syncEnergyPills();
+}
+
 function openHamburger(){
   document.getElementById('hamburger-menu').classList.add('open');
   document.getElementById('hamburger-overlay').classList.add('open');
@@ -12863,6 +13024,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
   // Sync pills Config
   if(typeof syncEnergyPills==='function') syncEnergyPills();
+  if(typeof syncSimCards==='function') syncSimCards();
   // Init énergie référence APRÈS loadFromStorage (energieRef est maintenant restauré)
   window.D_BOIS = window.D_BOIS||{steres:Array(12).fill(1.25),prixS:100};
   if(typeof updateBoisMensuel==='function') updateBoisMensuel();
