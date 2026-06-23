@@ -1171,7 +1171,35 @@ window.skipWizard = function(){
   if(b) b.style.display='none';
 };
 window.toggle = function(k){ if(typeof window._toggleReal==='function') window._toggleReal(k); };
-window.toggleSimCard = function(k){ if(typeof window._toggleSimReal==='function') window._toggleSimReal(k); };
+window.toggleSimCard = function(k){
+  // Si la vraie fonction est disponible, l'utiliser
+  if(typeof window._toggleSimReal==='function'){ window._toggleSimReal(k); return; }
+  // Sinon : flip visuel basé sur l'état courant de la carte
+  var card=document.getElementById('sim-card-'+k);
+  if(!card) return;
+  var colors={pac:'#2563eb',pacair:'#0891b2',sol:'#ca8a04',cet:'#16a34a',bat:'#7c3aed',bois:'#6b3a1f',pellet:'#92400e'};
+  var bgs={pac:'#eff6ff',pacair:'#ecfeff',sol:'#fefce8',cet:'#f0fdf4',bat:'#faf5ff',bois:'#fef9f0',pellet:'#fef3c7'};
+  var isOn=card.getAttribute('data-on')==='1';
+  var nowOn=!isOn;
+  card.setAttribute('data-on',nowOn?'1':'0');
+  card.style.background=nowOn?bgs[k]:'';
+  card.style.borderColor=nowOn?colors[k]:'';
+  var t=card.querySelector('div:nth-child(2)');
+  if(t) t.style.color=nowOn?colors[k]:'';
+  // Panneaux bois/pellets
+  var pp=document.getElementById('sim-'+k+'-params');
+  if(pp) pp.style.display=nowOn?'':'none';
+  // Résumé
+  var active=[];
+  ['pac','pacair','sol','cet','bat','bois','pellet'].forEach(function(id){
+    var c=document.getElementById('sim-card-'+id);
+    if(c&&c.getAttribute('data-on')==='1') active.push(id);
+  });
+  var sum=document.getElementById('sim-summary');
+  if(sum) sum.style.display=active.length?'':'none';
+  var txt=document.getElementById('sim-summary-text');
+  if(txt) txt.textContent=active.join(' + ');
+};
 window.setEnergieRef = function(t){ if(typeof window._setRefReal==='function') window._setRefReal(t); };
 // Afficher le banner iOS uniquement dans Safari mobile, pas déjà installé
 (function(){
@@ -2497,8 +2525,17 @@ window.setEnergieRef = function(t){ if(typeof window._setRefReal==='function') w
 <div class="invest-block" id="row-inv-pacair">
 <div class="invest-header" style="background:#ecfeff;border-color:#0891b2;">
   <span style="font-size:1.1rem;">🌬️</span>
-  <div><div class="invest-name" style="color:#0891b2;">PAC air/air</div>
-  <div class="invest-sub">Climatisation réversible</div></div>
+  <div style="flex:1;">
+    <div class="invest-name" style="color:#0891b2;">PAC air/air</div>
+    <div class="invest-sub">Climatisation réversible</div>
+    <div style="display:flex;gap:6px;margin-top:4px;align-items:center;">
+      <span style="font-size:.62rem;color:var(--muted);">Déjà installée ?</span>
+      <button type="button" id="pacair-inst-oui" onclick="setPacAirInstall(true)"
+        style="padding:2px 10px;font-size:.62rem;font-weight:700;border-radius:5px;cursor:pointer;border:1px solid var(--border2);background:var(--surface2);color:var(--muted);">Oui</button>
+      <button type="button" id="pacair-inst-non" onclick="setPacAirInstall(false)"
+        style="padding:2px 10px;font-size:.62rem;font-weight:700;border-radius:5px;cursor:pointer;border:1px solid #0891b2;background:#0891b2;color:#fff;">Non</button>
+    </div>
+  </div>
 </div>
 <div class="invest-body">
   <div class="invest-row"><span class="invest-lbl">Modèle</span>
@@ -2607,7 +2644,17 @@ window.setEnergieRef = function(t){ if(typeof window._setRefReal==='function') w
 <div class="invest-block" id="row-inv-bat">
 <div class="invest-header" style="background:var(--bat-tint);border-color:var(--bat);">
 <span style="font-size:1.1rem;">🔋</span>
-<div><div class="invest-name" data-i18n="bat">Batterie de stockage</div><div class="invest-sub">Configurez votre modèle</div></div>
+<div style="flex:1;">
+    <div class="invest-name">Batterie de stockage</div>
+    <div class="invest-sub">Configurez votre modèle</div>
+    <div style="display:flex;gap:6px;margin-top:4px;align-items:center;">
+      <span style="font-size:.62rem;color:var(--muted);">Déjà installée ?</span>
+      <button type="button" id="bat-inst-oui" onclick="setBatInstall(true)"
+        style="padding:2px 10px;font-size:.62rem;font-weight:700;border-radius:5px;cursor:pointer;border:1px solid var(--border2);background:var(--surface2);color:var(--muted);">Oui</button>
+      <button type="button" id="bat-inst-non" onclick="setBatInstall(false)"
+        style="padding:2px 10px;font-size:.62rem;font-weight:700;border-radius:5px;cursor:pointer;border:1px solid var(--bat);background:var(--bat);color:#fff;">Non</button>
+    </div>
+  </div>
 </div>
 <div class="invest-body">
 <div class="invest-row">
@@ -5186,6 +5233,24 @@ function updateInvestPellet2(){
   var tonnes=parseFloat(document.getElementById('pellet-tonnes-an')?.value)||5;
   var prix=parseFloat(document.getElementById('pellet-prix-tonne')?.value)||350;
   var el2=document.getElementById('pellet-cout-an'); if(el2) el2.textContent=Math.round(tonnes*prix).toLocaleString('fr')+' €/an';
+}
+
+function setBatInstall(yn){
+  var oui=document.getElementById('bat-inst-oui');
+  var non=document.getElementById('bat-inst-non');
+  if(oui){oui.style.background=yn?'var(--bat)':'var(--surface2)';oui.style.color=yn?'#fff':'var(--muted)';oui.style.borderColor=yn?'var(--bat)':'var(--border2)';}
+  if(non){non.style.background=yn?'var(--surface2)':'var(--bat)';non.style.color=yn?'var(--muted)':'#fff';non.style.borderColor=yn?'var(--border2)':'var(--bat)';}
+  var lbl=document.getElementById('invest-bat-val');
+  if(lbl) lbl.textContent=yn?'0 € (déjà installée)':((parseFloat(document.getElementById('inv-bat-mat')?.value)||2200)+parseFloat(document.getElementById('inv-bat-pose')?.value||500)).toLocaleString('fr')+' €';
+}
+function setPacAirInstall(yn){
+  var oui=document.getElementById('pacair-inst-oui');
+  var non=document.getElementById('pacair-inst-non');
+  if(oui){oui.style.background=yn?'#0891b2':'var(--surface2)';oui.style.color=yn?'#fff':'var(--muted)';}
+  if(non){non.style.background=yn?'var(--surface2)':'#0891b2';non.style.color=yn?'var(--muted)':'#fff';}
+  var inp=document.getElementById('inv-pacair-mat');
+  if(inp) inp.disabled=yn;
+  updateInvestPacAir();
 }
 
 function applyBoisChaudPreset(val){
@@ -9426,7 +9491,10 @@ function loadFromStorage(){
     const raw = localStorage.getItem(STORAGE_KEY);
     if(!raw) return false;
     const s = JSON.parse(raw);
-    if(!s||(s.v!==3&&s.v!==2)) return false; // accepte v2 et v3
+    if(!s||(s.v!==3&&s.v!==2)) return false;
+    // Force solInstalled=false sauf si explicitement sauvegardé true
+    if(s.solInstalled===undefined) s.solInstalled=false;
+    if(s.useSol===undefined) s.useSol=false;
 
     // ── Phase 1 : Variables JS pures (safe avant DOM) ──
     if(s.energieRef) energieRef=s.energieRef;
@@ -9926,7 +9994,7 @@ document.addEventListener('DOMContentLoaded', function(){
   if(typeof initContrats === 'function') initContrats();
   if(typeof updateBatConfig === 'function') updateBatConfig();
   if(typeof setPacInstall === 'function') setPacInstall(s.pacInstalled!==false);
-  if(typeof setSolInstall === 'function') setSolInstall(!!s.solInstalled);
+  if(typeof setSolInstall === 'function') setSolInstall(s.solInstalled===true);
   if(typeof setRachat === 'function') setRachat(s.useRachat!==false);
   if(typeof renderPacDayButtons === 'function') renderPacDayButtons();
   if(typeof updateNow === 'function') updateNow();
@@ -12841,26 +12909,19 @@ function toggleSimCard(k){
   else if(k==='sol')    { toggle('sol'); }
   else if(k==='cet')    { toggle('cet'); }
   else if(k==='bat')    { toggle('bat'); }
-  else if(k==='pacair') {
-    usePacAir = !usePacAir;
-    syncSimCards();
-    update();
-  }
+  else if(k==='pacair') { usePacAir=!usePacAir; syncSimCards(); update(); }
   else if(k==='bois'){
-    var p = document.getElementById('sim-bois-params');
-    var on = p && p.style.display!=='none';
-    if(p) p.style.display = on ? 'none' : '';
-    syncSimCards();
-    update();
+    var p=document.getElementById('sim-bois-params');
+    var on=p&&p.style.display!=='none';
+    if(p) p.style.display=on?'none':'';
+    syncSimCards(); update();
   }
   else if(k==='pellet'){
-    var p2 = document.getElementById('sim-pellet-params');
-    var on2 = p2 && p2.style.display!=='none';
-    if(p2) p2.style.display = on2 ? 'none' : '';
-    syncSimCards();
-    update();
+    var p2=document.getElementById('sim-pellet-params');
+    var on2=p2&&p2.style.display!=='none';
+    if(p2) p2.style.display=on2?'none':'';
+    syncSimCards(); update();
   }
-  // syncSimCards appelé aussi depuis toggle() via syncEnergyPills
 }
 
 function clearSimCards(){
@@ -12926,12 +12987,12 @@ function syncSimCards(){
     var cfg = SIM_COLORS[k];
     var card = document.getElementById('sim-card-'+k);
     if(card){
-      card.style.background  = on ? cfg.bg              : 'var(--surface2)';
-      card.style.borderColor = on ? cfg.color           : 'var(--border)';
-      card.style.color       = on ? cfg.color           : 'var(--text)';
-      // Mettre à jour le texte titre (2ème div enfant du button)
+      card.setAttribute('data-on', on?'1':'0');
+      card.style.background  = on ? cfg.bg    : '';
+      card.style.borderColor = on ? cfg.color : '';
+      card.style.color       = on ? cfg.color : '';
       var titleEl = card.querySelector('div:nth-child(2)');
-      if(titleEl) titleEl.style.color = on ? cfg.color : 'var(--text)';
+      if(titleEl) titleEl.style.color = on ? cfg.color : '';
     }
     if(on) active.push(cfg.label);
   });
