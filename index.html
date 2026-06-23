@@ -9550,9 +9550,13 @@ function loadFromStorage(){
       if(_sBat!==undefined && useBat!==_sBat) toggle('bat');
       if(_sCet!==undefined && useCet!==_sCet) toggle('cet');
       if(typeof syncEnergyPills==='function') syncEnergyPills();
+      if(typeof syncSimCards==='function') syncSimCards();
+      if(typeof setEnergieRef==='function') setEnergieRef(energieRef||'gaz');
       if(typeof syncTempoTarifs==='function') syncTempoTarifs();
       if(typeof initContrats==='function') initContrats();
       if(typeof renderHistory==='function') setTimeout(renderHistory,400);
+      // Recalcul après restauration
+      if(typeof updateNow==='function') setTimeout(updateNow, 100);
       // Toast uniquement quand le container existe
       const tc=document.getElementById('toast-container');
       if(tc && s.ts){
@@ -12904,10 +12908,10 @@ var SIM_COLORS = {
 };
 
 function toggleSimCard(k){
-  if(k==='pac')    { toggle('pac'); }
-  else if(k==='sol')    { toggle('sol'); }
-  else if(k==='cet')    { toggle('cet'); }
-  else if(k==='bat')    { toggle('bat'); }
+  if(k==='pac')    { toggle('pac'); setTimeout(function(){if(typeof syncSimCards==='function')syncSimCards();},50); }
+  else if(k==='sol')    { toggle('sol'); setTimeout(function(){if(typeof syncSimCards==='function')syncSimCards();},50); }
+  else if(k==='cet')    { toggle('cet'); setTimeout(function(){if(typeof syncSimCards==='function')syncSimCards();},50); }
+  else if(k==='bat')    { toggle('bat'); setTimeout(function(){if(typeof syncSimCards==='function')syncSimCards();},50); }
   else if(k==='pacair') { usePacAir=!usePacAir; syncSimCards(); update(); }
   else if(k==='bois'){
     var p=document.getElementById('sim-bois-params');
@@ -13145,6 +13149,7 @@ document.addEventListener('DOMContentLoaded', function(){
   if(typeof updatePelletMensuel==='function') updatePelletMensuel();
   if(typeof updateFioulMensuel==='function') updateFioulMensuel();
   if(typeof setEnergieRef==='function') setEnergieRef(energieRef||'gaz');
+  if(typeof syncSimCards==='function') syncSimCards();
 
 });
 
