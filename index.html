@@ -1174,6 +1174,13 @@ body { padding-bottom: env(safe-area-inset-bottom); }
     <span class="tab-step">5</span>
     <span class="tab-icon">🔬</span> Bilan &amp; Conseils
   </button>
+  <button onclick="try{localStorage.removeItem('wizard-done');localStorage.removeItem('guide-dismissed');}catch(e){}startWizard()"
+    title="Guide d'utilisation"
+    style="background:var(--pac);border:none;border-radius:10px;padding:8px 12px;
+    font-size:.75rem;font-weight:700;color:#fff;cursor:pointer;white-space:nowrap;
+    display:flex;align-items:center;gap:5px;">
+    🧭
+  </button>
   <button class="hamburger-btn" onclick="openHamburger()" id="btn-hamburger"
     title="Export, installation PWA et plus">
     ☰
