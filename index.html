@@ -1157,6 +1157,22 @@ body { padding-bottom: env(safe-area-inset-bottom); }
     style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--muted);padding:4px;">✕</button>
 </div>
 <script>
+// Aliases globaux pour fonctions définies plus tard (évite ReferenceError si appelées tôt)
+window.startWizard = function(){
+  var ov=document.getElementById('wizard-overlay');
+  if(ov){ ov.style.display='flex'; ov.classList.add('open'); }
+  if(typeof window._startWizardReal==='function') window._startWizardReal();
+};
+window.skipWizard = function(){
+  var ov=document.getElementById('wizard-overlay');
+  if(ov){ ov.style.display='none'; ov.classList.remove('open'); }
+  try{localStorage.setItem('wizard-done','1');}catch(e){}
+  var b=document.getElementById('home-guide-banner');
+  if(b) b.style.display='none';
+};
+window.toggle = function(k){ if(typeof window._toggleReal==='function') window._toggleReal(k); };
+window.toggleSimCard = function(k){ if(typeof window._toggleSimReal==='function') window._toggleSimReal(k); };
+window.setEnergieRef = function(t){ if(typeof window._setRefReal==='function') window._setRefReal(t); };
 // Afficher le banner iOS uniquement dans Safari mobile, pas déjà installé
 (function(){
   try {
@@ -12469,6 +12485,11 @@ document.addEventListener('DOMContentLoaded', function(){
   // Init UI
   if(typeof buildLangMenu==='function') buildLangMenu();
   if(typeof initSwipe==='function') initSwipe();
+// Assigner les vraies fonctions aux aliases du premier script
+window._startWizardReal = startWizard;
+window._toggleReal      = toggle;
+window._toggleSimReal   = toggleSimCard;
+window._setRefReal      = setEnergieRef;
 if(typeof initSwipe==='function') initSwipe();
 
 // ══════════════════════════════════════════════════════════════
