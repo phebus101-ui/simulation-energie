@@ -1843,6 +1843,20 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <div id="pill-cet"></div>
 <div id="tc-bat"></div>
 <div id="pill-bat"></div>
+<div id="pac-desc"></div>
+<div id="tc-cet-kwh"></div>
+<div id="tc-sol-kwc"></div>
+<div id="tc-sol-orient"></div>
+<div id="tc-sol-loc"></div>
+<div id="tc-sol-prod"></div>
+<div id="tc-sol-install-label"></div>
+<div id="tc-cet-cap"></div>
+<div id="tc-cet-cop"></div>
+<div id="tc-bat-cap"></div>
+<div id="tc-bat-utile"></div>
+<div id="tc-bat-nom"></div>
+<div id="pac-cop-label"></div>
+<div id="pac-install-label"></div>
 </div>
 <!-- ══ PAC CARD avec contrôle par couleur Tempo ══ (contenu déplacé dans energy-section) -->
 <!-- Fournisseurs & Contrats -->
@@ -5412,8 +5426,10 @@ function toggle(k){
   }
   if(k==='sol') useSol=!useSol; else useBat=!useBat;
   const on=k==='sol'?useSol:useBat;
-  document.getElementById('tc-'+k).classList.toggle('on',on);
-  document.getElementById('pill-'+k).textContent=on?'ON':'OFF';
+  const _tc=document.getElementById('tc-'+k);
+  if(_tc) _tc.classList.toggle('on',on);
+  const _pill=document.getElementById('pill-'+k);
+  if(_pill) _pill.textContent=on?'ON':'OFF';
   ['row-inv-','row-vie-'].forEach(p=>{
     const el=document.getElementById(p+k);
     if(el) el.classList.toggle('dimmed',!on);
@@ -9330,9 +9346,11 @@ function loadFromStorage(){
     if(s.curOffreGaz)   curOffreGaz=s.curOffreGaz;
     if(s.customTarifsElec) customTarifsElec=s.customTarifsElec;
     if(s.customTarifsGaz)  customTarifsGaz=s.customTarifsGaz;
-    if(s.usePac!==undefined && usePac!==s.usePac) toggle('pac');
-    if(s.useSol!==undefined && useSol!==s.useSol) toggle('sol');
-    if(s.useBat!==undefined && useBat!==s.useBat) toggle('bat');
+    // Sauvegarder les états usePac/Sol/Bat pour les appliquer dans applyDOM
+    const _sPac = s.usePac;
+    const _sSol = s.useSol;
+    const _sBat = s.useBat;
+    const _sCet = s.useCet;
 
     // ── Phase 2 : DOM (reporter si pas encore prêt) ──
     const applyDOM = () => {
@@ -9349,6 +9367,12 @@ function loadFromStorage(){
       if(hl) hl.textContent=curLocName;
       const ht=$el('header-title');
       if(ht) ht.textContent=`Simulation énergie maison – ${escapeHtml(curLocName)}`;
+      // Appliquer les états on/off des équipements dans le DOM
+      if(_sPac!==undefined && usePac!==_sPac) toggle('pac');
+      if(_sSol!==undefined && useSol!==_sSol) toggle('sol');
+      if(_sBat!==undefined && useBat!==_sBat) toggle('bat');
+      if(_sCet!==undefined && useCet!==_sCet) toggle('cet');
+      if(typeof syncEnergyPills==='function') syncEnergyPills();
       if(typeof syncTempoTarifs==='function') syncTempoTarifs();
       if(typeof initContrats==='function') initContrats();
       if(typeof renderHistory==='function') setTimeout(renderHistory,400);
