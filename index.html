@@ -1621,7 +1621,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
       <div class="energy-section-title">PAC réversible</div>
       <div class="energy-section-sub">Pompe à chaleur air/eau · COP <span id="pac-cop-label2">3.0</span></div>
     </div>
-    <button type="button" id="pill-pac-es" type="button" style="margin-left:auto;padding:5px 14px;border-radius:20px;font-size:.65rem;font-weight:700;background:var(--surface2);color:var(--muted);border:1.5px solid var(--border);white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="event.stopPropagation();toggle('pac')">OFF</button>
+    <button type="button" id="pill-pac-es" type="button" style="margin-left:auto;padding:5px 14px;border-radius:20px;font-size:.65rem;font-weight:700;background:var(--surface2);color:var(--muted);border:1.5px solid var(--border);white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="event.stopPropagation();alert('Clic pac');toggle('pac')">OFF</button>
   </div>
   <div class="energy-section-body collapsed" id="es-pac-body">
     <div id="tc-pac-inner"><!-- contenu PAC injecté ici --></div>
@@ -1636,7 +1636,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
       <div class="energy-section-title" style="color:var(--sol);">Panneaux solaires</div>
       <div class="energy-section-sub"><span id="tc-sol-kwc2">4 kWc</span> · <span id="tc-sol-prod2">5 210 kWh/an</span></div>
     </div>
-    <button type="button" id="pill-sol-es" type="button" style="margin-left:auto;padding:5px 14px;border-radius:20px;font-size:.65rem;font-weight:700;background:var(--surface2);color:var(--muted);border:1.5px solid var(--border);white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="event.stopPropagation();toggle('sol')">OFF</button>
+    <button type="button" id="pill-sol-es" type="button" style="margin-left:auto;padding:5px 14px;border-radius:20px;font-size:.65rem;font-weight:700;background:var(--surface2);color:var(--muted);border:1.5px solid var(--border);white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="event.stopPropagation();alert('Clic sol');toggle('sol')">OFF</button>
   </div>
   <div class="energy-section-body collapsed" id="es-sol-body">
     <div id="tc-sol-inner"><!-- contenu Solaire injecté ici --></div>
@@ -1651,7 +1651,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
       <div class="energy-section-title" style="color:#16a34a;">Chauffe-eau thermodynamique</div>
       <div class="energy-section-sub"><span id="tc-cet-cap2">200 L</span> · COP <span id="tc-cet-cop2">2.5</span></div>
     </div>
-    <button type="button" id="pill-cet-es" type="button" style="margin-left:auto;padding:5px 14px;border-radius:20px;font-size:.65rem;font-weight:700;background:var(--surface2);color:var(--muted);border:1.5px solid var(--border);white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="event.stopPropagation();toggle('cet')">OFF</button>
+    <button type="button" id="pill-cet-es" type="button" style="margin-left:auto;padding:5px 14px;border-radius:20px;font-size:.65rem;font-weight:700;background:var(--surface2);color:var(--muted);border:1.5px solid var(--border);white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="event.stopPropagation();alert('Clic cet');toggle('cet')">OFF</button>
   </div>
   <div class="energy-section-body collapsed" id="es-cet-body">
     <div id="tc-cet-inner"><!-- contenu CET injecté ici --></div>
@@ -1666,7 +1666,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
       <div class="energy-section-title" style="color:var(--bat);">Batterie de stockage</div>
       <div class="energy-section-sub"><span id="tc-bat-cap2">5,28 kWh</span> brut · <span id="tc-bat-utile2">4,28 kWh</span> utiles</div>
     </div>
-    <button type="button" id="pill-bat-es" type="button" style="margin-left:auto;padding:5px 14px;border-radius:20px;font-size:.65rem;font-weight:700;background:var(--surface2);color:var(--muted);border:1.5px solid var(--border);white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="event.stopPropagation();toggle('bat')">OFF</button>
+    <button type="button" id="pill-bat-es" type="button" style="margin-left:auto;padding:5px 14px;border-radius:20px;font-size:.65rem;font-weight:700;background:var(--surface2);color:var(--muted);border:1.5px solid var(--border);white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent;" onclick="event.stopPropagation();alert('Clic bat');toggle('bat')">OFF</button>
   </div>
   <div class="energy-section-body collapsed" id="es-bat-body">
     <div id="tc-bat-inner"><!-- contenu Batterie injecté ici --></div>
@@ -12639,6 +12639,11 @@ function toggleEnergySection(id){
 }
 
 // Synchroniser les pills ON/OFF des sections énergie avec l'état réel
+// ── DIAGNOSTIC BOUTONS ON/OFF ──
+function testToggle(k){
+  alert('testToggle appelé avec k=' + k + ' | usePac=' + usePac + ' useSol=' + useSol);
+}
+
 function syncEnergyPills(){
   var sections = [
     {pill:'pill-pac-es', section:'es-pac', state:function(){ return usePac; }, color:'var(--pac)'},
