@@ -11366,15 +11366,20 @@ WIZARD_STEPS=[
 if(typeof _wizardStep==="undefined") var _wizardStep=0;
 
 function startWizard(){
-  _wizardStep=0;
-  var ov=document.getElementById('wizard-overlay');
-  if(!ov) return;
-  ov.style.display='flex'; ov.classList.add('open');
-  renderWizardStep();
+  // Déléguer au système wizard original (openWizard)
+  if(typeof openWizard==='function'){
+    openWizard();
+  } else {
+    var ov=document.getElementById('wizard-overlay');
+    if(ov){ ov.style.display='flex'; }
+  }
 }
 function skipWizard(){
-  var ov=document.getElementById('wizard-overlay');
-  if(ov){ov.style.display='none';ov.classList.remove('open');}
+  if(typeof closeWizard==='function') closeWizard();
+  else {
+    var ov=document.getElementById('wizard-overlay');
+    if(ov) ov.style.display='none';
+  }
   try{localStorage.setItem('wizard-done','1');}catch(e){}
   var b=document.getElementById('home-guide-banner');
   if(b) b.style.display='none';
@@ -11480,11 +11485,10 @@ document.addEventListener('DOMContentLoaded', function(){
   // Bannière guide
   try{
     var banner=document.getElementById('home-guide-banner');
-    if(banner&&(localStorage.getItem('wizard-done')||localStorage.getItem('guide-dismissed'))){
-      banner.style.display='none';
-    } else if(!localStorage.getItem('wizard-done')){
-      setTimeout(function(){if(typeof startWizard==='function') startWizard();},1500);
+    if(localStorage.getItem('wizard-done')||localStorage.getItem('guide-dismissed')){
+      if(banner) banner.style.display='none';
     }
+    // NE PAS lancer le wizard automatiquement — l'utilisateur clique sur "Démarrer le guide"
   }catch(e){}
 
 });
@@ -11693,20 +11697,7 @@ document.addEventListener('DOMContentLoaded', function(){
 </template>
 
 <div id="toast-container"></div>
-<!-- ══ WIZARD GUIDE ══ -->
-<div class="wizard-overlay" id="wizard-overlay">
-  <div class="wizard-box">
-    <div class="wizard-progress"><div class="wizard-progress-bar" id="wizard-progress-bar" style="width:20%"></div></div>
-    <div class="wizard-step-dots" id="wizard-dots"></div>
-    <div class="wizard-icon" id="wizard-icon">🏠</div>
-    <div class="wizard-title" id="wizard-title">Bienvenue !</div>
-    <div class="wizard-desc" id="wizard-desc">Configurons votre simulation ensemble.</div>
-    <div class="wizard-actions">
-      <button class="wizard-btn-skip" type="button" onclick="skipWizard()">Passer</button>
-      <button class="wizard-btn-next" type="button" id="wizard-btn-next" onclick="wizardNext()">Suivant →</button>
-    </div>
-  </div>
-</div>
+<!-- wizard-overlay géré par le système original -->
 <!-- IDs cachés pour compatibilité -->
 <div style="display:none;" aria-hidden="true">
   <div id="config-ref-label"></div>
