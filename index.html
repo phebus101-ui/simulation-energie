@@ -5923,10 +5923,10 @@ function compute(p){
     const gaz_chauf_m3  = kwh_gaz_chauf_total / (COEFF*RDT);
     const gaz_total_m3  = gaz_chauf_m3 + ecs;
     const cout_gaz_total = gaz_total_m3 * COEFF * pg_i;
+    const kwh_cet_i = useCet ? kwhCetMois(i) : 0; // kWh élec CET ce mois
     const cout_cet_i = useCet ? kwh_cet_i * (_sp?(_sp.pe_hp*0.7+_sp.pe_hc*0.3):p.pe) : 0;
     const cout_ecs_gaz_i = useCet ? 0 : 0; // déjà inclus dans cout_gaz_total
     const c_pac = cout_gaz_total + cout_elec_pac + cout_cet_i;
-    const kwh_cet_i = useCet ? kwhCetMois(i) : 0; // kWh élec CET ce mois
     const conso_tot = D.elec[i] + kwh_pac_total + kwh_cet_i;
     const auto  = Math.min(D.solar[i], conso_tot);
     const surplus = Math.max(0, D.solar[i] - conso_tot);
@@ -12956,6 +12956,9 @@ function updateSimPelletPrix(){
 }
 
 function syncSimCards(){
+  if(window._syncSimBusy) return;
+  window._syncSimBusy = true;
+  try {
   var states = {
     'pac':    usePac,
     'pacair': usePacAir,
@@ -12984,6 +12987,7 @@ function syncSimCards(){
   var summaryTxt = document.getElementById('sim-summary-text');
   if(summary){ summary.style.display = active.length>0 ? '' : 'none'; }
   if(summaryTxt){ summaryTxt.textContent = active.join(' + '); }
+  } finally { window._syncSimBusy = false; }
 }
 
 function openHamburger(){
