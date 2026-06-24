@@ -1068,10 +1068,102 @@ body { padding-bottom: env(safe-area-inset-bottom); }
     <button type="button" id="sim-card-bat" onclick="toggleSimCard('bat')" style="border:2px solid var(--border);background:var(--surface2);border-radius:10px;padding:8px 4px;text-align:center;cursor:pointer;transition:.18s;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;aspect-ratio:1;min-height:56px;max-height:80px;"><div style="font-size:1.1rem;line-height:1;">🔋</div><div style="font-size:.6rem;font-weight:800;margin-top:4px;color:var(--text);line-height:1.2;">Batterie</div><div style="font-size:.5rem;color:var(--muted);margin-top:1px;line-height:1.2;">Stockage</div></button>
     <button type="button" id="sim-card-bois" onclick="toggleSimCard('bois')" style="border:2px solid var(--border);background:var(--surface2);border-radius:10px;padding:8px 4px;text-align:center;cursor:pointer;transition:.18s;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;aspect-ratio:1;min-height:56px;max-height:80px;"><div style="font-size:1.1rem;line-height:1;">🪵</div><div style="font-size:.6rem;font-weight:800;margin-top:4px;color:var(--text);line-height:1.2;">Chaud. bois</div><div style="font-size:.5rem;color:var(--muted);margin-top:1px;line-height:1.2;">Bûches</div></button>
     <button type="button" id="sim-card-pellet" onclick="toggleSimCard('pellet')" style="border:2px solid var(--border);background:var(--surface2);border-radius:10px;padding:8px 4px;text-align:center;cursor:pointer;transition:.18s;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;aspect-ratio:1;min-height:56px;max-height:80px;"><div style="font-size:1.1rem;line-height:1;">🌾</div><div style="font-size:.6rem;font-weight:800;margin-top:4px;color:var(--text);line-height:1.2;">Chaud. pellets</div><div style="font-size:.5rem;color:var(--muted);margin-top:1px;line-height:1.2;">Granulés</div></button>
+    <button type="button" id="sim-card-fioul" onclick="toggleSimCard('fioul')"
+      style="border:2px solid var(--border);background:var(--surface2);border-radius:10px;
+      padding:8px 4px;text-align:center;cursor:pointer;transition:.15s;display:flex;
+      flex-direction:column;align-items:center;justify-content:center;
+      width:100%;aspect-ratio:1;min-height:56px;max-height:80px;">
+      <div style="font-size:1.1rem;line-height:1;">🛢️</div>
+      <div style="font-size:.6rem;font-weight:800;margin-top:4px;color:var(--text);line-height:1.2;">Fioul</div>
+      <div style="font-size:.5rem;color:var(--muted);margin-top:1px;line-height:1.2;">Référence</div>
+    </button>
   </div>
   </div>
   
   
+
+  <!-- ══ PANNEAUX PRIX/QUANTITÉ ══ -->
+  <!-- Bois -->
+  <div id="sim-bois-panel" style="display:none;margin-top:8px;padding:10px 12px;
+    background:#fef9f0;border-radius:10px;border:1px solid #6b3a1f33;">
+    <div style="font-size:.65rem;font-weight:800;color:#6b3a1f;margin-bottom:6px;">🪵 Chaudière à bois</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <div>
+        <label style="font-size:.58rem;color:var(--muted);font-weight:600;">Conso (stères/an)</label>
+        <input type="number" id="sim-bois-steres" value="15" min="1" max="60" step="0.5"
+          style="width:100%;margin-top:2px;padding:5px 7px;font-size:.78rem;font-weight:700;
+          color:#6b3a1f;background:var(--surface);border:1px solid #6b3a1f44;border-radius:7px;"
+          oninput="updateSimBoisCalc()">
+      </div>
+      <div>
+        <label style="font-size:.58rem;color:var(--muted);font-weight:600;">Prix (€/stère)</label>
+        <input type="number" id="sim-bois-prix" value="100" min="30" max="300" step="5"
+          style="width:100%;margin-top:2px;padding:5px 7px;font-size:.78rem;font-weight:700;
+          color:#6b3a1f;background:var(--surface);border:1px solid #6b3a1f44;border-radius:7px;"
+          oninput="updateSimBoisCalc()">
+      </div>
+    </div>
+    <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-size:.6rem;color:var(--muted);">Coût annuel estimé</span>
+      <strong style="font-size:.75rem;color:#6b3a1f;" id="sim-bois-total">1 500 €/an</strong>
+    </div>
+  </div>
+
+  <!-- Pellets -->
+  <div id="sim-pellet-panel" style="display:none;margin-top:8px;padding:10px 12px;
+    background:#fef3c7;border-radius:10px;border:1px solid #92400e33;">
+    <div style="font-size:.65rem;font-weight:800;color:#92400e;margin-bottom:6px;">🌾 Chaudière à pellets</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <div>
+        <label style="font-size:.58rem;color:var(--muted);font-weight:600;">Conso (tonnes/an)</label>
+        <input type="number" id="sim-pellet-tonnes" value="5" min="0.5" max="25" step="0.5"
+          style="width:100%;margin-top:2px;padding:5px 7px;font-size:.78rem;font-weight:700;
+          color:#92400e;background:var(--surface);border:1px solid #92400e44;border-radius:7px;"
+          oninput="updateSimPelletCalc()">
+      </div>
+      <div>
+        <label style="font-size:.58rem;color:var(--muted);font-weight:600;">Prix (€/tonne)</label>
+        <input type="number" id="sim-pellet-prix" value="350" min="200" max="700" step="10"
+          style="width:100%;margin-top:2px;padding:5px 7px;font-size:.78rem;font-weight:700;
+          color:#92400e;background:var(--surface);border:1px solid #92400e44;border-radius:7px;"
+          oninput="updateSimPelletCalc()">
+      </div>
+    </div>
+    <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-size:.6rem;color:var(--muted);">Coût annuel estimé</span>
+      <strong style="font-size:.75rem;color:#92400e;" id="sim-pellet-total">1 750 €/an</strong>
+    </div>
+  </div>
+
+  <!-- Fioul -->
+  <div id="sim-fioul-panel" style="display:none;margin-top:8px;padding:10px 12px;
+    background:#fff7ed;border-radius:10px;border:1px solid #b4530933;">
+    <div style="font-size:.65rem;font-weight:800;color:#b45309;margin-bottom:6px;">🛢️ Chaudière fioul (référence)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <div>
+        <label style="font-size:.58rem;color:var(--muted);font-weight:600;">Conso (litres/an)</label>
+        <input type="number" id="sim-fioul-litres" value="1500" min="200" max="5000" step="50"
+          style="width:100%;margin-top:2px;padding:5px 7px;font-size:.78rem;font-weight:700;
+          color:#b45309;background:var(--surface);border:1px solid #b4530933;border-radius:7px;"
+          oninput="updateSimFioulCalc()">
+      </div>
+      <div>
+        <label style="font-size:.58rem;color:var(--muted);font-weight:600;">Prix (€/litre)</label>
+        <input type="number" id="sim-fioul-prix" value="1.05" min="0.5" max="2.5" step="0.01"
+          style="width:100%;margin-top:2px;padding:5px 7px;font-size:.78rem;font-weight:700;
+          color:#b45309;background:var(--surface);border:1px solid #b4530933;border-radius:7px;"
+          oninput="updateSimFioulCalc()">
+      </div>
+    </div>
+    <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-size:.6rem;color:var(--muted);">Coût annuel estimé</span>
+      <strong style="font-size:.75rem;color:#b45309;" id="sim-fioul-total">1 575 €/an</strong>
+    </div>
+    <div style="margin-top:4px;font-size:.58rem;color:var(--muted);">
+      ℹ️ Modifie l'énergie de référence — sélectionnez aussi <strong>Fioul</strong> dans Mon chauffage actuel
+    </div>
+  </div>
+
   <div id="sim-summary" style="margin-top:8px;padding:6px 10px;background:var(--pac-tint);
     border-radius:8px;font-size:.68rem;display:none;border:1px solid #2563eb33;
     display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
@@ -11418,31 +11510,74 @@ var SIM_COLORS = {
   cet:{color:'#16a34a',bg:'#f0fdf4',label:'CET'},
   bat:{color:'#7c3aed',bg:'#faf5ff',label:'Batterie'},
   bois:{color:'#6b3a1f',bg:'#fef9f0',label:'Chaud. bois'},
+  fioul:{color:'#b45309',bg:'#fff7ed',label:'Fioul'},
   pellet:{color:'#92400e',bg:'#fef3c7',label:'Pellets'},
 };
 
 function toggleSimCard(k){
-  if(k==='pac')    { if(typeof toggle==='function') toggle('pac'); setTimeout(function(){syncSimCards();},50); return; }
-  if(k==='sol')    { if(typeof toggle==='function') toggle('sol'); setTimeout(function(){syncSimCards();},50); return; }
-  if(k==='cet')    { if(typeof toggle==='function') toggle('cet'); setTimeout(function(){syncSimCards();},50); return; }
-  if(k==='bat')    { if(typeof toggle==='function') toggle('bat'); setTimeout(function(){syncSimCards();},50); return; }
-  // Pour les autres : toggle visuel direct
-  var card = document.getElementById('sim-card-'+k);
-  if(!card) return;
-  var isOn = card.getAttribute('data-on')==='1';
-  var nowOn = !isOn;
-  card.setAttribute('data-on', nowOn?'1':'0');
-  var cfg = SIM_COLORS[k]||{color:'#333',bg:'#f5f5f5'};
-  card.style.background  = nowOn ? cfg.bg : '';
-  card.style.borderColor = nowOn ? cfg.color : '';
-  var t = card.querySelector('div:nth-child(2)');
-  if(t) t.style.color = nowOn ? cfg.color : '';
-  if(k==='bois'||k==='pacair'){ usePacAir = (k==='pacair') ? nowOn : usePacAir; }
-  var pp = document.getElementById('sim-'+k+'-params');
-  if(pp) pp.style.display = nowOn ? '' : 'none';
-  syncSimCards();
-  // PAC air/air : visuel uniquement, pas de recalcul (n'impacte pas les coûts)
-  if(k!=='pacair' && typeof update==='function') update();
+  // PAC, Solaire, CET, Batterie → toggle() natif
+  if(k==='pac'||k==='sol'||k==='cet'||k==='bat'){
+    if(typeof toggle==='function') toggle(k);
+    setTimeout(function(){if(typeof syncSimCards==='function')syncSimCards();},50);
+    return;
+  }
+
+  // Bois, Pellets, Fioul → toggle visuel + panneau prix/quantité
+  if(k==='bois'||k==='pellet'||k==='fioul'){
+    var card = document.getElementById('sim-card-'+k);
+    if(!card) return;
+    var isOn = card.getAttribute('data-on')==='1';
+    var nowOn = !isOn;
+
+    // Fermer les autres panneaux bois/pellet/fioul (mutuellement exclusifs)
+    ['bois','pellet','fioul'].forEach(function(id){
+      if(id===k) return;
+      var c2=document.getElementById('sim-card-'+id);
+      if(c2){ c2.setAttribute('data-on','0'); c2.style.background=''; c2.style.borderColor=''; var t2=c2.querySelector('div:nth-child(2)'); if(t2) t2.style.color=''; }
+      var p2=document.getElementById('sim-'+id+'-panel');
+      if(p2) p2.style.display='none';
+      if(id==='bois') window.useBois=false;
+      else if(id==='pellet') window.usePellet=false;
+      else if(id==='fioul') window.useFioulSim=false;
+    });
+
+    // Toggle la carte courante
+    var cfg = SIM_COLORS[k]||{color:'#333',bg:'#f5f5f5'};
+    card.setAttribute('data-on', nowOn?'1':'0');
+    card.style.background  = nowOn ? cfg.bg : '';
+    card.style.borderColor = nowOn ? cfg.color : '';
+    var t = card.querySelector('div:nth-child(2)');
+    if(t) t.style.color = nowOn ? cfg.color : '';
+
+    // Afficher/masquer le panneau
+    var panel = document.getElementById('sim-'+k+'-panel');
+    if(panel) panel.style.display = nowOn ? '' : 'none';
+
+    // Mettre à jour les variables d'état
+    if(k==='bois')  window.useBois   = nowOn;
+    if(k==='pellet') window.usePellet = nowOn;
+    if(k==='fioul')  window.useFioulSim = nowOn;
+
+    // Initialiser les calculs si activation
+    if(nowOn){
+      if(k==='bois')   updateSimBoisCalc();
+      if(k==='pellet') updateSimPelletCalc();
+      if(k==='fioul')  { updateSimFioulCalc(); if(typeof setEnergieRef==='function') setEnergieRef('fioul'); }
+    }
+
+    syncSimCards();
+    if(typeof update==='function') update();
+    return;
+  }
+
+  // PAC air/air : visuel uniquement
+  if(k==='pacair'){
+    var card2=document.getElementById('sim-card-pacair');
+    if(!card2) return;
+    usePacAir = !usePacAir;
+    syncSimCards();
+    return;
+  }
 }
 
 function syncSimCards(){
@@ -11453,6 +11588,7 @@ function syncSimCards(){
     bat:    function(){return typeof useBat!=='undefined'?useBat:false;},
     bois:   function(){ return typeof window.useBois!=='undefined'?window.useBois:false; },
     pellet: function(){ return typeof window.usePellet!=='undefined'?window.usePellet:false; },
+    fioul:  function(){ return typeof window.useFioulSim!=='undefined'?window.useFioulSim:false; },
   };
   var active=[];
   Object.keys(stateGet).forEach(function(k){
@@ -11475,14 +11611,60 @@ function syncSimCards(){
   if(txt) txt.textContent=active.join(' + ');
 }
 
+function updateSimBoisCalc(){
+  var steres = parseFloat(document.getElementById('sim-bois-steres')?.value)||15;
+  var prix   = parseFloat(document.getElementById('sim-bois-prix')?.value)||100;
+  var total  = Math.round(steres * prix);
+  var el = document.getElementById('sim-bois-total');
+  if(el) el.textContent = total.toLocaleString('fr')+' €/an';
+  // Mettre à jour D_BOIS pour les calculs
+  if(window.D_BOIS){
+    var coeffs=[11,8,7,4,1.5,0.9,0.7,0.5,0.9,2,6.5,10.5];
+    var sum=coeffs.reduce(function(a,b){return a+b;},0);
+    D_BOIS.steres=coeffs.map(function(c){return Math.round(steres*c/sum*10)/10;});
+    D_BOIS.prixS=prix;
+  }
+  if(typeof update==='function') update();
+}
+
+function updateSimPelletCalc(){
+  var tonnes = parseFloat(document.getElementById('sim-pellet-tonnes')?.value)||5;
+  var prix   = parseFloat(document.getElementById('sim-pellet-prix')?.value)||350;
+  var total  = Math.round(tonnes * prix);
+  var el = document.getElementById('sim-pellet-total');
+  if(el) el.textContent = total.toLocaleString('fr')+' €/an';
+  if(window.D_PELLET){
+    var coeffs=[11,8,7,4,1.5,0.9,0.7,0.5,0.9,2,6.5,10.5];
+    var sum=coeffs.reduce(function(a,b){return a+b;},0);
+    D_PELLET.tonnes=coeffs.map(function(c){return Math.round(tonnes*c/sum*100)/100;});
+    D_PELLET.prixT=prix;
+  }
+  if(typeof update==='function') update();
+}
+
+function updateSimFioulCalc(){
+  var litres = parseFloat(document.getElementById('sim-fioul-litres')?.value)||1500;
+  var prix   = parseFloat(document.getElementById('sim-fioul-prix')?.value)||1.05;
+  var total  = Math.round(litres * prix);
+  var el = document.getElementById('sim-fioul-total');
+  if(el) el.textContent = total.toLocaleString('fr')+' €/an';
+  if(window.D_FIOUL){
+    var coeffs=[11,8,7,4,1.5,0.9,0.7,0.5,0.9,2,6.5,10.5];
+    var sum=coeffs.reduce(function(a,b){return a+b;},0);
+    D_FIOUL.litres=coeffs.map(function(c){return Math.round(litres*c/sum);});
+    D_FIOUL.prixL=prix;
+  }
+  if(typeof update==='function') update();
+}
+
 function clearSimCards(){
   if(typeof usePac!=='undefined'&&usePac&&typeof toggle==='function') toggle('pac');
   if(typeof useSol!=='undefined'&&useSol&&typeof toggle==='function') toggle('sol');
   if(typeof useCet!=='undefined'&&useCet&&typeof toggle==='function') toggle('cet');
   if(typeof useBat!=='undefined'&&useBat&&typeof toggle==='function') toggle('bat');
-  usePacAir=false;
-  ['bois','pellet'].forEach(function(k){
-    var p=document.getElementById('sim-'+k+'-params');
+  usePacAir=false; window.useBois=false; window.usePellet=false; window.useFioulSim=false;
+  ['bois','pellet','fioul'].forEach(function(k){
+    var p=document.getElementById('sim-'+k+'-panel');
     if(p) p.style.display='none';
   });
   syncSimCards();
