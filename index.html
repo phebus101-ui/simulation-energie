@@ -901,6 +901,14 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   #home-ref-section>div[style*="grid"]{grid-template-columns:1fr!important;}
   .cmp-kpi-grid{grid-template-columns:repeat(2,1fr)!important;}
 }
+
+/* ── Boutons Ma simulation — taille uniforme ── */
+#sim-cards-grid button {
+  box-sizing: border-box;
+}
+#sim-cards-grid button:active {
+  transform: scale(.96);
+}
 </style>
 
 
@@ -1053,16 +1061,14 @@ body { padding-bottom: env(safe-area-inset-bottom); }
     <div style="font-size:.75rem;font-weight:800;">⚡ Ma simulation</div>
     <button type="button" onclick="clearSimCards()" style="padding:2px 7px;font-size:.58rem;border-radius:5px;border:1px solid var(--border);background:none;color:var(--muted);cursor:pointer;">✕</button>
   </div>
-  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:5px;" id="sim-cards-grid">
-    <button type="button" id="sim-card-pac" onclick="toggleSimCard('pac')"
-      style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;
-      padding:8px 5px;text-align:center;cursor:pointer;transition:.15s;">
-      <div style="font-size:1.2rem;">♨️</div>
-      <div style="font-size:.58rem;font-weight:800;margin-top:2px;">PAC réversible</div>
-      <div style="font-size:.5rem;color:var(--muted);margin-top:1px;">Pompe à chaleur · COP var.</div>
-    </button>
-      
-    </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;" id="sim-cards-grid">
+    <button type="button" id="sim-card-pac" onclick="toggleSimCard('pac')" style="border:2px solid var(--border);background:var(--surface2);border-radius:11px;padding:0;text-align:center;cursor:pointer;transition:.18s;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;aspect-ratio:1;min-height:72px;"><div style="font-size:1.4rem;line-height:1;">♨️</div><div style="font-size:.62rem;font-weight:800;margin-top:5px;color:var(--text);line-height:1.2;">PAC réversible</div><div style="font-size:.52rem;color:var(--muted);margin-top:2px;line-height:1.2;">COP var.</div></button>
+    <button type="button" id="sim-card-sol" onclick="toggleSimCard('sol')" style="border:2px solid var(--border);background:var(--surface2);border-radius:11px;padding:0;text-align:center;cursor:pointer;transition:.18s;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;aspect-ratio:1;min-height:72px;"><div style="font-size:1.4rem;line-height:1;">☀️</div><div style="font-size:.62rem;font-weight:800;margin-top:5px;color:var(--text);line-height:1.2;">Solaire PV</div><div style="font-size:.52rem;color:var(--muted);margin-top:2px;line-height:1.2;">Panneaux</div></button>
+    <button type="button" id="sim-card-cet" onclick="toggleSimCard('cet')" style="border:2px solid var(--border);background:var(--surface2);border-radius:11px;padding:0;text-align:center;cursor:pointer;transition:.18s;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;aspect-ratio:1;min-height:72px;"><div style="font-size:1.4rem;line-height:1;">🚿</div><div style="font-size:.62rem;font-weight:800;margin-top:5px;color:var(--text);line-height:1.2;">Chauffe-eau</div><div style="font-size:.52rem;color:var(--muted);margin-top:2px;line-height:1.2;">Thermodynamique</div></button>
+    <button type="button" id="sim-card-bat" onclick="toggleSimCard('bat')" style="border:2px solid var(--border);background:var(--surface2);border-radius:11px;padding:0;text-align:center;cursor:pointer;transition:.18s;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;aspect-ratio:1;min-height:72px;"><div style="font-size:1.4rem;line-height:1;">🔋</div><div style="font-size:.62rem;font-weight:800;margin-top:5px;color:var(--text);line-height:1.2;">Batterie</div><div style="font-size:.52rem;color:var(--muted);margin-top:2px;line-height:1.2;">Stockage</div></button>
+    <button type="button" id="sim-card-bois" onclick="toggleSimCard('bois')" style="border:2px solid var(--border);background:var(--surface2);border-radius:11px;padding:0;text-align:center;cursor:pointer;transition:.18s;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;aspect-ratio:1;min-height:72px;"><div style="font-size:1.4rem;line-height:1;">🪵</div><div style="font-size:.62rem;font-weight:800;margin-top:5px;color:var(--text);line-height:1.2;">Chaud. bois</div><div style="font-size:.52rem;color:var(--muted);margin-top:2px;line-height:1.2;">Bûches</div></button>
+    <button type="button" id="sim-card-pellet" onclick="toggleSimCard('pellet')" style="border:2px solid var(--border);background:var(--surface2);border-radius:11px;padding:0;text-align:center;cursor:pointer;transition:.18s;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;aspect-ratio:1;min-height:72px;"><div style="font-size:1.4rem;line-height:1;">🌾</div><div style="font-size:.62rem;font-weight:800;margin-top:5px;color:var(--text);line-height:1.2;">Chaud. pellets</div><div style="font-size:.52rem;color:var(--muted);margin-top:2px;line-height:1.2;">Granulés</div></button>
+  </div>
     <button type="button" id="sim-card-sol"    onclick="toggleSimCard('sol')"    style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;transition:.15s;"><div>☀️</div><div style="font-size:.58rem;font-weight:800;margin-top:2px;">Solaire PV</div></button>
     <button type="button" id="sim-card-cet"    onclick="toggleSimCard('cet')"    style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;transition:.15s;"><div>🚿</div><div style="font-size:.58rem;font-weight:800;margin-top:2px;">CET</div></button>
     <button type="button" id="sim-card-bat"    onclick="toggleSimCard('bat')"    style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;transition:.15s;"><div>🔋</div><div style="font-size:.58rem;font-weight:800;margin-top:2px;">Batterie</div></button>
