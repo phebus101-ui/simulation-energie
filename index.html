@@ -3393,7 +3393,7 @@ var renderHeroKpis = function(tRef, tCur, tPac, ecoVsRef, ecoEquip, inv, amortAn
       <div class="hero-label">Retour sur investissement</div>
       <div class="hero-val" style="color:${amortAns&&amortAns<12?'var(--grn)':'var(--muted)'}">${amortAns?amortAns+' ans':'—'}</div>
       <div class="hero-sub">${inv>0?'Invest. : '+inv.toLocaleString('fr')+' €':'Aucun investissement'}</div>
-      ${co2eco>0?`<div class="hero-delta delta-pos">♻️ −${co2eco.toLocaleString('fr')} kg CO₂/an</div>`:''}
+      ${co2eco>0?`<div class="hero-delta delta-pos">♻️ −${co2eco.toLocaleString('fr')} kg CO₂/an vs ${(window.REF_CONFIG&&REF_CONFIG[energieRef])?REF_CONFIG[energieRef].label:'référence'}</div>`:co2eco<0?`<div class="hero-delta delta-neg">⚠️ +${Math.abs(co2eco).toLocaleString('fr')} kg CO₂/an</div>`:''}
     </div>
   </div>`;
 };
@@ -4843,7 +4843,7 @@ function renderEditor(){
       <div class="dg-l" style="color:var(--bat);font-weight:700;">kWh PAC ajoutés</div>`;
     MOIS.forEach(m=>html+=`<div class="dg-h">${m}</div>`);
     MOIS.forEach((_,i)=>{
-      const ecs=D.ecs[i],jr=D.jr[i];
+      const ecs=((D.ecs&&D.ecs[i]!=null)?D.ecs[i]:(DEFAULT_D.ecs[i]||16)),jr=D.jr[i];
       const chm3=Math.max(0,D.gaz[i]-ecs);
       const kwh_c=chm3*COEFF*RDT;
       const kwh_pac=usePac ? Math.round((kwh_c*(1-jr/JOURS[i]))/p.cop) : 0;
@@ -4854,7 +4854,7 @@ function renderEditor(){
       <div class="dg-l" style="color:var(--text);font-weight:800;">Total compteur (kWh)</div>`;
     MOIS.forEach(m=>html+=`<div class="dg-h">${m}</div>`);
     MOIS.forEach((_,i)=>{
-      const ecs=D.ecs[i],jr=D.jr[i];
+      const ecs=((D.ecs&&D.ecs[i]!=null)?D.ecs[i]:(DEFAULT_D.ecs[i]||16)),jr=D.jr[i];
       const chm3=Math.max(0,D.gaz[i]-ecs);
       const kwh_c=chm3*COEFF*RDT;
       const kwh_pac=usePac ? Math.round((kwh_c*(1-jr/JOURS[i]))/p.cop) : 0;
@@ -5077,7 +5077,7 @@ function getParams(){
 function compute(p){
   const COEFF_RDT=COEFF*RDT; // précompilé une fois
   return MOIS.map((_,i)=>{
-    const ecs=D.ecs[i], jr=D.jr[i], jbl=D.jbl[i];
+    const ecs=((D.ecs&&D.ecs[i]!=null)?D.ecs[i]:(DEFAULT_D.ecs[i]||16)), jr=D.jr[i], jbl=D.jbl[i];
     const jbleu=Math.max(0,JOURS[i]-jr-jbl);
     const chm3=Math.max(0,D.gaz[i]-ecs);
     const kwh_c=chm3*COEFF*RDT; // chaleur utile totale de chauffage ce mois
@@ -9344,7 +9344,7 @@ function renderBudget(){
     const _usePac=cfg.pac, _useSol=cfg.sol, _useBat=cfg.bat, _useCet=cfg.cet;
     let cout = 0;
     D.gaz.forEach((gm3,i)=>{
-      const ecs=D.ecs[i], jr=D.jr[i], jbl=D.jbl[i];
+      const ecs=((D.ecs&&D.ecs[i]!=null)?D.ecs[i]:(DEFAULT_D.ecs[i]||16)), jr=D.jr[i], jbl=D.jbl[i];
       const jbleu=Math.max(0,JOURS[i]-jr-jbl);
       const chm3=Math.max(0,gm3-ecs);
       const kwh_c=chm3*COEFF*RDT;
@@ -9592,7 +9592,7 @@ function calcRadarScores(cfg_usePac, cfg_useSol, cfg_useBat, cfg_useCet, tRef){
   const p = getParams();
   let cout = 0, co2 = 0, invest = 0;
   D.gaz.forEach((gm3,i)=>{
-    const ecs=D.ecs[i]; const jr=D.jr[i]; const jbl=D.jbl[i];
+    const ecs=((D.ecs&&D.ecs[i]!=null)?D.ecs[i]:(DEFAULT_D.ecs[i]||16)); const jr=D.jr[i]; const jbl=D.jbl[i];
     const jbleu=Math.max(0,JOURS[i]-jr-jbl);
     const chm3=Math.max(0,gm3-ecs); const kwh_c=chm3*COEFF*RDT;
     const cop_i=copFromTemp(TEMP_EXT[i], p.cop);
@@ -9625,7 +9625,7 @@ function calcRadarScores(cfg_usePac, cfg_useSol, cfg_useBat, cfg_useCet, tRef){
   const eco_pct=tRef>0?(tRef-cout)/tRef:0;
   const scores = {
     cout:       Math.max(0,Math.min(10, eco_pct*14)),              // 70%+ économie = 10
-    co2:        Math.max(0,Math.min(10, (1-co2/Math.max(1,D.gaz.reduce((a,b)=>a+b,0)*COEFF*CO2_GAZ/1000))*12)),
+    co2:        Math.max(0,Math.min(10, (1-co2/Math.max(1,(typeof getTRef==='function'?getTRef(p)/p.pg*(CO2_GAZ||227):D.gaz.reduce((a,b)=>a+b,0)*COEFF*(CO2_GAZ||227))/1000))*12)),
     confort:    cfg_usePac?9:cfg_useCet?7:5,                       // PAC = confort max
     investissement: Math.max(0, 10-invest/600),                    // 0€=10, 6000€=0
     simplicite: (cfg_usePac?0:3)+(cfg_useSol?0:2)+(cfg_useBat?0:1)+(cfg_useCet?0:1)+3,
