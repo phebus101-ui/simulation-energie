@@ -3612,6 +3612,15 @@ function initSolarConfig(){
   document.getElementById('quick-cities').innerHTML=qh;
   // Mettre à jour tout l'affichage via setKwc
   setKwc(curKwc);
+  // Fix Leaflet : tuiles manquantes quand div était display:none
+  if(typeof _leafletMap!=='undefined' && _leafletMap){
+    setTimeout(function(){ _leafletMap.invalidateSize(); }, 100);
+  } else {
+    // Initialiser la carte si pas encore fait
+    setTimeout(function(){
+      if(typeof initSolarMap==='function') initSolarMap();
+    }, 150);
+  }
 }
 function setKwc(v){
   curKwc = parseFloat(v) || 6;
@@ -9567,7 +9576,7 @@ function renderRecommandation(){
   const el = document.getElementById('reco-content');
   if(!el) return;
   const p = getParams();
-  const tRef = D.gaz.reduce((a,_,i)=>a+D.gaz[i]*COEFF*p.pg,0);
+  const tRef = typeof getTRef==='function' ? getTRef(p) : D.gaz.reduce((a,_,i)=>a+D.gaz[i]*COEFF*p.pg,0);
   const configs=[
     {id:'pac',   label:'PAC seule',        icon:'⚡', pac:true, sol:false,bat:false,cet:false},
     {id:'cet',   label:'Gaz + CET',        icon:'🚿', pac:false,sol:false,bat:false,cet:true},
