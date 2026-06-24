@@ -2069,19 +2069,19 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <div style="flex:1;min-width:200px;">
 <div style="font-size:.68rem;font-weight:700;color:var(--muted);margin-bottom:4px;">⚡ Puissance installée</div>
 <div style="display:flex;gap:6px;flex-wrap:wrap;" id="kwc-presets">
-<button class="btn" onclick="setKwc(1.5)" style="padding:3px 8px;font-size:.67rem;">1.5 kWc</button>
-<button class="btn" onclick="setKwc(3)" style="padding:3px 8px;font-size:.67rem;">3 kWc</button>
-<button class="btn" onclick="setKwc(4.5)" style="padding:3px 8px;font-size:.67rem;">4.5 kWc</button>
-<button class="btn" onclick="setKwc(6)" style="padding:3px 8px;font-size:.67rem;">6 kWc</button>
-<button class="btn" onclick="setKwc(9)" style="padding:3px 8px;font-size:.67rem;">9 kWc</button>
-<button class="btn" onclick="setKwc(12)" style="padding:3px 8px;font-size:.67rem;">12 kWc</button>
-<button class="btn" onclick="setKwc(18)" style="padding:3px 8px;font-size:.67rem;">18 kWc</button>
-<button class="btn" onclick="setKwc(24)" style="padding:3px 8px;font-size:.67rem;">24 kWc</button>
-<button class="btn" onclick="setKwc(36)" style="padding:3px 8px;font-size:.67rem;">36 kWc</button>
+<button class="btn" data-kwc="1.5" onclick="setKwc(1.5)" style="padding:3px 8px;font-size:.67rem;">1.5 kWc</button>
+<button class="btn" data-kwc="3"   onclick="setKwc(3)"   style="padding:3px 8px;font-size:.67rem;">3 kWc</button>
+<button class="btn" data-kwc="4.5" onclick="setKwc(4.5)" style="padding:3px 8px;font-size:.67rem;">4.5 kWc</button>
+<button class="btn" data-kwc="6"   onclick="setKwc(6)"   style="padding:3px 8px;font-size:.67rem;border-color:var(--sol);background:var(--sol-tint);color:var(--sol);font-weight:900;">6 kWc</button>
+<button class="btn" data-kwc="9"   onclick="setKwc(9)"   style="padding:3px 8px;font-size:.67rem;">9 kWc</button>
+<button class="btn" data-kwc="12"  onclick="setKwc(12)"  style="padding:3px 8px;font-size:.67rem;">12 kWc</button>
+<button class="btn" data-kwc="18"  onclick="setKwc(18)"  style="padding:3px 8px;font-size:.67rem;">18 kWc</button>
+<button class="btn" data-kwc="24"  onclick="setKwc(24)"  style="padding:3px 8px;font-size:.67rem;">24 kWc</button>
+<button class="btn" data-kwc="36"  onclick="setKwc(36)"  style="padding:3px 8px;font-size:.67rem;">36 kWc</button>
 </div>
-<input type="range" id="kwc-range" min="0.5" max="36" step="0.5" value="4"
+<input type="range" id="kwc-range" min="0.5" max="36" step="0.5" value="6"
         style="width:100%;margin-top:6px;accent-color:var(--sol);" oninput="setKwc(parseFloat(this.value))">
-<span style="font-size:.65rem;color:var(--sol);font-weight:700;" id="kwc-hint">4 kWc sélectionnés</span>
+<span style="font-size:.65rem;color:var(--sol);font-weight:700;" id="kwc-hint">6 kWc sélectionnés · ≈ 12 panneaux · ~30 m²</span>
 </div>
 </div>
 <!-- Orientation -->
@@ -3445,7 +3445,7 @@ let curContratElec='tempo', curContratGaz='tarif_reg';
 let customTarifsElec={'Bleu HC':0.1056,'Bleu HP':0.1369,'Blanc HC':0.1279,'Blanc HP':0.1654,'Rouge HC':0.1568,'Rouge HP':0.7562};
 let customTarifsGaz={'Gaz (kWh PCS)':0.1129};
 const KWC_PRESETS = [1.5, 3, 4.5, 6, 9, 12, 18, 24, 36];
-let curKwc = 4;                          // kWc installés
+let curKwc = 6;                          // kWc installés
 let curLat = 45.673, curLon = 4.757;     // Brignais par défaut
 let curLocName = 'Brignais (69530)';
 let curLocInfo = '45.67°N 4.76°E · Rhône-Alpes';
@@ -3490,7 +3490,7 @@ function initSolarConfig(){
   let ph='';
   KWC_PRESETS.forEach(k=>{
     const sel=k===curKwc;
-    ph+=`<button onclick="setKwc(${k})"
+    ph+=`<button data-kwc="${k}" onclick="setKwc(${k})"
       style="border:1px solid ${sel?'var(--sol)':'var(--border)'};background:${sel?'var(--sol-tint)':'var(--surface2)'};
       color:${sel?'var(--sol)':'var(--text2)'};border-radius:7px;padding:5px 8px;font-size:.68rem;font-weight:700;cursor:pointer;transition:.15s;">
       ${k<10?k.toFixed(k%1?1:0):k} kWc
@@ -3537,11 +3537,12 @@ function setKwc(v){
   document.getElementById('kwc-range').value = Math.min(curKwc, 36);
   document.getElementById('kwc-input').value = curKwc;
   document.querySelectorAll('#kwc-presets button').forEach(b=>{
-    const bv = parseFloat(b.textContent);
-    const sel = bv === curKwc;
+    const bv = parseFloat(b.getAttribute('data-kwc') || b.textContent);
+    const sel = Math.abs(bv - curKwc) < 0.001;
     b.style.borderColor = sel?'var(--sol)':'var(--border)';
     b.style.background  = sel?'var(--sol-tint)':'var(--surface2)';
     b.style.color       = sel?'var(--sol)':'var(--text2)';
+    b.style.fontWeight  = sel?'900':'700';
   });
   const np = Math.round(curKwc / 0.5);
   const surf = Math.round(curKwc * 5);
