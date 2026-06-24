@@ -3487,16 +3487,7 @@ function calcSolarProduction(){
   return { annual, annualPerKwc, factor, monthly: profile.map(p => Math.round(annual * p)) };
 }
 function initSolarConfig(){
-  let ph='';
-  KWC_PRESETS.forEach(k=>{
-    const sel=k===curKwc;
-    ph+=`<button data-kwc="${k}" onclick="setKwc(${k})"
-      style="border:1px solid ${sel?'var(--sol)':'var(--border)'};background:${sel?'var(--sol-tint)':'var(--surface2)'};
-      color:${sel?'var(--sol)':'var(--text2)'};border-radius:7px;padding:5px 8px;font-size:.68rem;font-weight:700;cursor:pointer;transition:.15s;">
-      ${k<10?k.toFixed(k%1?1:0):k} kWc
-    </button>`;
-  });
-  document.getElementById('kwc-presets').innerHTML=ph;
+  // Pastilles kWc gérées par _refreshKwcPresets() via setKwc()
   let oh='';
   ORIENT_ORDER.forEach(o=>{
     const sel=o===curOrient;
@@ -3533,27 +3524,55 @@ function initSolarConfig(){
   setKwc(curKwc);
 }
 function setKwc(v){
-  curKwc = parseFloat(v)||4;
-  document.getElementById('kwc-range').value = Math.min(curKwc, 36);
-  document.getElementById('kwc-input').value = curKwc;
-  document.querySelectorAll('#kwc-presets button').forEach(b=>{
-    const bv = parseFloat(b.getAttribute('data-kwc') || b.textContent);
-    const sel = Math.abs(bv - curKwc) < 0.001;
-    b.style.borderColor = sel?'var(--sol)':'var(--border)';
-    b.style.background  = sel?'var(--sol-tint)':'var(--surface2)';
-    b.style.color       = sel?'var(--sol)':'var(--text2)';
-    b.style.fontWeight  = sel?'900':'700';
-  });
-  const np = Math.round(curKwc / 0.5);
-  const surf = Math.round(curKwc * 5);
-  document.getElementById('kwc-hint').textContent =
-    curKwc + ' kWc sélectionnés · ≈ ' + np + ' panneaux · ~' + surf + ' m²';
-  const psel = document.getElementById('sol-preset');
+  curKwc = parseFloat(v) || 6;
+
+  // ── 1. Slider ──
+  var rng = document.getElementById('kwc-range');
+  if(rng) rng.value = Math.min(curKwc, 36);
+
+  // ── 2. Input numérique ──
+  var inp = document.getElementById('kwc-input');
+  if(inp) inp.value = curKwc;
+
+  // ── 3. Pastilles preset ──
+  // Régénérer les boutons via initKwcPresets() pour être sûr qu'ils existent
+  _refreshKwcPresets();
+
+  // ── 4. Texte indicatif ──
+  var np   = Math.round(curKwc / 0.5);
+  var surf = Math.round(curKwc * 5);
+  var hint = document.getElementById('kwc-hint');
+  if(hint) hint.textContent = curKwc + ' kWc sélectionnés · ≈ ' + np + ' panneaux · ~' + surf + ' m²';
+
+  // ── 5. Preset panneau → mettre à jour l'invest ──
+  var psel = document.getElementById('sol-preset');
   if(psel && psel.value && psel.value !== 'custom_sol' && typeof SOL_PRESETS !== 'undefined'){
     applySolPreset(psel.value);
   }
+
+  // ── 6. Recalcul production + KPIs ──
   updateSolarDisplay();
 }
+
+function _refreshKwcPresets(){
+  var container = document.getElementById('kwc-presets');
+  if(!container) return;
+  var KWC = (typeof KWC_PRESETS!=='undefined') ? KWC_PRESETS : [1.5,3,4.5,6,9,12,18,24,36];
+  var html = '';
+  KWC.forEach(function(k){
+    var sel = Math.abs(k - curKwc) < 0.001;
+    var lbl = (k === Math.round(k)) ? k.toFixed(0) : k.toFixed(1);
+    html += '<button type="button" data-kwc="'+k+'" onclick="setKwc('+k+')" style="'
+          + 'border:1px solid '+(sel?'var(--sol)':'var(--border)')+';'
+          + 'background:'+(sel?'var(--sol-tint)':'var(--surface2)')+';'
+          + 'color:'+(sel?'var(--sol)':'var(--text2)')+';'
+          + 'border-radius:7px;padding:5px 8px;font-size:.68rem;'
+          + 'font-weight:'+(sel?'900':'700')+';cursor:pointer;transition:.15s;">'
+          + lbl + ' kWc</button>';
+  });
+  container.innerHTML = html;
+}
+
 function setKwcFromRange(v){ setKwc(parseFloat(v)); }
 function setKwcManual(v){
   const val = Math.max(0.5, Math.min(100, parseFloat(v)||4));
