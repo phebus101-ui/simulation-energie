@@ -11886,6 +11886,10 @@ document.addEventListener('DOMContentLoaded', function(){
   // ── Init nouvelles fonctions ──
   if(typeof setEnergieRef==='function') setEnergieRef(energieRef||'gaz');
   if(typeof syncSimCards==='function') syncSimCards();
+  // Init accordéon prix/quantités
+  if(typeof updateSimBoisCalc==='function')   updateSimBoisCalc();
+  if(typeof updateSimPelletCalc==='function') updateSimPelletCalc();
+  if(typeof updateSimFioulCalc==='function')  updateSimFioulCalc();
   if(typeof updateSimBoisPrix==='function') updateSimBoisPrix();
   if(typeof updateSimPelletPrix==='function') updateSimPelletPrix();
   // Bannière guide
