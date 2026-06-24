@@ -1054,10 +1054,13 @@ body { padding-bottom: env(safe-area-inset-bottom); }
     <button type="button" onclick="clearSimCards()" style="padding:2px 7px;font-size:.58rem;border-radius:5px;border:1px solid var(--border);background:none;color:var(--muted);cursor:pointer;">✕</button>
   </div>
   <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:5px;" id="sim-cards-grid">
-    <!-- PAC RÉVERSIBLE : regroupe air/eau + air/air -->
-    <div id="sim-card-pac-group" style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;transition:.15s;">
+    <button type="button" id="sim-card-pac" onclick="toggleSimCard('pac')"
+      style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;
+      padding:8px 5px;text-align:center;cursor:pointer;transition:.15s;">
       <div style="font-size:1.2rem;">♨️</div>
-      <div style="font-size:.58rem;font-weight:800;margin-top:2px;color:var(--text);">PAC réversible</div>
+      <div style="font-size:.58rem;font-weight:800;margin-top:2px;">PAC réversible</div>
+      <div style="font-size:.5rem;color:var(--muted);margin-top:1px;">Air/eau · COP var.</div>
+    </button>
       <div style="display:flex;gap:4px;margin-top:5px;justify-content:center;">
         <button type="button" id="sim-card-pac" onclick="toggleSimCard('pac')"
           style="flex:1;border:1.5px solid var(--border);background:var(--surface);border-radius:6px;
@@ -11351,7 +11354,6 @@ function toggleSimCard(k){
 function syncSimCards(){
   var stateGet = {
     pac:    function(){return typeof usePac!=='undefined'?usePac:false;},
-    pacair: function(){return typeof usePacAir!=='undefined'?usePacAir:false;},
     sol:    function(){return typeof useSol!=='undefined'?useSol:false;},
     cet:    function(){return typeof useCet!=='undefined'?useCet:false;},
     bat:    function(){return typeof useBat!=='undefined'?useBat:false;},
@@ -11365,33 +11367,14 @@ function syncSimCards(){
     var cfg=SIM_COLORS[k]||{color:'#333',bg:'#f5f5f5'};
     if(card){
       card.setAttribute('data-on',on?'1':'0');
-      if(k==='pac'||k==='pacair'){
-        // Sous-boutons dans le groupe PAC réversible
-        var subCol = k==='pac' ? '#2563eb' : '#0891b2';
-        card.style.background  = on ? subCol      : 'var(--surface)';
-        card.style.borderColor = on ? subCol      : 'var(--border)';
-        card.style.color       = on ? '#fff'      : 'var(--muted)';
-      } else {
-        card.style.background  = on ? cfg.bg    : '';
-        card.style.borderColor = on ? cfg.color : '';
-        card.style.color       = on ? cfg.color : '';
-        var t=card.querySelector('div:nth-child(2)');
-        if(t) t.style.color=on?cfg.color:'';
-      }
+      card.style.background  = on ? cfg.bg    : '';
+      card.style.borderColor = on ? cfg.color : '';
+      card.style.color       = on ? cfg.color : '';
+      var t=card.querySelector('div:nth-child(2)');
+      if(t) t.style.color=on?cfg.color:'';
     }
     if(on) active.push(cfg.label);
   });
-
-  // Groupe PAC réversible : border+bg si l'un ou l'autre actif
-  var group=document.getElementById('sim-card-pac-group');
-  if(group){
-    var anyPac=(stateGet.pac()||stateGet.pacair());
-    group.style.borderColor = anyPac ? '#2563eb'      : 'var(--border)';
-    group.style.background  = anyPac ? '#eff6ff'      : 'var(--surface2)';
-    var lbl=group.querySelector('div:nth-child(2)');
-    if(lbl) lbl.style.color = anyPac ? '#2563eb' : 'var(--text)';
-  }
-
   var sum=document.getElementById('sim-summary');
   var txt=document.getElementById('sim-summary-text');
   if(sum) sum.style.display=active.length?'':'none';
