@@ -11181,37 +11181,45 @@ async function fetchMeteoReelle(){
   const btn = document.getElementById('btn-meteo');
   if(btn){ btn.textContent='⏳ Chargement…'; btn.disabled=true; }
   try {
-    // API Open-Meteo : moyennes mensuelles de l'année courante
-    // historical-forecast donne 1 an de données → on calcule les moyennes par mois
-    const year = new Date().getFullYear();
-    const url = `https://archive-api.open-meteo.com/v1/archive`
-      + `?latitude=${curLat}&longitude=${curLon}`
-      + `&start_date=${year-1}-01-01&end_date=${year-1}-12-31`
-      + `&daily=temperature_2m_mean`
-      + `&timezone=Europe%2FParis`;
-    const controller = new AbortController();
-    const tid = setTimeout(()=>controller.abort(), 8000);
-    const r = await fetch(url, {signal: controller.signal});
-    clearTimeout(tid);
+    const year = new Date().getFullYear() - 1;
+    const url = 'https://archive-api.open-meteo.com/v1/archive'
+      + '?latitude='+curLat+'&longitude='+curLon
+      + '&start_date='+year+'-01-01&end_date='+year+'-12-31'
+      + '&daily=temperature_2m_mean&timezone=Europe%2FParis';
+
+    // Timeout sans AbortController (évite l'erreur postMessage clone)
+    const fetchPromise = fetch(url);
+    const timeoutPromise = new Promise(function(_,rej){
+      setTimeout(function(){ rej(new Error('Timeout réseau (8s)')); }, 8000);
+    });
+    const r = await Promise.race([fetchPromise, timeoutPromise]);
     if(!r.ok) throw new Error('HTTP '+r.status);
     const data = await r.json();
-    const dates = data.daily?.time || [];
-    const temps = data.daily?.temperature_2m_mean || [];
+    const dates = data.daily && data.daily.time ? data.daily.time : [];
+    const temps = data.daily && data.daily.temperature_2m_mean ? data.daily.temperature_2m_mean : [];
     if(!temps.length) throw new Error('Données vides');
-    // Calculer moyennes par mois (0=Jan … 11=Déc)
-    const sums = Array(12).fill(0), counts = Array(12).fill(0);
-    dates.forEach((d, i) => {
-      const m = parseInt(d.slice(5,7)) - 1;
+
+    // Moyennes mensuelles
+    var sums = [0,0,0,0,0,0,0,0,0,0,0,0];
+    var counts = [0,0,0,0,0,0,0,0,0,0,0,0];
+    dates.forEach(function(d, i){
+      var m = parseInt(d.slice(5,7)) - 1;
       if(temps[i] != null){ sums[m] += temps[i]; counts[m]++; }
     });
-    const moyennes = sums.map((s,i) => counts[i]>0 ? Math.round(s/counts[i]*10)/10 : TEMP_EXT[i]);
-    // Appliquer
+    var moyennes = sums.map(function(s,i){
+      return counts[i]>0 ? Math.round(s/counts[i]*10)/10 : TEMP_EXT[i];
+    });
+
     applyMeteo(moyennes);
     if(btn){ btn.textContent='✅ T° réelles actives'; btn.disabled=false; btn.style.background='var(--grn)'; }
   } catch(e) {
     console.warn('Météo indisponible:', e.message);
-    const info = document.getElementById('meteo-info');
-    if(info){ info.style.display='block'; info.textContent='⚠️ Météo indisponible — utilisation des températures par défaut'; info.style.color='var(--muted)'; }
+    var info = document.getElementById('meteo-info');
+    if(info){
+      info.style.display='block';
+      info.textContent='⚠️ Météo indisponible ('+e.message+')';
+      info.style.color='var(--muted)';
+    }
     if(btn){ btn.textContent='🌤️ Météo réelle'; btn.disabled=false; }
   }
 }
