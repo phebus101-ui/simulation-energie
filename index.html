@@ -1059,19 +1059,9 @@ body { padding-bottom: env(safe-area-inset-bottom); }
       padding:8px 5px;text-align:center;cursor:pointer;transition:.15s;">
       <div style="font-size:1.2rem;">♨️</div>
       <div style="font-size:.58rem;font-weight:800;margin-top:2px;">PAC réversible</div>
-      <div style="font-size:.5rem;color:var(--muted);margin-top:1px;">Air/eau · COP var.</div>
+      <div style="font-size:.5rem;color:var(--muted);margin-top:1px;">Pompe à chaleur · COP var.</div>
     </button>
-      <div style="display:flex;gap:4px;margin-top:5px;justify-content:center;">
-        <button type="button" id="sim-card-pac" onclick="toggleSimCard('pac')"
-          style="flex:1;border:1.5px solid var(--border);background:var(--surface);border-radius:6px;
-          padding:3px 2px;font-size:.52rem;font-weight:800;cursor:pointer;transition:.15s;color:var(--muted);">
-          Air/Eau</button>
-        <button type="button" id="sim-card-pacair" onclick="toggleSimCard('pacair')"
-          title="Remplace le chauffage avec COP fixe (~3.0), sans ECS"
-          style="flex:1;border:1.5px solid var(--border);background:var(--surface);border-radius:6px;
-          padding:3px 2px;font-size:.52rem;font-weight:800;cursor:pointer;transition:.15s;color:var(--muted);">
-          Air/Air</button>
-      </div>
+      
     </div>
     <button type="button" id="sim-card-sol"    onclick="toggleSimCard('sol')"    style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;transition:.15s;"><div>☀️</div><div style="font-size:.58rem;font-weight:800;margin-top:2px;">Solaire PV</div></button>
     <button type="button" id="sim-card-cet"    onclick="toggleSimCard('cet')"    style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;transition:.15s;"><div>🚿</div><div style="font-size:.58rem;font-weight:800;margin-top:2px;">CET</div></button>
@@ -1263,7 +1253,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
     <div style="width:36px;height:36px;border-radius:9px;background:#0891b2;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">🌬️</div>
     <div>
-      <div style="font-size:.82rem;font-weight:800;color:#0891b2;">PAC air/air</div>
+      <div style="font-size:.82rem;font-weight:800;color:#0891b2;">PAC réversible</div>
       <div style="font-size:.65rem;color:var(--muted);">Remplacement complet · Sans ECS</div>
     </div>
   </div>
@@ -1734,10 +1724,10 @@ body { padding-bottom: env(safe-area-inset-bottom); }
             Préréglages par type :
           </div>
 <div style="display:flex;gap:5px;flex-wrap:wrap;" id="cop-presets">
-<button class="btn" onclick="setCopPreset(2.5,'air/eau – hiver rigoureux')" class="si-f6">✦ 2,5 Air/eau hiver</button>
-<button class="btn" onclick="setCopPreset(3.0,'air/air – usage mixte')"      class="si-f6">✦ 3,0 Air/air mixte</button>
-<button class="btn" onclick="setCopPreset(3.5,'air/eau – mi-saison')"        class="si-f6">✦ 3,5 Air/eau mi-saison</button>
-<button class="btn" onclick="setCopPreset(4.0,'air/air – haute efficacité')" class="si-f6">✦ 4,0 Air/air haut rdt</button>
+<button class="btn" onclick="setCopPreset(2.5,'PAC – hiver rigoureux')" class="si-f6">✦ 2,5 Hiver rigoureux</button>
+<button class="btn" onclick="setCopPreset(3.0,'PAC – usage mixte')"      class="si-f6">✦ 3,0 Usage mixte</button>
+<button class="btn" onclick="setCopPreset(3.5,'PAC – mi-saison')"        class="si-f6">✦ 3,5 Mi-saison</button>
+<button class="btn" onclick="setCopPreset(4.0,'PAC – haute efficacité')" class="si-f6">✦ 4,0 Haute efficacité</button>
 <button class="btn" onclick="setCopPreset(4.5,'géothermique – SCOP optimal')"style="font-size:.6rem;padding:3px 7px;">✦ 4,5 Géothermique</button>
 </div>
 <div id="cop-preset-label" style="font-size:.6rem;color:var(--pac);margin-top:4px;font-style:italic;"></div>
@@ -1752,8 +1742,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <thead>
 <tr style="background:var(--pac-tint);">
 <th style="padding:4px 6px;text-align:left;color:var(--pac);">T° ext.</th>
-<th class="si-badge-pac" style="">Air/Air</th>
-<th class="si-badge-pac" style="">Air/Eau</th>
+<th class="si-badge-pac" colspan="2" style="">PAC réversible</th>
 <th class="si-badge-pac" style="">Géothermique</th>
 </tr>
 </thead>
@@ -8615,7 +8604,7 @@ function _renderAnalysesCore(){
   if(usePac&&!pacInstalled){
     const mpr=aides.pac_airair; totalAides+=mpr;
     aidesHTML+=`<div class="si-jcsb">
-      <span class="si-muted">MaPrimeRénov' PAC air/eau</span>
+      <span class="si-muted">MaPrimeRénov' PAC réversible</span>
       <strong class="si-grn">${mpr>0?mpr.toLocaleString('fr')+' €':'Non éligible'}</strong>
     </div>`;
     const cee=Math.round(iSol()>0?800:500);totalAides+=cee;
@@ -11318,8 +11307,8 @@ function getTRef(p){
 }
 
 var SIM_COLORS = {
-  pac:{color:'#2563eb',bg:'#eff6ff',label:'PAC air/eau'},
-  pacair:{color:'#0891b2',bg:'#ecfeff',label:'PAC air/air'},
+  pac:{color:'#2563eb',bg:'#eff6ff',label:'PAC réversible'},
+  pacair:{color:'#0891b2',bg:'#ecfeff',label:'PAC réversible (air/air)'},
   sol:{color:'#ca8a04',bg:'#fefce8',label:'Solaire PV'},
   cet:{color:'#16a34a',bg:'#f0fdf4',label:'CET'},
   bat:{color:'#7c3aed',bg:'#faf5ff',label:'Batterie'},
