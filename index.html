@@ -1096,19 +1096,23 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <div class="sec-head">
 <div class="sec-head-icon">📊</div>
 <div><div class="sec-head-title">Coûts mensuels comparés</div>
-<div class="sec-head-sub">Gaz actuel vs votre configuration</div></div>
+<div class="sec-head-sub" id="home-monthly-sub">Référence vs votre configuration</div></div>
 </div>
-<div style="font-size:.7rem;color:var(--muted);text-align:center;padding:8px;">📊 Graphiques détaillés → onglet Résultats</div>
+<div id="home-monthly-kpis" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:6px 0;">
+  <!-- Rempli par renderHomeMonthlyKpis() -->
+  <div style="text-align:center;padding:8px;background:var(--surface2);border-radius:8px;font-size:.65rem;color:var(--muted);">Chargement...</div>
 </div>
-<!-- Waterfall -->
+</div>
+<!-- Décomposition des économies -->
 <div class="card mt10">
 <div class="sec-head">
 <div class="sec-head-icon">📉</div>
 <div><div class="sec-head-title">Décomposition des économies</div>
-<div class="sec-head-sub">Chaque équipement contribue à réduire votre facture</div></div>
+<div class="sec-head-sub">Contribution de chaque équipement</div></div>
 </div>
-<div style="font-size:.72rem;color:var(--muted);padding:8px;">📊 Waterfall → onglet Accueil</div>
-<div id="wf-legend-dummy" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;font-size:.67rem;"></div>
+<div id="home-eco-decomp" style="padding:6px 0;">
+  <!-- Rempli par renderHomeEcoDecomp() -->
+</div>
 </div>
 </div>
 <div class="tab-panel" id="panel-data">
@@ -3115,6 +3119,102 @@ var switchAppTab = function(tab){
   }
 };
 
+function renderHomeMonthlyKpis(data, p){
+  var el = document.getElementById('home-monthly-kpis');
+  if(!el) return;
+  if(!data||!data.length){ el.innerHTML='<div style="color:var(--muted);font-size:.65rem;padding:8px;text-align:center;">Activez un équipement pour voir la comparaison</div>'; return; }
+  var tRefAn  = data.reduce(function(a,d){return a+d.c_ref;},0);
+  var tCurAn  = data.reduce(function(a,d){return a+d.c_cur;},0);
+  var tPacAn  = data.reduce(function(a,d){return a+d.c_pac;},0);
+  var ecoAn   = tRefAn - tCurAn;
+  var ecoMois = Math.round(ecoAn/12);
+  var refLabel = (window.REF_CONFIG&&REF_CONFIG[energieRef]) ? REF_CONFIG[energieRef].label : 'Référence';
+  var html = '';
+  // 3 KPIs
+  var kpis = [
+    {icon:'🏠', label:refLabel, val:Math.round(tRefAn).toLocaleString('fr')+' €/an', col:'var(--gaz)'},
+    {icon:'✅', label:'Votre config.', val:Math.round(tCurAn).toLocaleString('fr')+' €/an', col:'var(--pac)'},
+    {icon:'💰', label:'Économies', val:(ecoAn>=0?'+':'')+Math.round(ecoAn).toLocaleString('fr')+' €/an', col:ecoAn>=0?'var(--grn)':'var(--red)'},
+  ];
+  kpis.forEach(function(k){
+    html += '<div style="text-align:center;padding:8px 4px;background:var(--surface2);border-radius:8px;">'
+          + '<div style="font-size:.9rem;">'+k.icon+'</div>'
+          + '<div style="font-size:.68rem;font-weight:900;color:'+k.col+';margin-top:3px;">'+k.val+'</div>'
+          + '<div style="font-size:.55rem;color:var(--muted);margin-top:1px;">'+k.label+'</div>'
+          + '</div>';
+  });
+  // Tableau mensuel compact (6 mois visibles)
+  var monthNames = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
+  html += '<div style="grid-column:span 3;margin-top:4px;">';
+  html += '<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:3px;">';
+  data.slice(0,6).forEach(function(d,i){
+    var eco = d.c_ref - d.c_cur;
+    html += '<div style="text-align:center;padding:4px 2px;background:var(--surface2);border-radius:6px;">'
+          + '<div style="font-size:.52rem;color:var(--muted);">'+monthNames[i]+'</div>'
+          + '<div style="font-size:.6rem;font-weight:700;color:'+(eco>=0?'var(--grn)':'var(--red)')+';">'
+          + (eco>=0?'+':'')+Math.round(eco)+'€</div>'
+          + '</div>';
+  });
+  html += '</div>';
+  html += '<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:3px;margin-top:3px;">';
+  data.slice(6,12).forEach(function(d,i){
+    var eco = d.c_ref - d.c_cur;
+    html += '<div style="text-align:center;padding:4px 2px;background:var(--surface2);border-radius:6px;">'
+          + '<div style="font-size:.52rem;color:var(--muted);">'+monthNames[i+6]+'</div>'
+          + '<div style="font-size:.6rem;font-weight:700;color:'+(eco>=0?'var(--grn)':'var(--red)')+';">'
+          + (eco>=0?'+':'')+Math.round(eco)+'€</div>'
+          + '</div>';
+  });
+  html += '</div></div>';
+  el.innerHTML = html;
+}
+
+function renderHomeEcoDecomp(data, tRef, tPac, tCur, tCet, inv){
+  var el = document.getElementById('home-eco-decomp');
+  if(!el) return;
+  if(!data||!data.length){ el.innerHTML='<div style="color:var(--muted);font-size:.65rem;padding:8px;text-align:center;">Activez un équipement pour voir la décomposition</div>'; return; }
+  var tRefAn = tRef || data.reduce(function(a,d){return a+d.c_ref;},0);
+  var tCurAn = tCur || data.reduce(function(a,d){return a+d.c_cur;},0);
+  var ecoTotal = Math.round(tRefAn - tCurAn);
+  var items = [];
+  if(usePac||usePacAir){
+    var ecoPac = Math.round(tRefAn - (tPac||tCurAn));
+    items.push({icon:'♨️', label:'PAC réversible', eco:ecoPac, col:'#2563eb'});
+  }
+  if(useCet){
+    var kwh_cet_an = data.reduce(function(a,d){return a+(d.kwh_cet||0);},0);
+    var eco_cet = Math.round(kwh_cet_an * (getParams?getParams().pe:0.18) * 0.6);
+    items.push({icon:'🚿', label:'Chauffe-eau thermo.', eco:eco_cet, col:'#16a34a'});
+  }
+  if(useSol){
+    var kwh_sol_an = data.reduce(function(a,d){return a+(d.kwh_sol_auto||0)*(getParams?getParams().pe:0.18);},0);
+    items.push({icon:'☀️', label:'Solaire PV', eco:Math.round(kwh_sol_an), col:'#ca8a04'});
+  }
+  if(useBat){
+    items.push({icon:'🔋', label:'Batterie', eco:Math.round(ecoTotal*0.15), col:'#7c3aed'});
+  }
+  if(!items.length){
+    el.innerHTML='<div style="color:var(--muted);font-size:.65rem;padding:8px;text-align:center;">Activez un équipement dans Ma simulation</div>';
+    return;
+  }
+  var html='';
+  items.forEach(function(item){
+    var pct = ecoTotal>0 ? Math.min(100,Math.round(item.eco/ecoTotal*100)) : 0;
+    html += '<div style="display:flex;align-items:center;gap:8px;padding:5px 8px;margin-bottom:4px;">'
+          + '<span style="font-size:.9rem;flex-shrink:0;">'+item.icon+'</span>'
+          + '<div style="flex:1;">'
+          + '<div style="display:flex;justify-content:space-between;margin-bottom:2px;">'
+          + '<span style="font-size:.62rem;font-weight:700;color:'+item.col+';">'+item.label+'</span>'
+          + '<span style="font-size:.62rem;font-weight:800;color:'+item.col+';">+'+(item.eco>0?item.eco.toLocaleString('fr'):'?')+' €/an</span>'
+          + '</div>'
+          + '<div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden;">'
+          + '<div style="height:100%;width:'+pct+'%;background:'+item.col+';border-radius:3px;transition:.4s;"></div>'
+          + '</div></div></div>';
+  });
+  html += '<div style="text-align:right;padding:4px 8px;font-size:.65rem;color:var(--muted);">Total économies : <strong style="color:var(--grn);">+'+(ecoTotal>0?ecoTotal.toLocaleString('fr'):'?')+' €/an</strong></div>';
+  el.innerHTML = html;
+}
+
 function _heroRefCard(tRef){
   var rc=window.REF_CONFIG&&REF_CONFIG[energieRef]?REF_CONFIG[energieRef]:{icon:'🔥',label:'Gaz naturel',color:'var(--gaz)',bg:'var(--gaz-tint)'};
   var col=rc.color||'var(--gaz)';
@@ -3161,6 +3261,9 @@ var renderHeroKpis = function(tRef, tCur, tPac, ecoVsRef, ecoEquip, inv, amortAn
     D.gaz.reduce((a,b)=>a+b,0)*11.05*227/1000
     - (kwhBase+kwhPac)*52/1000
   );
+  // Données mensuelles comparées et décomposition
+  renderHomeMonthlyKpis(data, p);
+  renderHomeEcoDecomp(data, tRef, tPac, tCur, 0, inv);
   el.innerHTML=`
   <div class="hero-grid">
     ${_heroRefCard(tRef)}
