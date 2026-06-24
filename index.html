@@ -2069,18 +2069,17 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <div style="flex:1;min-width:200px;">
 <div style="font-size:.68rem;font-weight:700;color:var(--muted);margin-bottom:4px;">⚡ Puissance installée</div>
 <div style="display:flex;gap:6px;flex-wrap:wrap;" id="kwc-presets">
-<button class="btn" onclick="setKwc(2)" style="padding:3px 8px;font-size:.67rem;">2 kWc</button>
+<button class="btn" onclick="setKwc(1.5)" style="padding:3px 8px;font-size:.67rem;">1.5 kWc</button>
 <button class="btn" onclick="setKwc(3)" style="padding:3px 8px;font-size:.67rem;">3 kWc</button>
-<button class="btn" onclick="setKwc(4)" style="padding:3px 8px;font-size:.67rem;background:var(--sol);color:#fff;border-color:var(--sol);">4 kWc</button>
+<button class="btn" onclick="setKwc(4.5)" style="padding:3px 8px;font-size:.67rem;">4.5 kWc</button>
 <button class="btn" onclick="setKwc(6)" style="padding:3px 8px;font-size:.67rem;">6 kWc</button>
 <button class="btn" onclick="setKwc(9)" style="padding:3px 8px;font-size:.67rem;">9 kWc</button>
 <button class="btn" onclick="setKwc(12)" style="padding:3px 8px;font-size:.67rem;">12 kWc</button>
-<input type="number" id="kwc-input" value="4" min="0.5" max="100" step="0.5"
-          style="width:60px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 6px;font-size:.72rem;text-align:center;color:var(--sol);font-weight:700;"
-          oninput="setKwc(parseFloat(this.value))">
-<span style="font-size:.72rem;align-self:center;color:var(--muted);">kWc</span>
+<button class="btn" onclick="setKwc(18)" style="padding:3px 8px;font-size:.67rem;">18 kWc</button>
+<button class="btn" onclick="setKwc(24)" style="padding:3px 8px;font-size:.67rem;">24 kWc</button>
+<button class="btn" onclick="setKwc(36)" style="padding:3px 8px;font-size:.67rem;">36 kWc</button>
 </div>
-<input type="range" id="kwc-range" min="0.5" max="30" step="0.5" value="4"
+<input type="range" id="kwc-range" min="0.5" max="36" step="0.5" value="4"
         style="width:100%;margin-top:6px;accent-color:var(--sol);" oninput="setKwc(parseFloat(this.value))">
 <span style="font-size:.65rem;color:var(--sol);font-weight:700;" id="kwc-hint">4 kWc sélectionnés</span>
 </div>
@@ -3530,7 +3529,8 @@ function initSolarConfig(){
     </button>`;
   });
   document.getElementById('quick-cities').innerHTML=qh;
-  updateSolarDisplay();
+  // Mettre à jour tout l'affichage via setKwc
+  setKwc(curKwc);
 }
 function setKwc(v){
   curKwc = parseFloat(v)||4;
@@ -3546,7 +3546,7 @@ function setKwc(v){
   const np = Math.round(curKwc / 0.5);
   const surf = Math.round(curKwc * 5);
   document.getElementById('kwc-hint').textContent =
-    `≈ ${np} panneaux de 500 Wc · Surface toit ~${surf} m²`;
+    curKwc + ' kWc sélectionnés · ≈ ' + np + ' panneaux · ~' + surf + ' m²';
   const psel = document.getElementById('sol-preset');
   if(psel && psel.value && psel.value !== 'custom_sol' && typeof SOL_PRESETS !== 'undefined'){
     applySolPreset(psel.value);
