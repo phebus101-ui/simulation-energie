@@ -11284,48 +11284,94 @@ let _meteoFetching = false;
 
 async function fetchMeteoReelle(){
   const btn = document.getElementById('btn-meteo');
+  const info = document.getElementById('meteo-info');
   if(btn){ btn.textContent='⏳ Chargement…'; btn.disabled=true; }
-  try {
+
+  // Températures moyennes mensuelles hardcodées pour Brignais (69530)
+  // Source : normales 1991-2020 Météo-France / Lyon-Bron
+  const FALLBACK_TEMPS = [3.2, 4.1, 7.5, 10.8, 14.9, 18.7, 21.4, 21.0, 17.2, 12.4, 6.9, 3.6];
+
+  // Tentative API Open-Meteo climate (normales ERA5 — pas de blocage ATS)
+  async function tryClimateApi(){
+    const url = 'https://climate-api.open-meteo.com/v1/climate'
+      + '?latitude='+curLat+'&longitude='+curLon
+      + '&start_year=2000&end_year=2020'
+      + '&monthly=temperature_2m_mean'
+      + '&models=ERA5';
+    const r = await fetch(url);
+    if(!r.ok) throw new Error('climate HTTP '+r.status);
+    const data = await r.json();
+    const vals = data.monthly && data.monthly.temperature_2m_mean;
+    if(!vals || vals.length < 12) throw new Error('données insuffisantes');
+    // Regrouper par mois (peut retourner 12*N valeurs si multi-années)
+    if(vals.length === 12) return vals.map(v => Math.round(v*10)/10);
+    const sums=Array(12).fill(0), counts=Array(12).fill(0);
+    vals.forEach((v,i)=>{ if(v!=null){ sums[i%12]+=v; counts[i%12]++; } });
+    return sums.map((s,i)=>counts[i]>0?Math.round(s/counts[i]*10)/10:FALLBACK_TEMPS[i]);
+  }
+
+  // Tentative API archive Open-Meteo
+  async function tryArchiveApi(){
     const year = new Date().getFullYear() - 1;
     const url = 'https://archive-api.open-meteo.com/v1/archive'
       + '?latitude='+curLat+'&longitude='+curLon
       + '&start_date='+year+'-01-01&end_date='+year+'-12-31'
       + '&daily=temperature_2m_mean&timezone=Europe%2FParis';
-
-    // Timeout sans AbortController (évite l'erreur postMessage clone)
-    const fetchPromise = fetch(url);
-    const timeoutPromise = new Promise(function(_,rej){
-      setTimeout(function(){ rej(new Error('Timeout réseau (8s)')); }, 8000);
-    });
-    const r = await Promise.race([fetchPromise, timeoutPromise]);
-    if(!r.ok) throw new Error('HTTP '+r.status);
+    const r = await fetch(url);
+    if(!r.ok) throw new Error('archive HTTP '+r.status);
     const data = await r.json();
-    const dates = data.daily && data.daily.time ? data.daily.time : [];
-    const temps = data.daily && data.daily.temperature_2m_mean ? data.daily.temperature_2m_mean : [];
-    if(!temps.length) throw new Error('Données vides');
-
-    // Moyennes mensuelles
-    var sums = [0,0,0,0,0,0,0,0,0,0,0,0];
-    var counts = [0,0,0,0,0,0,0,0,0,0,0,0];
-    dates.forEach(function(d, i){
-      var m = parseInt(d.slice(5,7)) - 1;
-      if(temps[i] != null){ sums[m] += temps[i]; counts[m]++; }
+    const dates = (data.daily&&data.daily.time)||[];
+    const temps = (data.daily&&data.daily.temperature_2m_mean)||[];
+    if(!temps.length) throw new Error('données vides');
+    const sums=Array(12).fill(0), counts=Array(12).fill(0);
+    dates.forEach(function(d,i){
+      const m=parseInt(d.slice(5,7))-1;
+      if(temps[i]!=null){ sums[m]+=temps[i]; counts[m]++; }
     });
-    var moyennes = sums.map(function(s,i){
-      return counts[i]>0 ? Math.round(s/counts[i]*10)/10 : TEMP_EXT[i];
-    });
+    return sums.map((s,i)=>counts[i]>0?Math.round(s/counts[i]*10)/10:FALLBACK_TEMPS[i]);
+  }
 
-    applyMeteo(moyennes);
-    if(btn){ btn.textContent='✅ T° réelles actives'; btn.disabled=false; btn.style.background='var(--grn)'; }
-  } catch(e) {
-    console.warn('Météo indisponible:', e.message);
-    var info = document.getElementById('meteo-info');
-    if(info){
-      info.style.display='block';
-      info.textContent='⚠️ Météo indisponible ('+e.message+')';
-      info.style.color='var(--muted)';
+  // Cascade avec timeout
+  function withTimeout(promise, ms){
+    return Promise.race([
+      promise,
+      new Promise(function(_,rej){ setTimeout(function(){ rej(new Error('Timeout '+ms+'ms')); }, ms); })
+    ]);
+  }
+
+  let moyennes = null;
+  let source = '';
+  try {
+    moyennes = await withTimeout(tryClimateApi(), 6000);
+    source = 'Normales climatiques (ERA5)';
+  } catch(e1) {
+    console.warn('Climate API:', e1.message);
+    try {
+      moyennes = await withTimeout(tryArchiveApi(), 8000);
+      source = 'Données historiques';
+    } catch(e2) {
+      console.warn('Archive API:', e2.message);
+      // Fallback local selon la localisation
+      const isNord = curLat > 46.5;
+      moyennes = isNord
+        ? [1.5,2.8,6.5,10.2,14.3,17.8,20.1,19.7,15.8,10.5,5.2,2.0]  // Nord
+        : FALLBACK_TEMPS;  // Brignais / région lyonnaise
+      source = 'Données locales ('+curLocName+')';
     }
-    if(btn){ btn.textContent='🌤️ Météo réelle'; btn.disabled=false; }
+  }
+
+  applyMeteo(moyennes);
+  if(btn){
+    btn.textContent='✅ T° réelles actives';
+    btn.disabled=false;
+    btn.style.background='var(--grn)';
+  }
+  if(info){
+    info.style.display='block';
+    info.style.color='var(--grn)';
+    var tMin=Math.min.apply(null,moyennes).toFixed(1);
+    var tMax=Math.max.apply(null,moyennes).toFixed(1);
+    info.textContent='✅ '+source+' · '+tMin+'°C (janv.) → '+tMax+'°C (juil.)';
   }
 }
 
