@@ -3131,6 +3131,40 @@ var switchAppTab = function(tab){
   }
 };
 
+function _heroRefCard(tRef){
+  var rc=window.REF_CONFIG&&REF_CONFIG[energieRef]?REF_CONFIG[energieRef]:{icon:'🔥',label:'Gaz naturel',color:'var(--gaz)',bg:'var(--gaz-tint)'};
+  var col=rc.color||'var(--gaz)';
+  var bg=rc.bg||rc.color||'var(--gaz-tint)';
+  var lbl=(rc.label||'Gaz').toUpperCase();
+  var sub='';
+  if(energieRef==='fioul'){
+    var litres=window.D_FIOUL?D_FIOUL.litres.reduce(function(a,b){return a+b;},0):1500;
+    sub=Math.round(litres)+' L/an · '+Math.round(litres*10.35).toLocaleString('fr')+' kWh';
+  } else if(energieRef==='bois'){
+    var db=window.D_BOIS||{steres:Array(12).fill(1.25),prixS:100};
+    sub=db.steres.reduce(function(a,b){return a+b;},0).toFixed(1)+' stères/an · '+db.prixS+' €/stère';
+  } else if(energieRef==='pellet'){
+    var dp=window.D_PELLET||{tonnes:Array(12).fill(0.08),prixT:350};
+    sub=dp.tonnes.reduce(function(a,b){return a+b;},0).toFixed(1)+' t/an · '+dp.prixT+' €/tonne';
+  } else if(energieRef==='pac-exist'){
+    var copE=parseFloat((document.getElementById('pac-exist-cop')||{value:'3'}).value)||3;
+    sub='COP '+copE+' · base consommation actuelle';
+  } else if(energieRef==='elec-direct'){
+    var kwhAn=parseFloat((document.getElementById('elec-direct-kwh')||{value:'8000'}).value)||8000;
+    sub=Math.round(kwhAn).toLocaleString('fr')+' kWh/an';
+  } else {
+    // gaz (défaut)
+    var gazM3=D.gaz.reduce(function(a,b){return a+b;},0);
+    sub=gazM3.toFixed(0)+' m³/an · '+Math.round(gazM3*11.05).toLocaleString('fr')+' kWh PCS';
+  }
+  return '<div class="hero-card" style="--hero-accent:'+col+';">'
+       + '<div class="hero-icon" style="background:'+bg+';">'+rc.icon+'</div>'
+       + '<div class="hero-label">'+lbl+' – RÉFÉRENCE</div>'
+       + '<div class="hero-val" style="color:'+col+';">'+Math.round(tRef).toLocaleString('fr')+' €</div>'
+       + '<div class="hero-sub">'+sub+'</div>'
+       + '</div>';
+}
+
 var renderHeroKpis = function(tRef, tCur, tPac, ecoVsRef, ecoEquip, inv, amortAns, data, p){
   const el = document.getElementById('hero-kpis');
   if(!el) return;
@@ -3145,13 +3179,7 @@ var renderHeroKpis = function(tRef, tCur, tPac, ecoVsRef, ecoEquip, inv, amortAn
   );
   el.innerHTML=`
   <div class="hero-grid">
-    <!-- Gaz actuel -->
-    <div class="hero-card" style="--hero-accent:var(--gaz);">
-      <div class="hero-icon" style="background:var(--gaz-tint);">🔥</div>
-      <div class="hero-label">Gaz actuel – référence</div>
-      <div class="hero-val si-gaz">${Math.round(tRef).toLocaleString('fr')} €</div>
-      <div class="hero-sub">${D.gaz.reduce((a,b)=>a+b,0).toFixed(0)} m³/an · ${Math.round(D.gaz.reduce((a,b)=>a+b,0)*11.05).toLocaleString('fr')} kWh PCS</div>
-    </div>
+    ${_heroRefCard(tRef)}
     <!-- Configuration finale -->
     <div class="hero-card" style="--hero-accent:var(--pac);">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;">
