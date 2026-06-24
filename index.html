@@ -1082,87 +1082,100 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   
   
 
-  <!-- ══ PANNEAUX PRIX/QUANTITÉ ══ -->
-  <!-- Bois -->
-  <div id="sim-bois-panel" style="display:none;margin-top:8px;padding:10px 12px;
-    background:#fef9f0;border-radius:10px;border:1px solid #6b3a1f33;">
-    <div style="font-size:.65rem;font-weight:800;color:#6b3a1f;margin-bottom:6px;">🪵 Chaudière à bois</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-      <div>
-        <label style="font-size:.58rem;color:var(--muted);font-weight:600;">Conso (stères/an)</label>
-        <input type="number" id="sim-bois-steres" value="15" min="1" max="60" step="0.5"
-          style="width:100%;margin-top:2px;padding:5px 7px;font-size:.78rem;font-weight:700;
-          color:#6b3a1f;background:var(--surface);border:1px solid #6b3a1f44;border-radius:7px;"
-          oninput="updateSimBoisCalc()">
-      </div>
-      <div>
-        <label style="font-size:.58rem;color:var(--muted);font-weight:600;">Prix (€/stère)</label>
-        <input type="number" id="sim-bois-prix" value="100" min="30" max="300" step="5"
-          style="width:100%;margin-top:2px;padding:5px 7px;font-size:.78rem;font-weight:700;
-          color:#6b3a1f;background:var(--surface);border:1px solid #6b3a1f44;border-radius:7px;"
-          oninput="updateSimBoisCalc()">
-      </div>
-    </div>
-    <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;">
-      <span style="font-size:.6rem;color:var(--muted);">Coût annuel estimé</span>
-      <strong style="font-size:.75rem;color:#6b3a1f;" id="sim-bois-total">1 500 €/an</strong>
-    </div>
-  </div>
+  <!-- ══ PARAMÈTRES PRIX/QUANTITÉ (toujours visibles) ══ -->
+  <div style="margin-top:10px;border:1px solid var(--border);border-radius:10px;overflow:hidden;">
 
-  <!-- Pellets -->
-  <div id="sim-pellet-panel" style="display:none;margin-top:8px;padding:10px 12px;
-    background:#fef3c7;border-radius:10px;border:1px solid #92400e33;">
-    <div style="font-size:.65rem;font-weight:800;color:#92400e;margin-bottom:6px;">🌾 Chaudière à pellets</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-      <div>
-        <label style="font-size:.58rem;color:var(--muted);font-weight:600;">Conso (tonnes/an)</label>
-        <input type="number" id="sim-pellet-tonnes" value="5" min="0.5" max="25" step="0.5"
-          style="width:100%;margin-top:2px;padding:5px 7px;font-size:.78rem;font-weight:700;
-          color:#92400e;background:var(--surface);border:1px solid #92400e44;border-radius:7px;"
-          oninput="updateSimPelletCalc()">
-      </div>
-      <div>
-        <label style="font-size:.58rem;color:var(--muted);font-weight:600;">Prix (€/tonne)</label>
-        <input type="number" id="sim-pellet-prix" value="350" min="200" max="700" step="10"
-          style="width:100%;margin-top:2px;padding:5px 7px;font-size:.78rem;font-weight:700;
-          color:#92400e;background:var(--surface);border:1px solid #92400e44;border-radius:7px;"
-          oninput="updateSimPelletCalc()">
-      </div>
+    <!-- En-tête accordéon -->
+    <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--surface2);
+      cursor:pointer;user-select:none;" ontouchstart="" onclick="toggleSimParams()">
+      <span style="font-size:.7rem;font-weight:800;">⚙️ Prix &amp; quantités</span>
+      <span style="font-size:.6rem;color:var(--muted);">Bois · Pellets · Fioul</span>
+      <span id="sim-params-chevron" style="margin-left:auto;font-size:.75rem;color:var(--muted);transition:.2s;">▼</span>
     </div>
-    <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;">
-      <span style="font-size:.6rem;color:var(--muted);">Coût annuel estimé</span>
-      <strong style="font-size:.75rem;color:#92400e;" id="sim-pellet-total">1 750 €/an</strong>
-    </div>
-  </div>
 
-  <!-- Fioul -->
-  <div id="sim-fioul-panel" style="display:none;margin-top:8px;padding:10px 12px;
-    background:#fff7ed;border-radius:10px;border:1px solid #b4530933;">
-    <div style="font-size:.65rem;font-weight:800;color:#b45309;margin-bottom:6px;">🛢️ Chaudière fioul (référence)</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-      <div>
-        <label style="font-size:.58rem;color:var(--muted);font-weight:600;">Conso (litres/an)</label>
-        <input type="number" id="sim-fioul-litres" value="1500" min="200" max="5000" step="50"
-          style="width:100%;margin-top:2px;padding:5px 7px;font-size:.78rem;font-weight:700;
-          color:#b45309;background:var(--surface);border:1px solid #b4530933;border-radius:7px;"
-          oninput="updateSimFioulCalc()">
+    <!-- Corps accordéon -->
+    <div id="sim-params-body" style="padding:10px 12px;display:block;">
+
+      <!-- Bois -->
+      <div id="sim-bois-panel" style="margin-bottom:10px;padding:8px 10px;
+        background:#fef9f0;border-radius:9px;border:1px solid #6b3a1f33;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+          <span style="font-size:.63rem;font-weight:800;color:#6b3a1f;">🪵 Bois</span>
+          <span style="font-size:.62rem;font-weight:800;color:#6b3a1f;" id="sim-bois-total">1 500 €/an</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+          <div>
+            <label style="font-size:.56rem;color:var(--muted);font-weight:600;">Stères/an</label>
+            <input type="number" id="sim-bois-steres" value="15" min="1" max="60" step="0.5"
+              style="width:100%;margin-top:2px;padding:4px 6px;font-size:.75rem;font-weight:700;
+              color:#6b3a1f;background:var(--surface);border:1px solid #6b3a1f44;border-radius:6px;"
+              oninput="updateSimBoisCalc()">
+          </div>
+          <div>
+            <label style="font-size:.56rem;color:var(--muted);font-weight:600;">€/stère</label>
+            <input type="number" id="sim-bois-prix" value="100" min="30" max="300" step="5"
+              style="width:100%;margin-top:2px;padding:4px 6px;font-size:.75rem;font-weight:700;
+              color:#6b3a1f;background:var(--surface);border:1px solid #6b3a1f44;border-radius:6px;"
+              oninput="updateSimBoisCalc()">
+          </div>
+        </div>
       </div>
-      <div>
-        <label style="font-size:.58rem;color:var(--muted);font-weight:600;">Prix (€/litre)</label>
-        <input type="number" id="sim-fioul-prix" value="1.05" min="0.5" max="2.5" step="0.01"
-          style="width:100%;margin-top:2px;padding:5px 7px;font-size:.78rem;font-weight:700;
-          color:#b45309;background:var(--surface);border:1px solid #b4530933;border-radius:7px;"
-          oninput="updateSimFioulCalc()">
+
+      <!-- Pellets -->
+      <div id="sim-pellet-panel" style="margin-bottom:10px;padding:8px 10px;
+        background:#fef3c7;border-radius:9px;border:1px solid #92400e33;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+          <span style="font-size:.63rem;font-weight:800;color:#92400e;">🌾 Pellets</span>
+          <span style="font-size:.62rem;font-weight:800;color:#92400e;" id="sim-pellet-total">1 750 €/an</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+          <div>
+            <label style="font-size:.56rem;color:var(--muted);font-weight:600;">Tonnes/an</label>
+            <input type="number" id="sim-pellet-tonnes" value="5" min="0.5" max="25" step="0.5"
+              style="width:100%;margin-top:2px;padding:4px 6px;font-size:.75rem;font-weight:700;
+              color:#92400e;background:var(--surface);border:1px solid #92400e44;border-radius:6px;"
+              oninput="updateSimPelletCalc()">
+          </div>
+          <div>
+            <label style="font-size:.56rem;color:var(--muted);font-weight:600;">€/tonne</label>
+            <input type="number" id="sim-pellet-prix" value="350" min="200" max="700" step="10"
+              style="width:100%;margin-top:2px;padding:4px 6px;font-size:.75rem;font-weight:700;
+              color:#92400e;background:var(--surface);border:1px solid #92400e44;border-radius:6px;"
+              oninput="updateSimPelletCalc()">
+          </div>
+        </div>
       </div>
-    </div>
-    <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;">
-      <span style="font-size:.6rem;color:var(--muted);">Coût annuel estimé</span>
-      <strong style="font-size:.75rem;color:#b45309;" id="sim-fioul-total">1 575 €/an</strong>
-    </div>
-    <div style="margin-top:4px;font-size:.58rem;color:var(--muted);">
-      ℹ️ Modifie l'énergie de référence — sélectionnez aussi <strong>Fioul</strong> dans Mon chauffage actuel
-    </div>
-  </div>
+
+      <!-- Fioul -->
+      <div id="sim-fioul-panel" style="padding:8px 10px;
+        background:#fff7ed;border-radius:9px;border:1px solid #b4530933;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+          <span style="font-size:.63rem;font-weight:800;color:#b45309;">🛢️ Fioul</span>
+          <span style="font-size:.62rem;font-weight:800;color:#b45309;" id="sim-fioul-total">1 575 €/an</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+          <div>
+            <label style="font-size:.56rem;color:var(--muted);font-weight:600;">Litres/an</label>
+            <input type="number" id="sim-fioul-litres" value="1500" min="200" max="5000" step="50"
+              style="width:100%;margin-top:2px;padding:4px 6px;font-size:.75rem;font-weight:700;
+              color:#b45309;background:var(--surface);border:1px solid #b4530933;border-radius:6px;"
+              oninput="updateSimFioulCalc()">
+          </div>
+          <div>
+            <label style="font-size:.56rem;color:var(--muted);font-weight:600;">€/litre</label>
+            <input type="number" id="sim-fioul-prix" value="1.05" min="0.5" max="2.5" step="0.01"
+              style="width:100%;margin-top:2px;padding:4px 6px;font-size:.75rem;font-weight:700;
+              color:#b45309;background:var(--surface);border:1px solid #b4530933;border-radius:6px;"
+              oninput="updateSimFioulCalc()">
+          </div>
+        </div>
+        <div style="margin-top:4px;font-size:.56rem;color:var(--muted);">
+          ℹ️ Si fioul = votre chauffage actuel, sélectionnez aussi <strong>Fioul</strong> dans Mon chauffage actuel
+        </div>
+      </div>
+
+    </div><!-- fin sim-params-body -->
+  </div><!-- fin accordéon -->
 
   <div id="sim-summary" style="margin-top:8px;padding:6px 10px;background:var(--pac-tint);
     border-radius:8px;font-size:.68rem;display:none;border:1px solid #2563eb33;
@@ -11522,49 +11535,27 @@ function toggleSimCard(k){
     return;
   }
 
-  // Bois, Pellets, Fioul → toggle visuel + panneau prix/quantité
+  // Bois, Pellets, Fioul → toggle actif/inactif (panneau toujours visible)
   if(k==='bois'||k==='pellet'||k==='fioul'){
     var card = document.getElementById('sim-card-'+k);
     if(!card) return;
     var isOn = card.getAttribute('data-on')==='1';
     var nowOn = !isOn;
-
-    // Fermer les autres panneaux bois/pellet/fioul (mutuellement exclusifs)
-    ['bois','pellet','fioul'].forEach(function(id){
-      if(id===k) return;
-      var c2=document.getElementById('sim-card-'+id);
-      if(c2){ c2.setAttribute('data-on','0'); c2.style.background=''; c2.style.borderColor=''; var t2=c2.querySelector('div:nth-child(2)'); if(t2) t2.style.color=''; }
-      var p2=document.getElementById('sim-'+id+'-panel');
-      if(p2) p2.style.display='none';
-      if(id==='bois') window.useBois=false;
-      else if(id==='pellet') window.usePellet=false;
-      else if(id==='fioul') window.useFioulSim=false;
-    });
-
-    // Toggle la carte courante
     var cfg = SIM_COLORS[k]||{color:'#333',bg:'#f5f5f5'};
     card.setAttribute('data-on', nowOn?'1':'0');
     card.style.background  = nowOn ? cfg.bg : '';
     card.style.borderColor = nowOn ? cfg.color : '';
     var t = card.querySelector('div:nth-child(2)');
     if(t) t.style.color = nowOn ? cfg.color : '';
-
-    // Afficher/masquer le panneau
-    var panel = document.getElementById('sim-'+k+'-panel');
-    if(panel) panel.style.display = nowOn ? '' : 'none';
-
-    // Mettre à jour les variables d'état
-    if(k==='bois')  window.useBois   = nowOn;
+    if(k==='bois')   window.useBois   = nowOn;
     if(k==='pellet') window.usePellet = nowOn;
-    if(k==='fioul')  window.useFioulSim = nowOn;
-
-    // Initialiser les calculs si activation
-    if(nowOn){
-      if(k==='bois')   updateSimBoisCalc();
-      if(k==='pellet') updateSimPelletCalc();
-      if(k==='fioul')  { updateSimFioulCalc(); if(typeof setEnergieRef==='function') setEnergieRef('fioul'); }
+    if(k==='fioul'){
+      window.useFioulSim = nowOn;
+      if(nowOn && typeof setEnergieRef==='function') setEnergieRef('fioul');
     }
-
+    // Ouvrir l'accordéon si pas encore visible
+    var body = document.getElementById('sim-params-body');
+    if(body && body.style.display==='none') toggleSimParams();
     syncSimCards();
     if(typeof update==='function') update();
     return;
@@ -11609,6 +11600,15 @@ function syncSimCards(){
   var txt=document.getElementById('sim-summary-text');
   if(sum) sum.style.display=active.length?'':'none';
   if(txt) txt.textContent=active.join(' + ');
+}
+
+function toggleSimParams(){
+  var body = document.getElementById('sim-params-body');
+  var chev = document.getElementById('sim-params-chevron');
+  if(!body) return;
+  var isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  if(chev) chev.style.transform = isOpen ? 'rotate(-90deg)' : 'rotate(0deg)';
 }
 
 function updateSimBoisCalc(){
