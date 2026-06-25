@@ -2603,11 +2603,11 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   <div><div class="sec-head-title">Carte de localisation & irradiation</div>
   <div class="sec-head-sub">Votre position et l'irradiation solaire locale</div></div>
 </div>
-<div class="card" id="solar-map-card" style="padding:0;overflow:hidden;border-radius:12px;">
-  <div id="solar-leaflet-map" style="height:250px;width:100%;border-radius:12px;"></div>
+<div class="card" id="solar-map-card" style="padding:0;border-radius:12px;overflow:visible;">
+  <div id="solar-leaflet-map" style="height:260px;width:100%;border-radius:12px;min-height:200px;"></div>
   <div style="padding:10px 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
     <div id="solar-map-info" style="flex:1;font-size:.68rem;color:var(--muted);"></div>
-    <button onclick="initSolarMap()" style="font-size:.68rem;padding:5px 12px;
+    <button onclick="initSolarMap();setTimeout(function(){if(_leafletMap)_leafletMap.invalidateSize(true);},300);" style="font-size:.68rem;padding:5px 12px;
       background:var(--sol);color:#fff;border:none;border-radius:7px;cursor:pointer;font-weight:700;">
       🗺️ Centrer sur ma position
     </button>
@@ -3227,8 +3227,16 @@ var switchAppTab = function(tab){
     if(b) { if(t===tab) b.classList.add('active'); else b.classList.remove('active'); }
   });
   if(typeof _dirty!=='undefined') { Object.keys(_dirty).forEach(function(k){_dirty[k]=true;}); }
-  if(typeof _leafletMap!=='undefined'&&_leafletMap&&tab==='analyses'){
-    setTimeout(function(){_leafletMap.invalidateSize();},200);
+  if(typeof _leafletMap!=='undefined'&&_leafletMap&&(tab==='analyses'||tab==='config')){
+    setTimeout(function(){ _leafletMap.invalidateSize(true); }, 250);
+    setTimeout(function(){ _leafletMap.invalidateSize(true); }, 600);
+  }
+  // Config + solaire actif → s'assurer que la carte est bien initialisée
+  if(tab==='config' && typeof useSol!=='undefined' && useSol){
+    setTimeout(function(){
+      if(!_leafletMap && typeof initSolarMap==='function') initSolarMap();
+      else if(_leafletMap) _leafletMap.invalidateSize(true);
+    }, 300);
   }
 };
 
@@ -3753,12 +3761,17 @@ function initSolarConfig(){
   setKwc(curKwc);
   // Fix Leaflet : tuiles manquantes quand div était display:none
   if(typeof _leafletMap!=='undefined' && _leafletMap){
-    setTimeout(function(){ _leafletMap.invalidateSize(); }, 100);
+    // Double invalidateSize pour s'assurer que le DOM est bien rendu
+    setTimeout(function(){ _leafletMap.invalidateSize(true); }, 150);
+    setTimeout(function(){ _leafletMap.invalidateSize(true); }, 500);
   } else {
-    // Initialiser la carte si pas encore fait
+    // Initialiser la carte (délai pour laisser le DOM se stabiliser)
     setTimeout(function(){
-      if(typeof initSolarMap==='function') initSolarMap();
-    }, 150);
+      if(typeof initSolarMap==='function'){
+        initSolarMap();
+        setTimeout(function(){ if(_leafletMap) _leafletMap.invalidateSize(true); }, 400);
+      }
+    }, 200);
   }
 }
 function setKwc(v){
@@ -6668,6 +6681,8 @@ function initSolarMap(){
   // Centrer sur la position
   const lat=curLat||45.673, lon=curLon||4.757;
   _leafletMap.setView([lat,lon],12);
+  // Forcer le recalcul des dimensions (critique quand div était caché)
+  setTimeout(function(){ _leafletMap.invalidateSize(true); }, 100);
   // Marqueur
   if(_leafletMarker) _leafletMarker.remove();
   const icon=L.divIcon({
