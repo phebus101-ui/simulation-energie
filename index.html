@@ -3963,7 +3963,7 @@ function initSolarConfig(){
       ${c.name}
     </button>`;
   });
-  document.getElementById('quick-cities').innerHTML=qh;
+  var _sqc=document.getElementById('sol-quick-cities')||document.getElementById('quick-cities'); if(_sqc)_sqc.innerHTML=qh;
   // Mettre à jour tout l'affichage via setKwc
   setKwc(curKwc);
   // Fix Leaflet : tuiles manquantes quand div était display:none
@@ -12494,7 +12494,7 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 </script>
 <!-- ══════════════ MODAL LOCALISATION ══════════════ -->
-<div id="loc-modal" style="display:none;position:fixed;inset:0;background:#0006;z-index:300;
+<div id="loc-modal" style="display:none;position:fixed;inset:0;background:#0006;z-index:600;
   align-items:center;justify-content:center;">
   <div style="background:var(--surface);border-radius:16px;padding:24px;width:min(92vw,460px);
     box-shadow:var(--shadow-md);max-height:80vh;overflow-y:auto;">
