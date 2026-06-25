@@ -926,6 +926,35 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   position: absolute !important;
   left: 0; top: 0;
 }
+
+/* ── Classes utilitaires extraites des styles inline ── */
+.t-muted-sm { font-size:.65rem; color:var(--muted); }
+.t-muted    { font-size:.68rem; color:var(--muted); }
+.t-bold-md  { font-size:.72rem; font-weight:700; }
+.t-bold-lg  { font-size:.78rem; font-weight:800; }
+.t-bold-xs  { font-size:.6rem;  font-weight:700; }
+.flex-ac-g6 { display:flex; align-items:center; gap:6px; }
+.flex-ac-g8 { display:flex; align-items:center; gap:8px; }
+.flex-ac-g10{ display:flex; align-items:center; gap:10px; }
+.grid-2col-6{ display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.grid-2col-8{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.surface2-r8{ background:var(--surface2); border-radius:8px; }
+.mt4 { margin-top:4px; }
+.mt6 { margin-top:6px; }
+.mt8 { margin-top:8px; }
+.mt10{ margin-top:10px; }
+.mb4 { margin-bottom:4px; }
+.mb6 { margin-bottom:6px; }
+.mb8 { margin-bottom:8px; }
+.p8  { padding:8px; }
+.p10 { padding:10px; }
+.p12 { padding:12px; }
+.fw700{ font-weight:700; }
+.fw800{ font-weight:800; }
+.fw900{ font-weight:900; }
+.text-center{ text-align:center; }
+.w100{ width:100%; }
+.cur-pointer{ cursor:pointer; }
 </style>
 
 
@@ -3653,7 +3682,17 @@ var exportExcel = function(){
     return;
   }
   const p=getParams();
-  const data=compute(p);
+  // Cache compute() — évite de recalculer si params inchangés
+  var _pKey = JSON.stringify([p.cop,p.cop_air,p.pg,p.pe,p.cf,p.pv,
+    energieRef,usePac,usePacAir,useSol,useCet,useBat,curKwc,curOrient,curAngle,
+    window.useBois,window.usePellet,window.useFioulSim]);
+  var data;
+  if(_computeCache.key===_pKey && _computeCache.data){
+    data = _computeCache.data;
+  } else {
+    data = compute(p);
+    _computeCache = {key:_pKey, data:data};
+  }
   const tRef=data.reduce((a,d)=>a+d.c_ref,0);
   const tCur=data.reduce((a,d)=>a+d.c_cur,0);
   const wb=XLSX.utils.book_new();
@@ -3769,6 +3808,34 @@ var autosaveNow = function(){ if(_autosaveDirty){ try{ saveToStorage && saveToSt
 if(typeof currentLang==='undefined') window.currentLang='fr';
 // $el : version minimale déclarée tôt — sera remplacée par la version avec cache plus bas
 function $el(id){ return document.getElementById(id); }
+
+// ── DOM Cache — éléments accédés fréquemment ──
+var _DOM = {};
+function _initDOMCache(){
+  var ids = [
+    'hero-kpis','quick-config-row','home-ref-section','home-monthly-kpis','home-eco-decomp',
+    'sim-summary','sim-summary-text','sim-params-body','sim-params-chevron',
+    'sim-bois-total','sim-pellet-total','sim-fioul-total',
+    'sim-bois-steres','sim-bois-prix','sim-pellet-tonnes','sim-pellet-prix',
+    'sim-fioul-litres','sim-fioul-prix',
+    'ref-summary','ref-summary-text',
+    'kpis','cMain','cDetail','cAmort','cConsoElec',
+    'proj-content','proj-ref-label','reco-content','co2-content',
+    'aides-content','aides-result',
+    'btn-meteo','meteo-info','meteo-temp','meteo-detail',
+    'tempo-banner','tempo-label','tempo-prix','tempo-icon',
+    'kwc-range','kwc-input','kwc-hint','kwc-presets',
+    'solar-leaflet-map','solar-map-info','sol-config-card',
+    'header-loc','loc-modal','loc-input','loc-status','loc-results',
+    'cop','cop-air','pgaz','pelec','pven','cycf',
+    'copV','pacMode',
+    'inf-energie',
+  ];
+  ids.forEach(function(id){ _DOM[id] = document.getElementById(id); });
+}
+// Getter avec fallback
+function $d(id){ return _DOM[id] || (_DOM[id] = document.getElementById(id)); }
+
 // markSectionDirty : sera redéfini plus tard, guard && suffit
 var markSectionDirty = null;
 
@@ -5237,6 +5304,7 @@ async function extractCSVFromZip(buf){
   throw new Error('Aucun fichier CSV trouvé dans le ZIP EDF/Enedis');
 }
 function applyCSV(text,k,fname){
+  window._computeCache={key:null,data:null}; // invalider cache
   // Normaliser les fins de ligne (CRLF → LF) et supprimer le BOM UTF-8
   text = text.replace(/\r\n/g,'\n').replace(/\r/g,'\n').replace(/^\uFEFF/,'');
   const lines = text.split('\n');
@@ -5776,7 +5844,18 @@ function resetOnboarding(){
 function updateScenarioA(){
   const el=document.getElementById('sc-a-kpis'); if(!el) return;
   const p=getParams();
-  const data=compute(p);
+  // Cache compute() — évite de recalculer si params inchangés
+  var _pKey = JSON.stringify([p.cop,p.cop_air,p.pg,p.pe,p.cf,p.pv,
+    energieRef,usePac,usePacAir,useSol,useCet,useBat,curKwc,curOrient,curAngle,
+    window.useBois,window.usePellet,window.useFioulSim]);
+  if(typeof _computeCache==='undefined') window._computeCache={key:null,data:null};
+  var data;
+  if(_computeCache.key===_pKey && _computeCache.data){
+    data = _computeCache.data;
+  } else {
+    data = compute(p);
+    _computeCache = {key:_pKey, data:data};
+  }
   const tRef=data.reduce((a,d)=>a+d.c_ref,0);
   const tCur=data.reduce((a,d)=>a+d.c_cur,0);
   const eco=tRef-tCur;
@@ -5866,7 +5945,18 @@ function updateMultiYear(){
   const dv=document.getElementById('my-discount-v');  if(dv) dv.textContent=Math.round(discount*100)+'%';
 
   const p=getParams();
-  const data=compute(p);
+  // Cache compute() — évite de recalculer si params inchangés
+  var _pKey = JSON.stringify([p.cop,p.cop_air,p.pg,p.pe,p.cf,p.pv,
+    energieRef,usePac,usePacAir,useSol,useCet,useBat,curKwc,curOrient,curAngle,
+    window.useBois,window.usePellet,window.useFioulSim]);
+  if(typeof _computeCache==='undefined') window._computeCache={key:null,data:null};
+  var data;
+  if(_computeCache.key===_pKey && _computeCache.data){
+    data = _computeCache.data;
+  } else {
+    data = compute(p);
+    _computeCache = {key:_pKey, data:data};
+  }
   const tRef=data.reduce((a,d)=>a+d.c_ref,0);
   const tCur=data.reduce((a,d)=>a+d.c_cur,0);
   const inv=inv_total_current();
@@ -6300,7 +6390,18 @@ async function toggleNotifTempo(){
 // ════ AMÉLIORATION 8 : WIDGET RÉSUMÉ PNG ════
 function downloadSummaryWidget(){
   const p=getParams();
-  const data=compute(p);
+  // Cache compute() — évite de recalculer si params inchangés
+  var _pKey = JSON.stringify([p.cop,p.cop_air,p.pg,p.pe,p.cf,p.pv,
+    energieRef,usePac,usePacAir,useSol,useCet,useBat,curKwc,curOrient,curAngle,
+    window.useBois,window.usePellet,window.useFioulSim]);
+  if(typeof _computeCache==='undefined') window._computeCache={key:null,data:null};
+  var data;
+  if(_computeCache.key===_pKey && _computeCache.data){
+    data = _computeCache.data;
+  } else {
+    data = compute(p);
+    _computeCache = {key:_pKey, data:data};
+  }
   const tRef=data.reduce((a,d)=>a+d.c_ref,0);
   const tCur=data.reduce((a,d)=>a+d.c_cur,0);
   const eco=Math.round(tRef-tCur);
@@ -6392,7 +6493,18 @@ function exportPDFMobile(){
   const { jsPDF } = window.jspdf || jspdf;
   const doc = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
   const p=getParams();
-  const data=compute(p);
+  // Cache compute() — évite de recalculer si params inchangés
+  var _pKey = JSON.stringify([p.cop,p.cop_air,p.pg,p.pe,p.cf,p.pv,
+    energieRef,usePac,usePacAir,useSol,useCet,useBat,curKwc,curOrient,curAngle,
+    window.useBois,window.usePellet,window.useFioulSim]);
+  if(typeof _computeCache==='undefined') window._computeCache={key:null,data:null};
+  var data;
+  if(_computeCache.key===_pKey && _computeCache.data){
+    data = _computeCache.data;
+  } else {
+    data = compute(p);
+    _computeCache = {key:_pKey, data:data};
+  }
   const tRef=data.reduce((a,d)=>a+d.c_ref,0);
   const tCur=data.reduce((a,d)=>a+d.c_cur,0);
   const eco=Math.round(tRef-tCur);
@@ -7355,7 +7467,18 @@ function updateLiveDashboard(){
 // ════ EXPORT JSON STRUCTURÉ ════
 function exportJSON(){
   const p=getParams();
-  const data=compute(p);
+  // Cache compute() — évite de recalculer si params inchangés
+  var _pKey = JSON.stringify([p.cop,p.cop_air,p.pg,p.pe,p.cf,p.pv,
+    energieRef,usePac,usePacAir,useSol,useCet,useBat,curKwc,curOrient,curAngle,
+    window.useBois,window.usePellet,window.useFioulSim]);
+  if(typeof _computeCache==='undefined') window._computeCache={key:null,data:null};
+  var data;
+  if(_computeCache.key===_pKey && _computeCache.data){
+    data = _computeCache.data;
+  } else {
+    data = compute(p);
+    _computeCache = {key:_pKey, data:data};
+  }
   const tRef=data.reduce((a,d)=>a+d.c_ref,0);
   const tCur=data.reduce((a,d)=>a+d.c_cur,0);
   const export_data={
@@ -7495,6 +7618,7 @@ const _dirty = {
   waterfall: true, linky: true, alerts: true, amort: true,
 };
 let _lastParams = null; // cache des derniers params calculés
+var _computeCache = {key:null, data:null}; // cache résultat compute()
 
 function markSectionDirty(section){
   if(section === 'all') Object.keys(_dirty).forEach(k=>_dirty[k]=true);
@@ -7564,7 +7688,18 @@ function _coreUpdate(){
   $el('vieBatV').textContent=vBat()+' ans';
   const copLbl=$el('pac-cop-label');
   if(copLbl) copLbl.textContent=p.cop.toFixed(1);
-  const data=compute(p);
+  // Cache compute() — évite de recalculer si params inchangés
+  var _pKey = JSON.stringify([p.cop,p.cop_air,p.pg,p.pe,p.cf,p.pv,
+    energieRef,usePac,usePacAir,useSol,useCet,useBat,curKwc,curOrient,curAngle,
+    window.useBois,window.usePellet,window.useFioulSim]);
+  if(typeof _computeCache==='undefined') window._computeCache={key:null,data:null};
+  var data;
+  if(_computeCache.key===_pKey && _computeCache.data){
+    data = _computeCache.data;
+  } else {
+    data = compute(p);
+    _computeCache = {key:_pKey, data:data};
+  }
   const tRef=data.reduce((a,d)=>a+d.c_ref,0);
   const tPac=data.reduce((a,d)=>a+d.c_pac,0);
   const tCur=data.reduce((a,d)=>a+d.c_cur,0);
@@ -7886,7 +8021,6 @@ function update(){
 
 
 // ── Cache compute() : éviter recalcul si params inchangés ──
-let _computeCache=null;
 let _computeCacheKey='';
 function computeCached(p){
   const key=JSON.stringify({p, D:D.gaz.join(',')+'|'+D.elec.join(','),
@@ -7913,7 +8047,18 @@ function updateNow(){
   const copLbl=document.getElementById('pac-cop-label');
   if(copLbl) copLbl.textContent=p.cop.toFixed(1);
 
-  const data=compute(p);
+  // Cache compute() — évite de recalculer si params inchangés
+  var _pKey = JSON.stringify([p.cop,p.cop_air,p.pg,p.pe,p.cf,p.pv,
+    energieRef,usePac,usePacAir,useSol,useCet,useBat,curKwc,curOrient,curAngle,
+    window.useBois,window.usePellet,window.useFioulSim]);
+  if(typeof _computeCache==='undefined') window._computeCache={key:null,data:null};
+  var data;
+  if(_computeCache.key===_pKey && _computeCache.data){
+    data = _computeCache.data;
+  } else {
+    data = compute(p);
+    _computeCache = {key:_pKey, data:data};
+  }
   const tRef=data.reduce((a,d)=>a+d.c_ref,0);
   const tPac=data.reduce((a,d)=>a+d.c_pac,0);
   const tCur=data.reduce((a,d)=>a+d.c_cur,0);
@@ -8997,7 +9142,18 @@ const AIDES_MPR = {
 };
 function _renderAnalysesCore(){
   const p=getParams();
-  const data=compute(p);
+  // Cache compute() — évite de recalculer si params inchangés
+  var _pKey = JSON.stringify([p.cop,p.cop_air,p.pg,p.pe,p.cf,p.pv,
+    energieRef,usePac,usePacAir,useSol,useCet,useBat,curKwc,curOrient,curAngle,
+    window.useBois,window.usePellet,window.useFioulSim]);
+  if(typeof _computeCache==='undefined') window._computeCache={key:null,data:null};
+  var data;
+  if(_computeCache.key===_pKey && _computeCache.data){
+    data = _computeCache.data;
+  } else {
+    data = compute(p);
+    _computeCache = {key:_pKey, data:data};
+  }
   const tRef=data.reduce((a,d)=>a+d.c_ref,0);
   const tCur=data.reduce((a,d)=>a+d.c_cur,0);
   // Utiliser getTRef() pour respecter energieRef (fioul/bois/pellet/pac-exist/elec-direct)
@@ -9311,7 +9467,18 @@ document.addEventListener('DOMContentLoaded', function(){
 }
 function shareWhatsApp(){
   const p=getParams();
-  const data=compute(p);
+  // Cache compute() — évite de recalculer si params inchangés
+  var _pKey = JSON.stringify([p.cop,p.cop_air,p.pg,p.pe,p.cf,p.pv,
+    energieRef,usePac,usePacAir,useSol,useCet,useBat,curKwc,curOrient,curAngle,
+    window.useBois,window.usePellet,window.useFioulSim]);
+  if(typeof _computeCache==='undefined') window._computeCache={key:null,data:null};
+  var data;
+  if(_computeCache.key===_pKey && _computeCache.data){
+    data = _computeCache.data;
+  } else {
+    data = compute(p);
+    _computeCache = {key:_pKey, data:data};
+  }
   const tRef=data.reduce((a,d)=>a+d.c_ref,0);
   const tCur=data.reduce((a,d)=>a+d.c_cur,0);
   const eco=Math.round(tRef-tCur);
@@ -12452,6 +12619,7 @@ async function fetchMeteoReelle(){
 }
 
 function applyMeteo(temps){
+  window._computeCache={key:null,data:null}; // invalider cache
   // Remplacer TEMP_EXT par les vraies températures
   temps.forEach((t,i)=>TEMP_EXT[i]=t);
   // Mettre à jour le tableau mensuel COP
@@ -12476,7 +12644,18 @@ function getHistory(){
 
 function saveSnapshot(name){
   const p=getParams();
-  const data=compute(p);
+  // Cache compute() — évite de recalculer si params inchangés
+  var _pKey = JSON.stringify([p.cop,p.cop_air,p.pg,p.pe,p.cf,p.pv,
+    energieRef,usePac,usePacAir,useSol,useCet,useBat,curKwc,curOrient,curAngle,
+    window.useBois,window.usePellet,window.useFioulSim]);
+  if(typeof _computeCache==='undefined') window._computeCache={key:null,data:null};
+  var data;
+  if(_computeCache.key===_pKey && _computeCache.data){
+    data = _computeCache.data;
+  } else {
+    data = compute(p);
+    _computeCache = {key:_pKey, data:data};
+  }
   const tRef=data.reduce((a,d)=>a+d.c_ref,0);
   const tCur=data.reduce((a,d)=>a+d.c_cur,0);
   const snap={
@@ -12747,6 +12926,52 @@ function toggleSimParams(){
   if(chev) chev.style.transform = isOpen ? 'rotate(-90deg)' : 'rotate(0deg)';
 }
 
+// ════ SAUVEGARDE GROUPÉE localStorage ════
+var _SAVE_KEY = 'sim_energie_v4';
+
+function saveSimState(){
+  try{
+    var state = {
+      energieRef: energieRef,
+      boisSteres: ($d('sim-bois-steres')||{value:'15'}).value,
+      boisPrix:   ($d('sim-bois-prix')  ||{value:'100'}).value,
+      pelletTonnes:($d('sim-pellet-tonnes')||{value:'5'}).value,
+      pelletPrix: ($d('sim-pellet-prix') ||{value:'350'}).value,
+      fioulLitres:($d('sim-fioul-litres')||{value:'1500'}).value,
+      fioulPrix:  ($d('sim-fioul-prix')  ||{value:'1.05'}).value,
+      useBois:    window.useBois||false,
+      usePellet:  window.usePellet||false,
+      useFioulSim:window.useFioulSim||false,
+      ts: Date.now(),
+    };
+    localStorage.setItem(_SAVE_KEY, JSON.stringify(state));
+  }catch(e){}
+}
+
+function loadSimState(){
+  try{
+    var raw = localStorage.getItem(_SAVE_KEY);
+    if(!raw) return false;
+    var state = JSON.parse(raw);
+    if(state.energieRef && typeof setEnergieRef==='function') setEnergieRef(state.energieRef);
+    var fields = {
+      'sim-bois-steres': state.boisSteres,
+      'sim-bois-prix':   state.boisPrix,
+      'sim-pellet-tonnes': state.pelletTonnes,
+      'sim-pellet-prix': state.pelletPrix,
+      'sim-fioul-litres': state.fioulLitres,
+      'sim-fioul-prix':  state.fioulPrix,
+    };
+    Object.keys(fields).forEach(function(id){
+      if(fields[id]!=null){ var el=$d(id)||document.getElementById(id); if(el) el.value=fields[id]; }
+    });
+    window.useBois     = !!state.useBois;
+    window.usePellet   = !!state.usePellet;
+    window.useFioulSim = !!state.useFioulSim;
+    return true;
+  }catch(e){ return false; }
+}
+
 function updateSimBoisCalc(){
   var steres = parseFloat(document.getElementById('sim-bois-steres')?.value)||15;
   var prix   = parseFloat(document.getElementById('sim-bois-prix')?.value)||100;
@@ -12759,7 +12984,7 @@ function updateSimBoisCalc(){
     D_BOIS.steres=coeffs.map(function(c){return Math.round(steres*c/sum*10)/10;});
     D_BOIS.prixS=prix;
   }
-  try{ localStorage.setItem('sim_bois_steres', steres); localStorage.setItem('sim_bois_prix', prix); }catch(e){}
+  saveSimState();
   if(typeof update==='function') update();
 }
 
@@ -12775,7 +13000,7 @@ function updateSimPelletCalc(){
     D_PELLET.tonnes=coeffs.map(function(c){return Math.round(tonnes*c/sum*100)/100;});
     D_PELLET.prixT=prix;
   }
-  try{ localStorage.setItem('sim_pellet_tonnes', tonnes); localStorage.setItem('sim_pellet_prix', prix); }catch(e){}
+  saveSimState();
   if(typeof update==='function') update();
 }
 
@@ -12791,7 +13016,7 @@ function updateSimFioulCalc(){
     D_FIOUL.litres=coeffs.map(function(c){return Math.round(litres*c/sum);});
     D_FIOUL.prixL=prix;
   }
-  try{ localStorage.setItem('sim_fioul_litres', litres); localStorage.setItem('sim_fioul_prix', prix); }catch(e){}
+  saveSimState();
   if(typeof update==='function') update();
 }
 
@@ -13218,21 +13443,13 @@ document.addEventListener('DOMContentLoaded', function(){
     typeof updateNow==='function' && updateNow();
   }
 
+  // ── Init DOM Cache ──
+  if(typeof _initDOMCache==='function') _initDOMCache();
   // ── Init nouvelles fonctions ──
   if(typeof setEnergieRef==='function') setEnergieRef(energieRef||'gaz');
   if(typeof syncSimCards==='function') syncSimCards();
-  // Restaurer les prix depuis localStorage
-  try{
-    var _bs=localStorage.getItem('sim_bois_steres'), _bp=localStorage.getItem('sim_bois_prix');
-    var _pt=localStorage.getItem('sim_pellet_tonnes'), _pp=localStorage.getItem('sim_pellet_prix');
-    var _fl=localStorage.getItem('sim_fioul_litres'), _fp=localStorage.getItem('sim_fioul_prix');
-    if(_bs){ var e=document.getElementById('sim-bois-steres'); if(e) e.value=_bs; }
-    if(_bp){ var e=document.getElementById('sim-bois-prix');   if(e) e.value=_bp; }
-    if(_pt){ var e=document.getElementById('sim-pellet-tonnes');if(e) e.value=_pt;}
-    if(_pp){ var e=document.getElementById('sim-pellet-prix'); if(e) e.value=_pp; }
-    if(_fl){ var e=document.getElementById('sim-fioul-litres');if(e) e.value=_fl; }
-    if(_fp){ var e=document.getElementById('sim-fioul-prix');  if(e) e.value=_fp; }
-  }catch(e){}
+  // Restaurer depuis localStorage (structuré)
+  if(typeof loadSimState==='function') loadSimState();
   // Init accordéon prix/quantités
   if(typeof updateSimBoisCalc==='function')   updateSimBoisCalc();
   if(typeof updateSimPelletCalc==='function') updateSimPelletCalc();
