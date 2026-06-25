@@ -1085,12 +1085,12 @@ body { padding-bottom: env(safe-area-inset-bottom); }
     <button type="button" onclick="clearSimCards()" style="padding:2px 7px;font-size:.58rem;border-radius:5px;border:1px solid var(--border);background:none;color:var(--muted);cursor:pointer;">✕</button>
   </div>
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;" id="sim-cards-grid">
-    <button type="button" id="sim-card-pac" onclick="toggleSimCard('pac')" style="border:2px solid var(--border);background:var(--surface2);border-radius:10px;padding:8px 4px;text-align:center;cursor:pointer;transition:.18s;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;aspect-ratio:1;min-height:56px;max-height:80px;"><div style="font-size:1.1rem;line-height:1;">♨️</div><div style="font-size:.6rem;font-weight:800;margin-top:4px;color:var(--text);line-height:1.2;">PAC réversible</div><div style="font-size:.5rem;color:var(--muted);margin-top:1px;line-height:1.2;">COP var.</div></button>
-    <button type="button" id="sim-card-sol" onclick="toggleSimCard('sol')" style="border:2px solid var(--border);background:var(--surface2);border-radius:10px;padding:8px 4px;text-align:center;cursor:pointer;transition:.18s;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;aspect-ratio:1;min-height:56px;max-height:80px;"><div style="font-size:1.1rem;line-height:1;">☀️</div><div style="font-size:.6rem;font-weight:800;margin-top:4px;color:var(--text);line-height:1.2;">Solaire PV</div><div style="font-size:.5rem;color:var(--muted);margin-top:1px;line-height:1.2;">Panneaux</div></button>
-    <button type="button" id="sim-card-cet" onclick="toggleSimCard('cet')" style="border:2px solid var(--border);background:var(--surface2);border-radius:10px;padding:8px 4px;text-align:center;cursor:pointer;transition:.18s;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;aspect-ratio:1;min-height:56px;max-height:80px;"><div style="font-size:1.1rem;line-height:1;">🚿</div><div style="font-size:.6rem;font-weight:800;margin-top:4px;color:var(--text);line-height:1.2;">Chauffe-eau</div><div style="font-size:.5rem;color:var(--muted);margin-top:1px;line-height:1.2;">Thermodynamique</div></button>
-    <button type="button" id="sim-card-bat" onclick="toggleSimCard('bat')" style="border:2px solid var(--border);background:var(--surface2);border-radius:10px;padding:8px 4px;text-align:center;cursor:pointer;transition:.18s;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;aspect-ratio:1;min-height:56px;max-height:80px;"><div style="font-size:1.1rem;line-height:1;">🔋</div><div style="font-size:.6rem;font-weight:800;margin-top:4px;color:var(--text);line-height:1.2;">Batterie</div><div style="font-size:.5rem;color:var(--muted);margin-top:1px;line-height:1.2;">Stockage</div></button>
-    <button type="button" id="sim-card-bois" onclick="toggleSimCard('bois')" style="border:2px solid var(--border);background:var(--surface2);border-radius:10px;padding:8px 4px;text-align:center;cursor:pointer;transition:.18s;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;aspect-ratio:1;min-height:56px;max-height:80px;"><div style="font-size:1.1rem;line-height:1;">🪵</div><div style="font-size:.6rem;font-weight:800;margin-top:4px;color:var(--text);line-height:1.2;">Chaud. bois</div><div style="font-size:.5rem;color:var(--muted);margin-top:1px;line-height:1.2;">Bûches</div></button>
-    <button type="button" id="sim-card-pellet" onclick="toggleSimCard('pellet')" style="border:2px solid var(--border);background:var(--surface2);border-radius:10px;padding:8px 4px;text-align:center;cursor:pointer;transition:.18s;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;aspect-ratio:1;min-height:56px;max-height:80px;"><div style="font-size:1.1rem;line-height:1;">🌾</div><div style="font-size:.6rem;font-weight:800;margin-top:4px;color:var(--text);line-height:1.2;">Chaud. pellets</div><div style="font-size:.5rem;color:var(--muted);margin-top:1px;line-height:1.2;">Granulés</div></button>
+    <button type="button" id="sim-card-pac" onclick="toggleSimCard('pac')" style="border:2px solid var(--border);background:var(--surface2);border-radius:10px;padding:8px 4px;text-align:center;cursor:pointer;transition:.18s;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;aspect-ratio:1;min-height:56px;max-height:80px;"><div style="font-size:1.1rem;line-height:1;">♨️</div><div style="font-size:.6rem;font-weight:800;margin-top:4px;color:var(--text);line-height:1.2;" data-i18n="pacRev">PAC réversible</div><div style="font-size:.5rem;color:var(--muted);margin-top:1px;line-height:1.2;">COP var.</div></button>
+    <button type="button" id="sim-card-sol" onclick="toggleSimCard('sol')" style="border:2px solid var(--border);background:var(--surface2);border-radius:10px;padding:8px 4px;text-align:center;cursor:pointer;transition:.18s;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;aspect-ratio:1;min-height:56px;max-height:80px;"><div style="font-size:1.1rem;line-height:1;">☀️</div><div style="font-size:.6rem;font-weight:800;margin-top:4px;color:var(--text);line-height:1.2;" data-i18n="solarPv">Solaire PV</div><div style="font-size:.5rem;color:var(--muted);margin-top:1px;line-height:1.2;">Panneaux</div></button>
+    <button type="button" id="sim-card-cet" onclick="toggleSimCard('cet')" style="border:2px solid var(--border);background:var(--surface2);border-radius:10px;padding:8px 4px;text-align:center;cursor:pointer;transition:.18s;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;aspect-ratio:1;min-height:56px;max-height:80px;"><div style="font-size:1.1rem;line-height:1;">🚿</div><div style="font-size:.6rem;font-weight:800;margin-top:4px;color:var(--text);line-height:1.2;" data-i18n="hotWater">Chauffe-eau</div><div style="font-size:.5rem;color:var(--muted);margin-top:1px;line-height:1.2;">Thermodynamique</div></button>
+    <button type="button" id="sim-card-bat" onclick="toggleSimCard('bat')" style="border:2px solid var(--border);background:var(--surface2);border-radius:10px;padding:8px 4px;text-align:center;cursor:pointer;transition:.18s;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;aspect-ratio:1;min-height:56px;max-height:80px;"><div style="font-size:1.1rem;line-height:1;">🔋</div><div style="font-size:.6rem;font-weight:800;margin-top:4px;color:var(--text);line-height:1.2;" data-i18n="battery">Batterie</div><div style="font-size:.5rem;color:var(--muted);margin-top:1px;line-height:1.2;">Stockage</div></button>
+    <button type="button" id="sim-card-bois" onclick="toggleSimCard('bois')" style="border:2px solid var(--border);background:var(--surface2);border-radius:10px;padding:8px 4px;text-align:center;cursor:pointer;transition:.18s;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;aspect-ratio:1;min-height:56px;max-height:80px;"><div style="font-size:1.1rem;line-height:1;">🪵</div><div style="font-size:.6rem;font-weight:800;margin-top:4px;color:var(--text);line-height:1.2;" data-i18n="woodBoiler">Chaud. bois</div><div style="font-size:.5rem;color:var(--muted);margin-top:1px;line-height:1.2;">Bûches</div></button>
+    <button type="button" id="sim-card-pellet" onclick="toggleSimCard('pellet')" style="border:2px solid var(--border);background:var(--surface2);border-radius:10px;padding:8px 4px;text-align:center;cursor:pointer;transition:.18s;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;aspect-ratio:1;min-height:56px;max-height:80px;"><div style="font-size:1.1rem;line-height:1;">🌾</div><div style="font-size:.6rem;font-weight:800;margin-top:4px;color:var(--text);line-height:1.2;" data-i18n="pelletBoiler">Pellets</div><div style="font-size:.5rem;color:var(--muted);margin-top:1px;line-height:1.2;">Granulés</div></button>
     <button type="button" id="sim-card-fioul" onclick="toggleSimCard('fioul')"
       style="border:2px solid var(--border);background:var(--surface2);border-radius:10px;
       padding:8px 4px;text-align:center;cursor:pointer;transition:.15s;display:flex;
@@ -1128,14 +1128,14 @@ body { padding-bottom: env(safe-area-inset-bottom); }
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
           <div>
-            <label style="font-size:.56rem;color:var(--muted);font-weight:600;">Stères/an</label>
+            <label style="font-size:.56rem;color:var(--muted);font-weight:600;" data-i18n="sterPerYear">Stères/an</label>
             <input type="number" id="sim-bois-steres" value="15" min="1" max="60" step="0.5"
               style="width:100%;margin-top:2px;padding:4px 6px;font-size:.75rem;font-weight:700;
               color:#6b3a1f;background:var(--surface);border:1px solid #6b3a1f44;border-radius:6px;"
               oninput="updateSimBoisCalc()">
           </div>
           <div>
-            <label style="font-size:.56rem;color:var(--muted);font-weight:600;">€/stère</label>
+            <label style="font-size:.56rem;color:var(--muted);font-weight:600;" data-i18n="euroPerSter">€/stère</label>
             <input type="number" id="sim-bois-prix" value="100" min="30" max="300" step="5"
               style="width:100%;margin-top:2px;padding:4px 6px;font-size:.75rem;font-weight:700;
               color:#6b3a1f;background:var(--surface);border:1px solid #6b3a1f44;border-radius:6px;"
@@ -1153,14 +1153,14 @@ body { padding-bottom: env(safe-area-inset-bottom); }
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
           <div>
-            <label style="font-size:.56rem;color:var(--muted);font-weight:600;">Tonnes/an</label>
+            <label style="font-size:.56rem;color:var(--muted);font-weight:600;" data-i18n="tonnesPerYear">Tonnes/an</label>
             <input type="number" id="sim-pellet-tonnes" value="5" min="0.5" max="25" step="0.5"
               style="width:100%;margin-top:2px;padding:4px 6px;font-size:.75rem;font-weight:700;
               color:#92400e;background:var(--surface);border:1px solid #92400e44;border-radius:6px;"
               oninput="updateSimPelletCalc()">
           </div>
           <div>
-            <label style="font-size:.56rem;color:var(--muted);font-weight:600;">€/tonne</label>
+            <label style="font-size:.56rem;color:var(--muted);font-weight:600;" data-i18n="euroPerTonne">€/tonne</label>
             <input type="number" id="sim-pellet-prix" value="350" min="200" max="700" step="10"
               style="width:100%;margin-top:2px;padding:4px 6px;font-size:.75rem;font-weight:700;
               color:#92400e;background:var(--surface);border:1px solid #92400e44;border-radius:6px;"
@@ -1178,14 +1178,14 @@ body { padding-bottom: env(safe-area-inset-bottom); }
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
           <div>
-            <label style="font-size:.56rem;color:var(--muted);font-weight:600;">Litres/an</label>
+            <label style="font-size:.56rem;color:var(--muted);font-weight:600;" data-i18n="litresPerYear">Litres/an</label>
             <input type="number" id="sim-fioul-litres" value="1500" min="200" max="5000" step="50"
               style="width:100%;margin-top:2px;padding:4px 6px;font-size:.75rem;font-weight:700;
               color:#b45309;background:var(--surface);border:1px solid #b4530933;border-radius:6px;"
               oninput="updateSimFioulCalc()">
           </div>
           <div>
-            <label style="font-size:.56rem;color:var(--muted);font-weight:600;">€/litre</label>
+            <label style="font-size:.56rem;color:var(--muted);font-weight:600;" data-i18n="euroPerLitre">€/litre</label>
             <input type="number" id="sim-fioul-prix" value="1.05" min="0.5" max="2.5" step="0.01"
               style="width:100%;margin-top:2px;padding:4px 6px;font-size:.75rem;font-weight:700;
               color:#b45309;background:var(--surface);border:1px solid #b4530933;border-radius:6px;"
@@ -10343,6 +10343,50 @@ const T18N = {
   radar:'Comparaison visuelle',
   compare:'Comparaison côte à côte',
   noData:'Aucune donnée — importez vos relevés ou saisissez manuellement',
+  
+    // ── Nouveaux textes (ajoutés 2025) ──
+    myCurrent:'Mon chauffage actuel',
+    mySimulation:'Ma simulation',
+    refEnergy:'Énergie de référence',
+    combine:'Combinez librement',
+    clearAll:'Effacer',
+    pacRev:'PAC réversible',
+    copVar:'COP var.',
+    solarPv:'Solaire PV',
+    panels:'Panneaux',
+    hotWater:'Chauffe-eau',
+    thermodyn:'Thermodynamique',
+    woodBoiler:'Chaud. bois',
+    logs:'Bûches',
+    pelletBoiler:'Pellets',
+    pelletGran:'Granulés',
+    fuelOil:'Fioul',
+    fuelRef:'Référence',
+    battery:'Batterie',
+    storage:'Stockage',
+    priceQty:'Prix & quantités',
+    sterPerYear:'Stères/an',
+    euroPerSter:'€/stère',
+    tonnesPerYear:'Tonnes/an',
+    euroPerTonne:'€/tonne',
+    litresPerYear:'Litres/an',
+    euroPerLitre:'€/litre',
+    annualCost:'Coût annuel estimé',
+    bestConfig:'Meilleure configuration',
+    estSavings:'Économies estimées',
+    hourlySimTitle:'Simulation horaire',
+    solarProd:'Production solaire',
+    sunrise:'Lever estimé',
+    sunset:'Coucher estimé',
+    payback:'Remboursé en',
+    ecoYear1:'Éco. an 1',
+    netBalance:'Bilan net',
+    mfgFootprint:'Empreinte fabrication',
+    netBalance20:'Bilan net sur 20 ans',
+    tempoToday:"Aujourd'hui",
+    tempoBlue:'BLEU',
+    tempoWhite:'BLANC',
+    tempoRed:'ROUGE',
   },
   en:{
   appTitle:'Home Energy Simulation',
@@ -10391,6 +10435,50 @@ const T18N = {
   radar:'Visual comparison',
   compare:'Side-by-side',
   noData:'No data — import your meter files or enter manually',
+  
+    // ── New texts ──
+    myCurrent:'My current heating',
+    mySimulation:'My simulation',
+    refEnergy:'Reference energy',
+    combine:'Combine freely',
+    clearAll:'Clear',
+    pacRev:'Reversible heat pump',
+    copVar:'COP var.',
+    solarPv:'Solar PV',
+    panels:'Panels',
+    hotWater:'Water heater',
+    thermodyn:'Thermodynamic',
+    woodBoiler:'Wood boiler',
+    logs:'Logs',
+    pelletBoiler:'Pellets',
+    pelletGran:'Pellets',
+    fuelOil:'Fuel oil',
+    fuelRef:'Reference',
+    battery:'Battery',
+    storage:'Storage',
+    priceQty:'Prices & quantities',
+    sterPerYear:'Stères/year',
+    euroPerSter:'€/stère',
+    tonnesPerYear:'Tonnes/year',
+    euroPerTonne:'€/tonne',
+    litresPerYear:'Litres/year',
+    euroPerLitre:'€/litre',
+    annualCost:'Estimated annual cost',
+    bestConfig:'Best configuration',
+    estSavings:'Estimated savings',
+    hourlySimTitle:'Hourly simulation',
+    solarProd:'Solar production',
+    sunrise:'Sunrise estimate',
+    sunset:'Sunset estimate',
+    payback:'Payback in',
+    ecoYear1:'Savings year 1',
+    netBalance:'Net balance',
+    mfgFootprint:'Manufacturing footprint',
+    netBalance20:'Net balance over 20 years',
+    tempoToday:'Today',
+    tempoBlue:'BLUE',
+    tempoWhite:'WHITE',
+    tempoRed:'RED',
   },
   de:{
   appTitle:'Hausenergie-Simulation',
@@ -10439,6 +10527,19 @@ const T18N = {
   radar:'Visueller Vergleich',
   compare:'Nebeneinander',
   noData:'Keine Daten — Zählerdateien importieren oder manuell eingeben',
+  
+    myCurrent:'Meine aktuelle Heizung',mySimulation:'Meine Simulation',refEnergy:'Referenzenergie',
+    combine:'Frei kombinieren',clearAll:'Löschen',pacRev:'Umkehrbare Wärmepumpe',copVar:'COP var.',
+    solarPv:'Solar PV',panels:'Module',hotWater:'Warmwasserbereiter',thermodyn:'Thermodynamisch',
+    woodBoiler:'Holzkessel',logs:'Scheite',pelletBoiler:'Pellets',pelletGran:'Pellets',
+    fuelOil:'Heizöl',fuelRef:'Referenz',battery:'Batterie',storage:'Speicher',
+    priceQty:'Preise & Mengen',sterPerYear:'Ster/Jahr',euroPerSter:'€/Ster',
+    tonnesPerYear:'Tonnen/Jahr',euroPerTonne:'€/Tonne',litresPerYear:'Liter/Jahr',euroPerLitre:'€/Liter',
+    annualCost:'Geschätzte Jahreskosten',bestConfig:'Beste Konfiguration',estSavings:'Geschätzte Einsparungen',
+    hourlySimTitle:'Stündliche Simulation',solarProd:'Solarproduktion',sunrise:'Sonnenaufgang',sunset:'Sonnenuntergang',
+    payback:'Amortisiert in',ecoYear1:'Einsparung Jahr 1',netBalance:'Nettobbilanz',
+    mfgFootprint:'Herstellungsaufwand',netBalance20:'Nettobilanz über 20 Jahre',
+    tempoToday:'Heute',tempoBlue:'BLAU',tempoWhite:'WEISS',tempoRed:'ROT',
   },
   es:{
   appTitle:'Simulación de Energía del Hogar',
@@ -10487,6 +10588,19 @@ const T18N = {
   radar:'Comparación visual',
   compare:'Comparativa',
   noData:'Sin datos — importa tu contador o introduce manualmente',
+  
+    myCurrent:'Mi calefacción actual',mySimulation:'Mi simulación',refEnergy:'Energía de referencia',
+    combine:'Combinar libremente',clearAll:'Borrar',pacRev:'Bomba de calor reversible',copVar:'COP var.',
+    solarPv:'Solar FV',panels:'Paneles',hotWater:'Calentador de agua',thermodyn:'Termodinámico',
+    woodBoiler:'Caldera de leña',logs:'Leños',pelletBoiler:'Pellets',pelletGran:'Gránulos',
+    fuelOil:'Gasóleo',fuelRef:'Referencia',battery:'Batería',storage:'Almacenamiento',
+    priceQty:'Precios y cantidades',sterPerYear:'Estéreos/año',euroPerSter:'€/estéreo',
+    tonnesPerYear:'Toneladas/año',euroPerTonne:'€/tonelada',litresPerYear:'Litros/año',euroPerLitre:'€/litro',
+    annualCost:'Coste anual estimado',bestConfig:'Mejor configuración',estSavings:'Ahorros estimados',
+    hourlySimTitle:'Simulación horaria',solarProd:'Producción solar',sunrise:'Salida del sol',sunset:'Puesta del sol',
+    payback:'Amortizado en',ecoYear1:'Ahorro año 1',netBalance:'Balance neto',
+    mfgFootprint:'Huella de fabricación',netBalance20:'Balance neto 20 años',
+    tempoToday:'Hoy',tempoBlue:'AZUL',tempoWhite:'BLANCO',tempoRed:'ROJO',
   },
   it:{
   appTitle:'Simulazione Energia Casa',
@@ -10535,6 +10649,19 @@ const T18N = {
   radar:'Confronto visuale',
   compare:'Confronto affiancato',
   noData:'Nessun dato — importa i file del contatore o inserisci manualmente',
+  
+    myCurrent:'Il mio riscaldamento attuale',mySimulation:'La mia simulazione',refEnergy:'Energia di riferimento',
+    combine:'Combina liberamente',clearAll:'Cancella',pacRev:'Pompa di calore reversibile',copVar:'COP var.',
+    solarPv:'Solare FV',panels:'Pannelli',hotWater:'Scaldabagno',thermodyn:'Termodinamico',
+    woodBoiler:'Caldaia a legna',logs:'Ceppi',pelletBoiler:'Pellet',pelletGran:'Granuli',
+    fuelOil:'Gasolio',fuelRef:'Riferimento',battery:'Batteria',storage:'Accumulo',
+    priceQty:'Prezzi e quantità',sterPerYear:'Stère/anno',euroPerSter:'€/stère',
+    tonnesPerYear:'Tonnellate/anno',euroPerTonne:'€/tonnellata',litresPerYear:'Litri/anno',euroPerLitre:'€/litro',
+    annualCost:'Costo annuale stimato',bestConfig:'Migliore configurazione',estSavings:'Risparmi stimati',
+    hourlySimTitle:'Simulazione oraria',solarProd:'Produzione solare',sunrise:'Alba stimata',sunset:'Tramonto stimato',
+    payback:'Ammortizzato in',ecoYear1:'Risparmio anno 1',netBalance:'Saldo netto',
+    mfgFootprint:'Impatto produzione',netBalance20:'Saldo netto 20 anni',
+    tempoToday:'Oggi',tempoBlue:'BLU',tempoWhite:'BIANCO',tempoRed:'ROSSO',
   },
   pt:{
   appTitle:'Simulação de Energia Doméstica',
@@ -10583,6 +10710,19 @@ const T18N = {
   radar:'Comparação visual',
   compare:'Comparação lado a lado',
   noData:'Sem dados — importe os ficheiros do contador ou introduza manualmente',
+  
+    myCurrent:'Meu aquecimento atual',mySimulation:'Minha simulação',refEnergy:'Energia de referência',
+    combine:'Combinar livremente',clearAll:'Limpar',pacRev:'Bomba de calor reversível',copVar:'COP var.',
+    solarPv:'Solar FV',panels:'Painéis',hotWater:'Aquecedor de água',thermodyn:'Termodinâmico',
+    woodBoiler:'Caldeira a lenha',logs:'Lenha',pelletBoiler:'Pellets',pelletGran:'Grânulos',
+    fuelOil:'Gasóleo',fuelRef:'Referência',battery:'Bateria',storage:'Armazenamento',
+    priceQty:'Preços e quantidades',sterPerYear:'Esteres/ano',euroPerSter:'€/estere',
+    tonnesPerYear:'Toneladas/ano',euroPerTonne:'€/tonelada',litresPerYear:'Litros/ano',euroPerLitre:'€/litro',
+    annualCost:'Custo anual estimado',bestConfig:'Melhor configuração',estSavings:'Poupanças estimadas',
+    hourlySimTitle:'Simulação horária',solarProd:'Produção solar',sunrise:'Nascer do sol',sunset:'Pôr do sol',
+    payback:'Amortizado em',ecoYear1:'Poupança ano 1',netBalance:'Saldo líquido',
+    mfgFootprint:'Pegada de fabricação',netBalance20:'Saldo líquido 20 anos',
+    tempoToday:'Hoje',tempoBlue:'AZUL',tempoWhite:'BRANCO',tempoRed:'VERMELHO',
   },
 };
 function t(key){ return (T18N[currentLang]||T18N.fr)[key] || T18N.fr[key] || key; }
@@ -11039,6 +11179,53 @@ function applyTranslations(){
   });
   const sfSub=document.getElementById('save-file-sub');
   if(sfSub && !sfSub._saving) sfSub.textContent=tx.saveFileSub||'Dans le fichier HTML';
+
+  // ── Traduction des nouveaux éléments ──
+  // Boutons sous-titres grille Ma simulation
+  var _simSubMap = {
+    'sim-card-pac':    {title:'pacRev',  sub:'copVar'},
+    'sim-card-sol':    {title:'solarPv', sub:'panels'},
+    'sim-card-cet':    {title:'hotWater',sub:'thermodyn'},
+    'sim-card-bat':    {title:'battery', sub:'storage'},
+    'sim-card-bois':   {title:'woodBoiler',sub:'logs'},
+    'sim-card-pellet': {title:'pelletBoiler',sub:'pelletGran'},
+    'sim-card-fioul':  {title:'fuelOil', sub:'fuelRef'},
+  };
+  Object.entries(_simSubMap).forEach(function(entry){
+    var id=entry[0], map=entry[1];
+    var card=document.getElementById(id); if(!card) return;
+    var divs=card.querySelectorAll('div');
+    if(divs[1]) divs[1].textContent=tx[map.title]||divs[1].textContent;
+    if(divs[2]) divs[2].textContent=tx[map.sub]||divs[2].textContent;
+  });
+
+  // Accordéon prix/quantités titre
+  var _paramsChevron = document.querySelector('#sim-params-body')?.previousElementSibling;
+  if(_paramsChevron){
+    var _spanTitle = _paramsChevron.querySelector('span');
+    if(_spanTitle) _spanTitle.textContent = (tx.priceQty||'Prix & quantités');
+  }
+
+  // Titre "Meilleure configuration" (bandeau résumé)
+  var _bannerTitle = document.querySelector('[data-i18n-dyn="bestConfig"]');
+  if(_bannerTitle) _bannerTitle.textContent = tx.bestConfig||'Meilleure configuration';
+
+  // Simulation horaire - titre et labels
+  var _solHTitle = document.querySelector('#solar-hourly-card .sec-title, #solar-hourly-card [data-i18n="hourlySimTitle"]');
+  if(_solHTitle) _solHTitle.textContent = tx.hourlySimTitle||'Simulation horaire';
+
+  // Bandeau Tempo
+  var _tempoLbl = document.getElementById('tempo-label');
+  if(_tempoLbl){
+    var _tempoMap = {'BLEU':tx.tempoBlue,'BLANC':tx.tempoWhite,'ROUGE':tx.tempoRed};
+    var _cur = _tempoLbl.textContent.split(' ')[0];
+    if(_tempoMap[_cur]) _tempoLbl.textContent = _tempoMap[_cur]+(_tempoLbl.textContent.slice(_cur.length));
+  }
+
+  // Coût annuel estimé dans accordéon
+  document.querySelectorAll('[data-i18n="annualCost"]').forEach(function(el){
+    el.textContent = tx.annualCost||'Coût annuel estimé';
+  });
   const monthNames={
     fr:["Jan","Fév","Mar","Avr","Mai","Jun","Jul","Aoû","Sep","Oct","Nov","Déc"],
     en:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
