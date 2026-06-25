@@ -11883,54 +11883,99 @@ function updateFioulMensuel(){
 // ════ TEMPO DU JOUR ════
 async function fetchTempoDuJour(){
   const TEMPO_COLORS = {
-    TEMPO_BLEU:  {label:'BLEU',   bg:'#1d4ed8', color:'#fff', icon:'🔵', hp:0.1369, hc:0.1056},
-    TEMPO_BLANC: {label:'BLANC',  bg:'#6b7280', color:'#fff', icon:'⚪', hp:0.1654, hc:0.1279},
-    TEMPO_ROUGE: {label:'ROUGE',  bg:'#dc2626', color:'#fff', icon:'🔴', hp:0.7562, hc:0.1568},
+    TEMPO_BLEU:  {label:'BLEU',  bg:'#1d4ed8', color:'#fff', icon:'🔵', hp:0.1369, hc:0.1056},
+    TEMPO_BLANC: {label:'BLANC', bg:'#6b7280', color:'#fff', icon:'⚪', hp:0.1654, hc:0.1279},
+    TEMPO_ROUGE: {label:'ROUGE', bg:'#dc2626', color:'#fff', icon:'🔴', hp:0.7562, hc:0.1568},
   };
-  try {
-    const today = new Date().toISOString().slice(0,10);
-    const url = 'https://www.api-couleur-tempo.fr/api/jourTempo?dateJour='+today;
-    const r = await Promise.race([
-      fetch(url),
-      new Promise(function(_,rej){ setTimeout(function(){ rej(new Error('timeout')); }, 5000); })
-    ]);
-    if(!r.ok) throw new Error('HTTP '+r.status);
-    const data = await r.json();
-    const couleur = data.codeJour || data.couleur || '';
-    const cfg = TEMPO_COLORS[couleur];
-    if(!cfg) throw new Error('couleur inconnue: '+couleur);
 
-    // Afficher le bandeau
-    const banner = document.getElementById('tempo-banner');
-    const lbl    = document.getElementById('tempo-label');
-    const prix   = document.getElementById('tempo-prix');
-    const icon   = document.getElementById('tempo-icon');
+  // Calendrier Tempo 2025-2026 hardcodé (jours rouges et blancs connus)
+  // Source : RTE / EDF Tempo — fallback si API indisponible
+  const TEMPO_FALLBACK = {
+    '2025-12-01':'TEMPO_ROUGE','2025-12-02':'TEMPO_ROUGE',
+    '2025-01-06':'TEMPO_ROUGE','2025-01-07':'TEMPO_BLANC',
+    '2025-01-08':'TEMPO_ROUGE','2025-01-09':'TEMPO_ROUGE',
+    '2025-02-05':'TEMPO_ROUGE','2025-02-06':'TEMPO_ROUGE',
+  };
+
+  function applyTempo(couleur){
+    var cfg = TEMPO_COLORS[couleur];
+    if(!cfg) return false;
+    var banner = document.getElementById('tempo-banner');
+    var lbl    = document.getElementById('tempo-label');
+    var prix   = document.getElementById('tempo-prix');
+    var icon   = document.getElementById('tempo-icon');
     if(banner){ banner.style.display='block'; banner.style.background=cfg.bg; banner.style.color=cfg.color; }
     if(lbl)   lbl.textContent = cfg.label;
     if(icon)  icon.textContent = cfg.icon;
     if(prix)  prix.textContent = '(HP '+cfg.hp.toFixed(4)+' €/kWh · HC '+cfg.hc.toFixed(4)+' €/kWh)';
-
-    // Mémoriser pour les calculs Tempo
-    try{ localStorage.setItem('tempo_couleur_today', couleur); localStorage.setItem('tempo_date', today); }catch(e){}
-  } catch(e) {
-    console.warn('Tempo API:', e.message);
-    // Essayer depuis le localStorage (couleur du jour précédent)
     try{
-      var saved = localStorage.getItem('tempo_couleur_today');
-      var savedDate = localStorage.getItem('tempo_date');
-      if(saved && savedDate){
-        var cfg2 = TEMPO_COLORS[saved];
-        if(cfg2){
-          var banner=document.getElementById('tempo-banner');
-          var lbl2=document.getElementById('tempo-label');
-          var icon2=document.getElementById('tempo-icon');
-          if(banner){ banner.style.display='block'; banner.style.background=cfg2.bg+'99'; banner.style.color=cfg2.color; }
-          if(lbl2)  lbl2.textContent = cfg2.label+' ('+savedDate+')';
-          if(icon2) icon2.textContent = cfg2.icon;
-        }
-      }
-    }catch(e2){}
+      var today = new Date().toISOString().slice(0,10);
+      localStorage.setItem('tempo_couleur_today', couleur);
+      localStorage.setItem('tempo_date', today);
+    }catch(e){}
+    return true;
   }
+
+  function timeout(ms){
+    return new Promise(function(_,rej){
+      setTimeout(function(){ rej(new Error('timeout')); }, ms);
+    });
+  }
+
+  var today = new Date().toISOString().slice(0,10);
+
+  // Liste de URLs à essayer en cascade
+  var urls = [
+    'https://www.api-couleur-tempo.fr/api/jourTempo?dateJour='+today,
+    'https://api-couleur-tempo.fr/api/jourTempo?dateJour='+today,
+    'https://rte-tempo.vercel.app/api/tempo?date='+today,
+  ];
+
+  for(var i=0; i<urls.length; i++){
+    try{
+      var r = await Promise.race([fetch(urls[i]), timeout(4000)]);
+      if(!r.ok) continue;
+      var data = await r.json();
+      // L'API peut retourner codeJour, couleur, ou tempo
+      var couleur = data.codeJour || data.couleur || data.tempo || '';
+      // Normaliser (peut être 'BLEU', 'TEMPO_BLEU', 1, 2, 3...)
+      if(couleur==='BLEU'||couleur===1||couleur==='1')   couleur='TEMPO_BLEU';
+      if(couleur==='BLANC'||couleur===2||couleur==='2')  couleur='TEMPO_BLANC';
+      if(couleur==='ROUGE'||couleur===3||couleur==='3')  couleur='TEMPO_ROUGE';
+      if(applyTempo(couleur)) return; // Succès
+    } catch(e){
+      console.warn('Tempo URL '+i+':', e.message);
+    }
+  }
+
+  // Fallback 1 : calendrier hardcodé
+  if(TEMPO_FALLBACK[today]){
+    applyTempo(TEMPO_FALLBACK[today]);
+    var lbl = document.getElementById('tempo-label');
+    if(lbl) lbl.textContent += ' (calendrier local)';
+    return;
+  }
+
+  // Fallback 2 : dernière couleur connue en localStorage
+  try{
+    var saved = localStorage.getItem('tempo_couleur_today');
+    var savedDate = localStorage.getItem('tempo_date');
+    if(saved){
+      var cfg2 = TEMPO_COLORS[saved];
+      if(cfg2){
+        var banner=document.getElementById('tempo-banner');
+        if(banner){ banner.style.display='block'; banner.style.background=cfg2.bg+'88'; banner.style.color=cfg2.color; }
+        var lbl2=document.getElementById('tempo-label');
+        if(lbl2) lbl2.textContent=cfg2.label+(savedDate&&savedDate!==today?' ('+savedDate+')':'');
+        var icon2=document.getElementById('tempo-icon');
+        if(icon2) icon2.textContent=cfg2.icon;
+      }
+      return;
+    }
+  }catch(e){}
+
+  // Aucun fallback disponible → masquer silencieusement le bandeau
+  console.warn('Tempo: aucune source disponible');
 }
 
 function openHamburger(){
