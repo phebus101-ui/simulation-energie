@@ -1068,7 +1068,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <div id="home-ref-section" class="si-mt16">
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
 <div class="card" style="padding:12px 14px;">
-  <div style="font-size:.75rem;font-weight:800;margin-bottom:8px;">🏠 Mon chauffage actuel</div>
+  <div style="font-size:.75rem;font-weight:800;margin-bottom:8px;" data-i18n="homeTitle">🏠 Mon chauffage actuel</div>
   <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:5px;">
     <div class="ref-card" id="ref-card-gaz" ontouchstart="" onclick="setEnergieRef('gaz')" style="border:2px solid var(--gaz);background:var(--gaz);color:#fff;border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;"><div>🔥</div><div style="font-size:.6rem;font-weight:800;margin-top:2px;">Gaz</div></div>
     <div class="ref-card" id="ref-card-fioul" ontouchstart="" onclick="setEnergieRef('fioul')" style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;"><div>🛢️</div><div style="font-size:.6rem;font-weight:800;margin-top:2px;">Fioul</div></div>
@@ -1081,7 +1081,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 </div>
 <div class="card" style="padding:12px 14px;">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-    <div style="font-size:.75rem;font-weight:800;">⚡ Ma simulation</div>
+    <div style="font-size:.75rem;font-weight:800;" data-i18n="simTitle">⚡ Ma simulation</div>
     <button type="button" onclick="clearSimCards()" style="padding:2px 7px;font-size:.58rem;border-radius:5px;border:1px solid var(--border);background:none;color:var(--muted);cursor:pointer;">✕</button>
   </div>
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;" id="sim-cards-grid">
@@ -1251,21 +1251,21 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <div><div class="sec-head-title" data-i18n="importData">Import de vos données EDF</div>
 <div class="sec-head-sub" data-i18n="importSub">Glissez vos fichiers ZIP ou CSV depuis votre espace client EDF</div></div>
 </div>
-<div class="section-label">📂 Données EDF</div>
+<div class="section-label" data-i18n="edfDataTitle">📂 Données EDF</div>
 <div class="card">
-<div class="card-title">Import fichiers EDF · Glissez vos ZIP ou CSV directement</div>
+<div class="card-title" data-i18n="edfImportSub">Import fichiers EDF · Glissez vos ZIP ou CSV directement</div>
 <div class="import-grid">
 <div class="drop-zone" id="dz-gaz" ondragover="dzOver(event,'gaz')" ondragleave="dzOut('gaz')" ondrop="dzDrop(event,'gaz')">
 <input type="file" accept=".csv,.zip" onchange="fileIn(event,'gaz')">
 <div class="dz-ico">🔥</div>
-<div class="dz-title">Données Gaz</div>
+<div class="dz-title" data-i18n="gazData">Données Gaz</div>
 <div class="dz-sub">mes-donnees-gaz-…zip<br>ma-conso-mensuelle-…gaz.csv</div>
 <div class="dz-status" id="st-gaz" class="si-muted">Glissez ou cliquez</div>
 </div>
 <div class="drop-zone" id="dz-elec" ondragover="dzOver(event,'elec')" ondragleave="dzOut('elec')" ondrop="dzDrop(event,'elec')">
 <input type="file" accept=".csv,.zip" onchange="fileIn(event,'elec')">
 <div class="dz-ico">⚡</div>
-<div class="dz-title">Données Électricité</div>
+<div class="dz-title" data-i18n="elecData">Données Électricité</div>
 <div class="dz-sub">mes-donnees-elec-…zip<br>ma-conso-mensuelle-…elec.csv</div>
 <div class="dz-status" id="st-elec" class="si-muted">Glissez ou cliquez</div>
 </div>
@@ -1390,14 +1390,14 @@ body { padding-bottom: env(safe-area-inset-bottom); }
         oninput="updateInvestPacAir()">
       <span style="font-size:.68rem;color:var(--muted);">€ · <span id="invest-pacair-val">1 400 €</span></span>
     </div>
-    <div style="font-size:.6rem;color:var(--muted);margin-top:3px;">💡 MaPrimeRénov' : jusqu'à 4 000 € selon revenus</div>
+    <div style="font-size:.6rem;color:var(--muted);margin-top:3px;" data-i18n="mprNote">💡 MaPrimeRénov' : jusqu'à 4 000 € selon revenus</div>
   </div>
 </div>
 
 <div class="toggle-card sol" id="tc-sol" onclick="toggle('sol')">
 <div class="t-ico">☀️</div>
 <div class="t-info">
-<div class="t-name" style="color:var(--sol)">Panneaux solaires</div>
+<div class="t-name" style="color:var(--sol)" data-i18n="panneauxSol">Panneaux solaires</div>
 <div class="t-desc">
 <span id="tc-sol-kwc">4 kWc</span> · <span id="tc-sol-orient">Plein Sud 35°</span><br>
 <span id="tc-sol-loc">Brignais</span> · <span id="tc-sol-prod">5 210 kWh/an</span><br>
@@ -2087,7 +2087,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <option value="meyer_burger">Meyer Burger White – 400 Wc · HJT – Fabriqué en Allemagne · ~0,60 €/Wc</option>
 </optgroup>
 <optgroup label="✏️ Personnalisé">
-<option value="custom_sol">Saisir mes propres valeurs</option>
+<option value="custom_sol" data-i18n="ownValues">Saisir mes propres valeurs</option>
 </optgroup>
 </select>
 </div>
@@ -2152,7 +2152,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <option value="enphase_10">Enphase IQ Battery 10T – 10,08 kWh · 8 200 €</option>
 </optgroup>
 <optgroup label="✏️ Personnalisé">
-<option value="custom">Saisir mes propres paramètres</option>
+<option value="custom" data-i18n="ownParams">Saisir mes propres paramètres</option>
 </optgroup>
 </select>
 </div>
@@ -2184,7 +2184,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 </button>
 </div>
 <div style="flex:1;min-width:200px;">
-<div style="font-size:.68rem;font-weight:700;color:var(--muted);margin-bottom:4px;">⚡ Puissance installée</div>
+<div style="font-size:.68rem;font-weight:700;color:var(--muted);margin-bottom:4px;" data-i18n="powerInstalled">⚡ Puissance installée</div>
 <div style="display:flex;gap:6px;flex-wrap:wrap;" id="kwc-presets">
 <button class="btn" data-kwc="1.5" onclick="setKwc(1.5)" style="padding:3px 8px;font-size:.67rem;">1.5 kWc</button>
 <button class="btn" data-kwc="3"   onclick="setKwc(3)"   style="padding:3px 8px;font-size:.67rem;">3 kWc</button>
@@ -2202,7 +2202,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 </div>
 </div>
 <!-- Orientation -->
-<div style="font-size:.68rem;font-weight:700;color:var(--muted);margin-bottom:8px;">🧭 Orientation</div>
+<div style="font-size:.68rem;font-weight:700;color:var(--muted);margin-bottom:8px;" data-i18n="orientLbl">🧭 Orientation</div>
 <div class="si-flex-wrap-mb" style="" id="orient-grid"></div>
 <div style="font-size:.63rem;color:var(--muted);" id="orient-info"></div>
 <!-- Inclinaison -->
@@ -2236,8 +2236,8 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <div class="card" id="conso-elec-card">
 <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
 <div>
-<div class="card-title" style="margin:0 0 3px 0;">Répartition mensuelle – Base + PAC</div>
-<div style="font-size:.67rem;color:var(--muted);">La PAC s'ajoute à votre conso existante · Jours rouges : gaz</div>
+<div class="card-title" style="margin:0 0 3px 0;" data-i18n="elecRepartition">Répartition mensuelle – Base + PAC</div>
+<div style="font-size:.67rem;color:var(--muted);" data-i18n="pacAddNote">La PAC s'ajoute à votre conso existante · Jours rouges : gaz</div>
 </div>
 <div id="conso-elec-totaux" style="display:flex;gap:12px;flex-wrap:wrap;"></div>
 </div>
@@ -2299,7 +2299,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <div id="linky-avant" style="font-size:.7rem;line-height:1.9;"></div>
 </div>
 <div>
-<div style="font-size:.68rem;font-weight:700;color:var(--pac);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">⚡ Après PAC – Élec + chauffage</div>
+<div style="font-size:.68rem;font-weight:700;color:var(--pac);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;" data-i18n="afterPac">⚡ Après PAC – Élec + chauffage</div>
 <div id="linky-apres" style="font-size:.7rem;line-height:1.9;"></div>
 </div>
 </div>
@@ -2338,7 +2338,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 </div>
 <!-- Aides & subventions -->
 <div class="card" id="aides-card">
-<div class="card-title">💊 Aides & subventions 2025</div>
+<div class="card-title" data-i18n="aides2025">💊 Aides & subventions 2025</div>
 <div style="margin-bottom:8px;font-size:.65rem;color:var(--muted);">
       Tranche de revenus :
       <select id="sel-revenus" onchange="renderAnalyses()"
@@ -2353,7 +2353,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <div id="aides-content" style="font-size:.71rem;line-height:1.8;"></div>
 </div>
 </div>
-<div class="sec-head si-mt18"><div class="sec-head-icon">📉</div><div><div class="sec-head-title">Décomposition des coûts</div><div class="sec-head-sub">Comment chaque équipement réduit votre facture annuelle</div></div></div>
+<div class="sec-head si-mt18"><div class="sec-head-icon">📉</div><div><div class="sec-head-title" data-i18n="costBreakdown">Décomposition des coûts</div><div class="sec-head-sub" data-i18n="equipReduces">Comment chaque équipement réduit votre facture annuelle</div></div></div>
 <div class="card" id="waterfall-card">
 <!-- Cards de synthèse en haut -->
 <div id="wf-steps-cards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:18px;"></div>
@@ -2389,7 +2389,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <!-- Radar chart 5 axes -->
 <div class="sec-head si-mt18">
 <div class="sec-head-icon">🌈</div>
-<div><div class="sec-head-title">Comparaison visuelle des configurations</div>
+<div><div class="sec-head-title" data-i18n="compareVisual">Comparaison visuelle des configurations</div>
 <div class="sec-head-sub">Radar 5 critères · Coût / CO₂ / Confort / Investissement / Simplicité</div></div>
 </div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
@@ -2439,7 +2439,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <div class="sec-head si-mt18">
 <div class="sec-head-icon">⚡</div>
 <div><div class="sec-head-title">Comparaison côte à côte</div>
-<div class="sec-head-sub">Simulez 2 configurations simultanément</div></div>
+<div class="sec-head-sub" data-i18n="sim2configs">Simulez 2 configurations simultanément</div></div>
 </div>
 <div class="card" id="compare-card">
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
@@ -2523,7 +2523,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <div class="sec-head" style="margin-top:18px;">
   <div class="sec-head-icon">⚖️</div>
   <div><div class="sec-head-title">Comparateur de scénarios</div>
-  <div class="sec-head-sub">Comparez 2 configurations côte à côte en temps réel</div></div>
+  <div class="sec-head-sub" data-i18n="compare2rt">Comparez 2 configurations côte à côte en temps réel</div></div>
 </div>
 <div class="card" id="scenario-comparator">
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
@@ -2564,8 +2564,8 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <!-- ════ SIMULATION MULTI-ANNÉES ════ -->
 <div class="sec-head" style="margin-top:18px;">
   <div class="sec-head-icon">📈</div>
-  <div><div class="sec-head-title">Projection multi-années</div>
-  <div class="sec-head-sub">Coûts actualisés sur 5, 10, 20 ans avec inflation et VAN</div></div>
+  <div><div class="sec-head-title" data-i18n="multiYear">Projection multi-années</div>
+  <div class="sec-head-sub" data-i18n="multiYearSub">Coûts actualisés sur 5, 10, 20 ans avec inflation et VAN</div></div>
 </div>
 <div class="card" id="multi-year-card">
   <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
@@ -2603,8 +2603,8 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <!-- ════ DOUGHNUT RÉPARTITION COÛTS ════ -->
 <div class="sec-head" style="margin-top:18px;">
   <div class="sec-head-icon">🥧</div>
-  <div><div class="sec-head-title">Répartition de votre budget énergie</div>
-  <div class="sec-head-sub">Vue circulaire de chaque poste de dépense</div></div>
+  <div><div class="sec-head-title" data-i18n="budgetRep">Répartition de votre budget énergie</div>
+  <div class="sec-head-sub" data-i18n="budgetRepSub">Vue circulaire de chaque poste de dépense</div></div>
 </div>
 <div class="card" id="doughnut-card">
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:center;">
@@ -2618,7 +2618,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <div class="sec-head" style="margin-top:18px;">
   <div class="sec-head-icon">🗺️</div>
   <div><div class="sec-head-title">Carte de localisation & irradiation</div>
-  <div class="sec-head-sub">Votre position et l'irradiation solaire locale</div></div>
+  <div class="sec-head-sub" data-i18n="mapSub">Votre position et l'irradiation solaire locale</div></div>
 </div>
 <div class="card" id="solar-map-card" style="padding:0;border-radius:12px;overflow:hidden;position:relative;">
   <div id="solar-leaflet-map" style="height:260px;width:100%;position:relative;overflow:hidden;z-index:0;"></div>
@@ -2634,7 +2634,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <div class="card" id="solar-hourly-card" style="margin-top:10px;">
   <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
     <div>
-      <div style="font-size:.78rem;font-weight:800;">🌞 Simulation horaire (profil type)</div>
+      <div style="font-size:.78rem;font-weight:800;" data-i18n="hourlySim">🌞 Simulation horaire (profil type)</div>
       <div style="font-size:.62rem;color:var(--muted);" data-i18n="hourlySimSub">Production solaire heure par heure — précision accrue de 15 à 30%</div>
     </div>
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
@@ -2696,12 +2696,12 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <div class="sec-head" style="margin-top:18px;">
   <div class="sec-head-icon">💶</div>
   <div><div class="sec-head-title">Aides & subventions 2025</div>
-  <div class="sec-head-sub">MaPrimeRénov', CEE, TVA réduite — selon vos revenus</div></div>
+  <div class="sec-head-sub" data-i18n="mprCeeTva">MaPrimeRénov', CEE, TVA réduite — selon vos revenus</div></div>
 </div>
 <div class="card" id="aides-card-dup">
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
     <div>
-      <div style="font-size:.68rem;font-weight:700;color:var(--muted);margin-bottom:6px;">Revenus fiscaux de référence</div>
+      <div style="font-size:.68rem;font-weight:700;color:var(--muted);margin-bottom:6px;" data-i18n="revenusRef">Revenus fiscaux de référence</div>
       <select id="aides-revenu" onchange="calcAides()"
         style="width:100%;padding:8px;border:1px solid var(--border);border-radius:8px;
         background:var(--surface2);color:var(--text);font-size:.74rem;">
@@ -2735,7 +2735,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <div class="sec-head" style="margin-top:18px;">
   <div class="sec-head-icon">⚡</div>
   <div><div class="sec-head-title">Optimiseur horaire PAC</div>
-  <div class="sec-head-sub">Plages de fonctionnement recommandées selon couleur Tempo</div></div>
+  <div class="sec-head-sub" data-i18n="tempoPlages">Plages de fonctionnement recommandées selon couleur Tempo</div></div>
 </div>
 <div class="card" id="optim-pac-card">
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;">
@@ -2796,7 +2796,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <div class="sec-head">
 <div class="sec-head-icon">📤</div>
 <div><div class="sec-head-title">Exporter &amp; partager</div>
-<div class="sec-head-sub">Téléchargez ou partagez votre simulation</div></div>
+<div class="sec-head-sub" data-i18n="dlShare">Téléchargez ou partagez votre simulation</div></div>
 </div>
 <div class="card">
 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:14px;">
@@ -5913,7 +5913,7 @@ function updateMultiYear(){
   const tc=getThemeColors();
   const labels=years.map(y=>'An '+y);
   const datasets=[
-    {label:'Coût cumulé '+(REF_CONFIG[energieRef]?REF_CONFIG[energieRef].label:'référence'),data:seriesRef,borderColor:'#e8640a',backgroundColor:'#e8640a11',tension:.3,fill:true,borderWidth:2},
+    {label:(window._TX&&window._TX.currentGasNat?window._TX.currentGasNat:'Référence')+' — '+(REF_CONFIG[energieRef]?REF_CONFIG[energieRef].label:'réf.'),data:seriesRef,borderColor:'#e8640a',backgroundColor:'#e8640a11',tension:.3,fill:true,borderWidth:2},
     {label:'Coût cumulé config.',data:seriesCur,borderColor:'#2563eb',backgroundColor:'#2563eb11',tension:.3,fill:true,borderWidth:2},
     {label:'Économies cumulées',data:seriesCumEco,borderColor:'#059669',backgroundColor:'#05996911',tension:.3,fill:true,borderWidth:2,borderDash:[4,2]},
   ];
@@ -10425,6 +10425,55 @@ const T18N = {
     linkyTitle2:'Simulation facture Linky',
     noDataMsg:'Activez un équipement dans Ma simulation',
     activateEquip:'Activez un équipement pour voir la projection',
+  
+    // ── Textes panels v2 ──
+    homeTitle:'🏠 Mon chauffage actuel',
+    simTitle:'⚡ Ma simulation',
+    panelsLbl:'Panneaux',
+    refLbl:'Référence',
+    edfDataTitle:'📂 Données EDF',
+    edfImportSub:'Import fichiers EDF · Glissez vos ZIP ou CSV directement',
+    gazData:'Données Gaz',
+    elecData:'Données Électricité',
+    solarKwh:'☀️ Solaire kWh',
+    mprNote:'💡 MaPrimeRénov\' : jusqu\'à 4 000 € selon revenus',
+    panneauxSol:'Panneaux solaires',
+    ownValues:'Saisir mes propres valeurs',
+    ownParams:'Saisir mes propres paramètres',
+    powerInstalled:'⚡ Puissance installée',
+    orientLbl:'🧭 Orientation',
+    prodEstimee:'Production estimée',
+    prodMensuelle:'Production mensuelle (kWh) – modifiable',
+    elecRepartition:'Répartition mensuelle – Base + PAC',
+    pacAddNote:'La PAC s\'ajoute à votre conso existante · Jours rouges : gaz',
+    afterPac:'⚡ Après PAC – Élec + chauffage',
+    aides2025:'💊 Aides & subventions 2025',
+    aides2025b:'Aides & subventions 2025',
+    costBreakdown:'Décomposition des coûts',
+    equipReduces:'Comment chaque équipement réduit votre facture annuelle',
+    compareVisual:'Comparaison visuelle des configurations',
+    heatmapDesc:'Heatmap 12×31 — répartition des jours et coûts horaires',
+    pacCost:'💰 Coût PAC',
+    compareSide:'Comparaison côte à côte',
+    sim2configs:'Simulez 2 configurations simultanément',
+    configA:(window._TX&&window._TX['configA']||'⚡ Configuration A (actuelle)'),
+    configB:(window._TX&&window._TX['configB']||'🌟 Configuration B (alternative)'),
+    meteoNote:'T° historiques pour COP variable · gratuit',
+    yourLoc:'votre localisation',
+    compare2rt:'Comparez 2 configurations côte à côte en temps réel',
+    scenarioA:'⚡ Scénario A — Config. actuelle',
+    multiYear:'Projection multi-années',
+    multiYearSub:'Coûts actualisés sur 5, 10, 20 ans avec inflation et VAN',
+    budgetRep:'Répartition de votre budget énergie',
+    budgetRepSub:'Vue circulaire de chaque poste de dépense',
+    mapSub:'Votre position et l\'irradiation solaire locale',
+    hourlySim:'🌞 Simulation horaire (profil type)',
+    hourlySimShort:'Simulation horaire (profil type)',
+    mprCeeTva:'MaPrimeRénov\', CEE, TVA réduite — selon vos revenus',
+    revenusRef:'Revenus fiscaux de référence',
+    tempoPlages:'Plages de fonctionnement recommandées selon couleur Tempo',
+    dlShare:'Téléchargez ou partagez votre simulation',
+    budgetTarget:'Quelle configuration pour atteindre votre budget ?',
   },
   en:{
   appTitle:'Home Energy Simulation',
@@ -10555,6 +10604,55 @@ const T18N = {
     linkyTitle2:'Linky bill simulation',
     noDataMsg:'Activate equipment in My simulation',
     activateEquip:'Activate equipment to see projection',
+  
+    // ── Textes panels v2 ──
+    homeTitle:'🏠 My current heating',
+    simTitle:'⚡ My simulation',
+    panelsLbl:'Panels',
+    refLbl:'Reference',
+    edfDataTitle:'📂 EDF Data',
+    edfImportSub:'EDF files import · Drag your ZIP or CSV files',
+    gazData:'Gas Data',
+    elecData:'Electricity Data',
+    solarKwh:'☀️ Solar kWh',
+    mprNote:'💡 MaPrimeRénov\': up to €4,000 depending on income',
+    panneauxSol:'Solar panels',
+    ownValues:'Enter my own values',
+    ownParams:'Enter my own parameters',
+    powerInstalled:'⚡ Installed power',
+    orientLbl:'🧭 Orientation',
+    prodEstimee:'Estimated production',
+    prodMensuelle:'Monthly production (kWh) – editable',
+    elecRepartition:'Monthly split – Base + Heat pump',
+    pacAddNote:'Heat pump adds to existing consumption · Red days: gas',
+    afterPac:'⚡ After heat pump – Electricity + heating',
+    aides2025:'💊 2025 Grants & subsidies',
+    aides2025b:'2025 Grants & subsidies',
+    costBreakdown:'Cost breakdown',
+    equipReduces:'How each equipment reduces your annual bill',
+    compareVisual:'Visual configuration comparison',
+    heatmapDesc:'12×31 heatmap — days and hourly cost distribution',
+    pacCost:'💰 Heat pump cost',
+    compareSide:'Side-by-side comparison',
+    sim2configs:'Simulate 2 configurations simultaneously',
+    configA:'⚡ Configuration A (current)',
+    configB:(window._TX&&window._TX['configB']||'🌟 Configuration B (alternative)'),
+    meteoNote:'Historical temperatures for variable COP · free',
+    yourLoc:'your location',
+    compare2rt:'Compare 2 configurations side by side in real time',
+    scenarioA:'⚡ Scenario A — Current config.',
+    multiYear:'Multi-year projection',
+    multiYearSub:'Costs over 5, 10, 20 years with inflation and NPV',
+    budgetRep:'Your energy budget breakdown',
+    budgetRepSub:'Circular view of each expense item',
+    mapSub:'Your location and local solar irradiation',
+    hourlySim:'🌞 Hourly simulation (typical profile)',
+    hourlySimShort:'Hourly simulation (typical profile)',
+    mprCeeTva:'MaPrimeRénov\', CEE, VAT reduction — based on income',
+    revenusRef:'Reference tax income',
+    tempoPlages:'Recommended operating ranges by Tempo color',
+    dlShare:'Download or share your simulation',
+    budgetTarget:'Which configuration for your target budget?',
   },
   de:{
   appTitle:'Hausenergie-Simulation',
@@ -10654,6 +10752,55 @@ const T18N = {
     linkyTitle2:'Linky-Rechnungssimulation',
     noDataMsg:'Gerät in Meine Simulation aktivieren',
     activateEquip:'Gerät aktivieren, um Projektion anzuzeigen',
+  
+    // ── Textes panels v2 ──
+    homeTitle:'🏠 Meine aktuelle Heizung',
+    simTitle:'⚡ Meine Simulation',
+    panelsLbl:'Module',
+    refLbl:'Referenz',
+    edfDataTitle:'📂 EDF Daten',
+    edfImportSub:'EDF-Dateien importieren · ZIP oder CSV ziehen',
+    gazData:'Gasdaten',
+    elecData:'Stromdaten',
+    solarKwh:'☀️ Solar kWh',
+    mprNote:'💡 Bis zu 4.000 € Förderung',
+    panneauxSol:'Solarmodule',
+    ownValues:'Eigene Werte eingeben',
+    ownParams:'Eigene Parameter eingeben',
+    powerInstalled:'⚡ Installierte Leistung',
+    orientLbl:'🧭 Ausrichtung',
+    prodEstimee:'Geschätzte Produktion',
+    prodMensuelle:'Monatliche Produktion (kWh)',
+    elecRepartition:'Monatliche Aufteilung – Basis + WP',
+    pacAddNote:'WP fügt sich zur bestehenden Verbrauch hinzu',
+    afterPac:'⚡ Nach WP – Strom + Heizung',
+    aides2025:'💊 Fördermittel 2025',
+    aides2025b:'Fördermittel 2025',
+    costBreakdown:'Kostenaufschlüsselung',
+    equipReduces:'Wie jedes Gerät Ihre Rechnung senkt',
+    compareVisual:'Visueller Konfigurationsvergleich',
+    heatmapDesc:'12×31 Heatmap — Tage und stündliche Kosten',
+    pacCost:'💰 WP-Kosten',
+    compareSide:'Nebeneinandervergleich',
+    sim2configs:'2 Konfigurationen gleichzeitig simulieren',
+    configA:'⚡ Konfiguration A (aktuell)',
+    configB:'🌟 Konfiguration B (Alternative)',
+    meteoNote:'Historische T° für variablen COP · kostenlos',
+    yourLoc:'Ihr Standort',
+    compare2rt:'2 Konfigurationen in Echtzeit vergleichen',
+    scenarioA:'⚡ Szenario A — Aktuelle Konf.',
+    multiYear:'Mehrjahresprojektion',
+    multiYearSub:'Kosten über 5, 10, 20 Jahre mit Inflation',
+    budgetRep:'Ihr Energiebudget',
+    budgetRepSub:'Kreisansicht der Ausgaben',
+    mapSub:'Ihr Standort und lokale Sonneneinstrahlung',
+    hourlySim:'🌞 Stündliche Simulation',
+    hourlySimShort:'Stündliche Simulation',
+    mprCeeTva:'Förderungen — nach Einkommen',
+    revenusRef:'Steuerliches Referenzeinkommen',
+    tempoPlages:'Empfohlene Betriebsbereiche nach Tempo-Farbe',
+    dlShare:'Simulation herunterladen oder teilen',
+    budgetTarget:'Welche Konfiguration für Ihr Zielbudget?',
   },
   es:{
   appTitle:'Simulación de Energía del Hogar',
@@ -10753,6 +10900,55 @@ const T18N = {
     linkyTitle2:'Simulación factura Linky',
     noDataMsg:'Active un equipo en Mi simulación',
     activateEquip:'Active un equipo para ver la proyección',
+  
+    // ── Textes panels v2 ──
+    homeTitle:'🏠 Mi calefacción actual',
+    simTitle:'⚡ Mi simulación',
+    panelsLbl:'Paneles',
+    refLbl:'Referencia',
+    edfDataTitle:'📂 Datos EDF',
+    edfImportSub:'Importar archivos EDF · Arrastrar ZIP o CSV',
+    gazData:'Datos de gas',
+    elecData:'Datos de electricidad',
+    solarKwh:'☀️ Solar kWh',
+    mprNote:'💡 Hasta 4.000 € de ayuda',
+    panneauxSol:'Paneles solares',
+    ownValues:'Introducir mis propios valores',
+    ownParams:'Mis propios parámetros',
+    powerInstalled:'⚡ Potencia instalada',
+    orientLbl:'🧭 Orientación',
+    prodEstimee:'Producción estimada',
+    prodMensuelle:'Producción mensual (kWh)',
+    elecRepartition:'Distribución mensual – Base + BC',
+    pacAddNote:'La BC se añade al consumo existente',
+    afterPac:'⚡ Después de BC – Electricidad + calefacción',
+    aides2025:'💊 Ayudas y subvenciones 2025',
+    aides2025b:'Ayudas 2025',
+    costBreakdown:'Desglose de costes',
+    equipReduces:'Cómo cada equipo reduce su factura',
+    compareVisual:'Comparación visual de configuraciones',
+    heatmapDesc:'Mapa de calor 12×31',
+    pacCost:'💰 Coste BC',
+    compareSide:'Comparación lado a lado',
+    sim2configs:'Simular 2 configuraciones a la vez',
+    configA:'⚡ Configuración A (actual)',
+    configB:'🌟 Configuración B (alternativa)',
+    meteoNote:'T° históricas para COP variable',
+    yourLoc:'su ubicación',
+    compare2rt:'Comparar 2 configuraciones en tiempo real',
+    scenarioA:'⚡ Escenario A — Conf. actual',
+    multiYear:'Proyección plurianual',
+    multiYearSub:'Costes a 5, 10, 20 años con inflación',
+    budgetRep:'Su presupuesto energético',
+    budgetRepSub:'Vista circular de gastos',
+    mapSub:'Su ubicación e irradiación solar local',
+    hourlySim:'🌞 Simulación horaria',
+    hourlySimShort:'Simulación horaria',
+    mprCeeTva:'Ayudas — según ingresos',
+    revenusRef:'Ingresos fiscales de referencia',
+    tempoPlages:'Rangos de funcionamiento recomendados',
+    dlShare:'Descargar o compartir su simulación',
+    budgetTarget:'¿Qué configuración para su presupuesto objetivo?',
   },
   it:{
   appTitle:'Simulazione Energia Casa',
@@ -10852,6 +11048,55 @@ const T18N = {
     linkyTitle2:'Simulazione fattura Linky',
     noDataMsg:'Attiva un dispositivo in La mia simulazione',
     activateEquip:'Attiva un dispositivo per vedere la proiezione',
+  
+    // ── Textes panels v2 ──
+    homeTitle:'🏠 Il mio riscaldamento',
+    simTitle:'⚡ La mia simulazione',
+    panelsLbl:'Pannelli',
+    refLbl:'Riferimento',
+    edfDataTitle:'📂 Dati EDF',
+    edfImportSub:'Importa file EDF · Trascina ZIP o CSV',
+    gazData:'Dati gas',
+    elecData:'Dati elettricità',
+    solarKwh:'☀️ Solare kWh',
+    mprNote:'💡 Fino a 4.000 € di incentivo',
+    panneauxSol:'Pannelli solari',
+    ownValues:'Inserire i miei valori',
+    ownParams:'I miei parametri',
+    powerInstalled:'⚡ Potenza installata',
+    orientLbl:'🧭 Orientamento',
+    prodEstimee:'Produzione stimata',
+    prodMensuelle:'Produzione mensile (kWh)',
+    elecRepartition:'Ripartizione mensile – Base + PC',
+    pacAddNote:'La PC si aggiunge al consumo esistente',
+    afterPac:'⚡ Dopo PC – Elettricità + riscaldamento',
+    aides2025:'💊 Incentivi 2025',
+    aides2025b:'Incentivi 2025',
+    costBreakdown:'Scomposizione costi',
+    equipReduces:'Come ogni dispositivo riduce la bolletta',
+    compareVisual:'Confronto visivo configurazioni',
+    heatmapDesc:'Mappa di calore 12×31',
+    pacCost:'💰 Costo PC',
+    compareSide:'Confronto affiancato',
+    sim2configs:'Simula 2 configurazioni contemporaneamente',
+    configA:'⚡ Configurazione A (attuale)',
+    configB:'🌟 Configurazione B (alternativa)',
+    meteoNote:'T° storiche per COP variabile',
+    yourLoc:'la tua posizione',
+    compare2rt:'Confronta 2 configurazioni in tempo reale',
+    scenarioA:'⚡ Scenario A — Conf. attuale',
+    multiYear:'Proiezione pluriennale',
+    multiYearSub:'Costi su 5, 10, 20 anni con inflazione',
+    budgetRep:'Il tuo budget energetico',
+    budgetRepSub:'Vista circolare delle spese',
+    mapSub:'La tua posizione e irradiazione solare locale',
+    hourlySim:'🌞 Simulazione oraria',
+    hourlySimShort:'Simulazione oraria',
+    mprCeeTva:'Incentivi — secondo reddito',
+    revenusRef:'Reddito fiscale di riferimento',
+    tempoPlages:'Intervalli di funzionamento raccomandati',
+    dlShare:'Scaricare o condividere la simulazione',
+    budgetTarget:'Quale configurazione per il tuo budget?',
   },
   pt:{
   appTitle:'Simulação de Energia Doméstica',
@@ -10951,6 +11196,55 @@ const T18N = {
     linkyTitle2:'Simulação fatura Linky',
     noDataMsg:'Ative um equipamento em A minha simulação',
     activateEquip:'Ative um equipamento para ver a projeção',
+  
+    // ── Textes panels v2 ──
+    homeTitle:'🏠 O meu aquecimento',
+    simTitle:'⚡ A minha simulação',
+    panelsLbl:'Painéis',
+    refLbl:'Referência',
+    edfDataTitle:'📂 Dados EDF',
+    edfImportSub:'Importar ficheiros EDF · Arrastar ZIP ou CSV',
+    gazData:'Dados de gás',
+    elecData:'Dados de electricidade',
+    solarKwh:'☀️ Solar kWh',
+    mprNote:'💡 Até 4.000 € de subsídio',
+    panneauxSol:'Painéis solares',
+    ownValues:'Introduzir os meus valores',
+    ownParams:'Os meus parâmetros',
+    powerInstalled:'⚡ Potência instalada',
+    orientLbl:'🧭 Orientação',
+    prodEstimee:'Produção estimada',
+    prodMensuelle:'Produção mensal (kWh)',
+    elecRepartition:'Distribuição mensal – Base + BC',
+    pacAddNote:'A BC acrescenta-se ao consumo existente',
+    afterPac:'⚡ Após BC – Electricidade + aquecimento',
+    aides2025:'💊 Subsídios 2025',
+    aides2025b:'Subsídios 2025',
+    costBreakdown:'Decomposição de custos',
+    equipReduces:'Como cada equipamento reduz a fatura',
+    compareVisual:'Comparação visual de configurações',
+    heatmapDesc:'Mapa de calor 12×31',
+    pacCost:'💰 Custo BC',
+    compareSide:'Comparação lado a lado',
+    sim2configs:'Simular 2 configurações simultaneamente',
+    configA:'⚡ Configuração A (atual)',
+    configB:'🌟 Configuração B (alternativa)',
+    meteoNote:'T° históricas para COP variável',
+    yourLoc:'a sua localização',
+    compare2rt:'Comparar 2 configurações em tempo real',
+    scenarioA:'⚡ Cenário A — Conf. atual',
+    multiYear:'Projeção plurianual',
+    multiYearSub:'Custos a 5, 10, 20 anos com inflação',
+    budgetRep:'O seu orçamento energético',
+    budgetRepSub:'Vista circular de despesas',
+    mapSub:'A sua posição e irradiação solar local',
+    hourlySim:'🌞 Simulação horária',
+    hourlySimShort:'Simulação horária',
+    mprCeeTva:'Subsídios — conforme rendimento',
+    revenusRef:'Rendimento fiscal de referência',
+    tempoPlages:'Intervalos de funcionamento recomendados',
+    dlShare:'Descarregar ou partilhar a simulação',
+    budgetTarget:'Qual configuração para o seu orçamento?',
   },
 };
 function t(key){ return (T18N[currentLang]||T18N.fr)[key] || T18N.fr[key] || key; }
@@ -11424,6 +11718,25 @@ function applyTranslations(){
   // "Gaz naturel" dans le hero → sera mis à jour via _heroRefCard lors du prochain update()
   // Forcer un update pour régénérer les cartes dynamiques
   if(typeof update==='function') setTimeout(update, 50);
+
+  // ── Patch des chaînes JS dynamiques ──
+  window._TX = tx; // rendre accessible globalement pour les renderers
+
+  // Labels graphiques Chart.js dynamiques (seront mis à jour au prochain update)
+  // Traductions stockées pour utilisation dans les fonctions de rendu
+  window._CHART_LABELS = {
+    gasRef:     tx.currentGasNat || 'Gaz naturel',
+    currentCfg: tx.yourConfig || 'Config. actuelle',
+    monthly:    tx.monthly || 'Mensuel',
+    cumul:      tx.total || 'Cumulé',
+    netBal:     tx.netBalance || 'Bilan net',
+    ecoYear:    tx.ecoYear1 || 'Éco. annuelle',
+    payback:    tx.payback || 'Remboursé en',
+    mfgFp:      tx.mfgFootprint || 'Empreinte fabrication',
+    netBal20:   tx.netBalance20 || 'Bilan net sur 20 ans',
+    configA:    tx.configA || (window._TX&&window._TX['configA']||'⚡ Configuration A (actuelle)'),
+    configB:    tx.configB || (window._TX&&window._TX['configB']||'🌟 Configuration B (alternative)'),
+  };
   // Boutons sous-titres grille Ma simulation
   var _simSubMap = {
     'sim-card-pac':    {title:'pacRev',  sub:'copVar'},
