@@ -1003,6 +1003,12 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 </div>
 <div class="main">
 <nav class="app-nav" role="tablist" aria-label="Navigation principale">
+<!-- ══ BANDEAU TEMPO DU JOUR ══ -->
+<div id="tempo-banner" style="display:none;padding:5px 14px;font-size:.68rem;font-weight:700;
+  text-align:center;letter-spacing:.03em;border-bottom:1px solid rgba(255,255,255,.2);">
+  <span id="tempo-icon">⚡</span> Aujourd'hui : <span id="tempo-label">—</span>
+  <span id="tempo-prix" style="font-size:.6rem;font-weight:600;margin-left:8px;opacity:.85;"></span>
+</div>
 <div class="nav-tabs">
   <button class="nav-tab active" ontouchstart="" onclick="switchAppTab('home')" id="apptab-home">
     <span class="tab-step">1</span><span class="tab-icon">🏠</span> Accueil
@@ -3320,6 +3326,10 @@ function renderHomeEcoDecomp(data, tRef, tPac, tCur, tCet, inv){
   });
   html += '<div style="text-align:right;padding:4px 8px;font-size:.65rem;color:var(--muted);">Total économies : <strong style="color:var(--grn);">+'+(ecoTotal>0?ecoTotal.toLocaleString('fr'):'?')+' €/an</strong></div>';
   el.innerHTML = html;
+}
+
+function _kpiTip(text){
+  return '<i class="kpi-tip-icon" tabindex="0" data-tip="'+text.replace(/"/g,"'")+'">?</i>';
 }
 
 function _heroRefCard(tRef){
@@ -6869,31 +6879,32 @@ async function runHourlySimulation(){
 
 // ════ AIDES MAPRIMERENOV 2025 ════
 const AIDES_2025 = {
+  // Sources : ANAH 2025, arrêté CEE BAR-TH-129 (PAC), BAR-TH-148 (CET)
   pac: {
-    tres_modeste:  { mpr: 0.70, cee: 400, label: 'MaPrimeRénov\' 70% + CEE' },
-    modeste:       { mpr: 0.50, cee: 300, label: 'MaPrimeRénov\' 50% + CEE' },
-    intermediaire: { mpr: 0.40, cee: 200, label: 'MaPrimeRénov\' 40% + CEE' },
-    superieur:     { mpr: 0.15, cee: 100, label: 'MaPrimeRénov\' 15% + CEE' },
+    tres_modeste:  { mpr: 0.70, cee: 1500, label: "MaPrimeRénov' 70% + CEE ~1 500€" },
+    modeste:       { mpr: 0.50, cee: 1200, label: "MaPrimeRénov' 50% + CEE ~1 200€" },
+    intermediaire: { mpr: 0.40, cee:  900, label: "MaPrimeRénov' 40% + CEE ~900€"   },
+    superieur:     { mpr: 0.15, cee:  500, label: "MaPrimeRénov' 15% + CEE ~500€"   },
   },
   cet: {
-    tres_modeste:  { mpr: 0.70, cee: 200, label: 'MaPrimeRénov\' 70%' },
-    modeste:       { mpr: 0.50, cee: 150, label: 'MaPrimeRénov\' 50%' },
-    intermediaire: { mpr: 0.40, cee: 100, label: 'MaPrimeRénov\' 40%' },
-    superieur:     { mpr: 0.15, cee:  50, label: 'MaPrimeRénov\' 15%' },
+    tres_modeste:  { mpr: 0.70, cee: 500, label: "MaPrimeRénov' 70% + CEE ~500€" },
+    modeste:       { mpr: 0.50, cee: 400, label: "MaPrimeRénov' 50% + CEE ~400€" },
+    intermediaire: { mpr: 0.40, cee: 300, label: "MaPrimeRénov' 40% + CEE ~300€" },
+    superieur:     { mpr: 0.15, cee: 150, label: "MaPrimeRénov' 15% + CEE ~150€" },
   },
   sol: {
-    // Pas de MaPrimeRénov' pour le PV — Prime autoconsommation ADEME
-    all: { prime: [490, 370, 250, 180, 90], label: 'Prime autoconsommation ADEME' },
+    tres_modeste:  { mpr: 0.45, cee: 0, label: "MaPrimeRénov' 45%" },
+    modeste:       { mpr: 0.35, cee: 0, label: "MaPrimeRénov' 35%" },
+    intermediaire: { mpr: 0.25, cee: 0, label: "MaPrimeRénov' 25%" },
+    superieur:     { mpr: 0.15, cee: 0, label: "MaPrimeRénov' 15%" },
   },
   isolation: {
-    tres_modeste:  { mpr: 0.75, cee: 1500, label: 'MaPrimeRénov\' 75%' },
-    modeste:       { mpr: 0.60, cee: 1000, label: 'MaPrimeRénov\' 60%' },
-    intermediaire: { mpr: 0.45, cee:  500, label: 'MaPrimeRénov\' 45%' },
-    superieur:     { mpr: 0.25, cee:  200, label: 'MaPrimeRénov\' 25%' },
+    tres_modeste:  { mpr: 0.75, cee: 2000, label: "MaPrimeRénov' 75% + CEE ~2 000€" },
+    modeste:       { mpr: 0.60, cee: 1500, label: "MaPrimeRénov' 60% + CEE ~1 500€" },
+    intermediaire: { mpr: 0.40, cee: 1000, label: "MaPrimeRénov' 40% + CEE ~1 000€" },
+    superieur:     { mpr: 0.15, cee:  500, label: "MaPrimeRénov' 15% + CEE ~500€"   },
   },
-};
-// Plafonds de travaux MaPrimeRénov' 2025
-const PLAFONDS_2025 = { pac: 10000, cet: 3000, isolation: 7500 };
+}
 
 function calcAides(){
   const el=document.getElementById('aides-result'); if(!el) return;
@@ -8773,16 +8784,38 @@ function _renderAnalysesCore(){
   const co2Eco=co2Gaz+co2ElecBase-co2Config;
   const arbresCO2=Math.round(co2Eco/25); // ~25 kgCO2/arbre/an
   const co2El=document.getElementById('co2-content');
+  // Empreinte fabrication équipements (kgCO2)
+  const co2Fab = (usePac||usePacAir?1800:0) + (useSol?curKwc*600:0) + (useBat?800:0) + (useCet?250:0);
+  const co2RecupFab = co2Eco>0 ? Math.round(co2Fab/co2Eco) : 0; // années pour amortir la fabrication
+  const _refLabelCo2 = (window.REF_CONFIG&&REF_CONFIG[energieRef]) ? REF_CONFIG[energieRef].label : 'Référence';
+  const co2Eco20 = co2Eco * 20; // sur 20 ans
+  const co2Net20 = co2Eco20 - co2Fab;  // bilan net 20 ans
   if(co2El) co2El.innerHTML=`
-    <div class="si-jcsb"><span class="si-muted">Gaz actuel</span><strong class="si-gaz">${co2Gaz.toLocaleString('fr')} kg CO₂/an</strong></div>
-    <div class="si-jcsb"><span class="si-muted">Élec base</span><strong>${co2ElecBase.toLocaleString('fr')} kg CO₂/an</strong></div>
-    ${usePac?`<div class="si-jcsb"><span class="si-muted">Élec PAC</span><strong class="si-pac">+${co2ElecPac.toLocaleString('fr')} kg CO₂/an</strong></div>`:''}
-    <div style="margin:6px 0;height:1px;background:var(--border)"></div>
-    <div class="si-jcsb"><span class="si-muted">Config. finale</span><strong>${co2Config.toLocaleString('fr')} kg CO₂/an</strong></div>
-    <div style="padding:6px 8px;margin-top:6px;background:var(--grn-tint);border:1px solid var(--grn);border-radius:7px;color:var(--grn);font-weight:700;text-align:center;">
-      ${co2Eco>0?`−${co2Eco.toLocaleString('fr')} kg CO₂/an économisés<br><span style="font-size:.62rem;font-weight:400">≈ ${arbresCO2} arbres plantés/an</span>`:'Pas d\'économie CO₂ dans cette config.'}
+    <div class="si-jcsb" style="margin-bottom:4px;">
+      <span class="si-muted">${_refLabelCo2}</span>
+      <strong class="si-gaz">${co2Gaz.toLocaleString('fr')} kg CO₂/an</strong>
     </div>
-    <div style="font-size:.6rem;color:var(--muted);margin-top:5px;">Sources : ADEME 2024 · Gaz=227 gCO₂/kWh · Élec France=52 gCO₂/kWh</div>
+    <div class="si-jcsb" style="margin-bottom:4px;">
+      <span class="si-muted">Config. actuelle</span>
+      <strong>${co2Config.toLocaleString('fr')} kg CO₂/an</strong>
+    </div>
+    ${usePac||usePacAir?`<div class="si-jcsb" style="margin-bottom:4px;font-size:.65rem;color:var(--muted);">
+      <span>↳ dont élec. PAC</span><span>+${co2ElecPac.toLocaleString('fr')} kg</span>
+    </div>`:''}
+    <div style="margin:8px 0;height:1px;background:var(--border)"></div>
+    <div style="padding:8px 10px;background:${co2Eco>0?'var(--grn-tint)':'var(--surface2)'};border:1px solid ${co2Eco>0?'var(--grn)':'var(--border)'};border-radius:9px;text-align:center;">
+      <div style="font-size:.85rem;font-weight:900;color:${co2Eco>0?'var(--grn)':'var(--muted)'};">
+        ${co2Eco>0?'−'+co2Eco.toLocaleString('fr')+' kg CO₂/an':'Bilan CO₂ neutre'}
+      </div>
+      ${co2Eco>0?`<div style="font-size:.62rem;color:var(--muted);margin-top:2px;">≈ ${arbresCO2} arbres/an · ${co2Net20>0?'−'+co2Net20.toLocaleString('fr')+' kg sur 20 ans':''}</div>`:''}
+    </div>
+    ${co2Fab>0?`<div style="margin-top:8px;padding:6px 10px;background:var(--surface2);border-radius:8px;font-size:.63rem;">
+      <div style="font-weight:700;margin-bottom:3px;">♻️ Empreinte fabrication</div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">CO₂ construction équipements</span><span>≈ ${co2Fab.toLocaleString('fr')} kg</span></div>
+      ${co2RecupFab>0?`<div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Amorti en</span><span style="font-weight:700;color:var(--grn);">${co2RecupFab} an${co2RecupFab>1?'s':''}</span></div>`:''}
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Bilan net sur 20 ans</span><span style="font-weight:700;color:${co2Net20>0?'var(--grn)':'var(--red)'};">${co2Net20>0?'−':'+'} ${Math.abs(co2Net20).toLocaleString('fr')} kg</span></div>
+    </div>`:''}
+    <div style="font-size:.58rem;color:var(--muted);margin-top:6px;">ADEME 2024 · Gaz ${(window.CO2_GAZ||227)} gCO₂/kWh · Élec France 52 gCO₂/kWh · PAC fab ~1 800 kg · PV ~600 kg/kWc</div>
   `;
   const inflation=parseFloat(document.getElementById('inf-energie')?.value||3)/100;
   let cumEco=0, cumInvest=inv_total_current();
@@ -10968,15 +11001,20 @@ var exportExcel_local = exportExcel; // alias local si nécessaire
 function getStateAsBase64(){
   const p=getParams();
   const state={
-    v:2, // version
+    v:3, // version
     loc:[Math.round(curLat*1000)/1000, Math.round(curLon*1000)/1000, curLocName],
     eq:[usePac?1:0, useSol?1:0, useBat?1:0, useCet?1:0,
-        pacBleu?1:0, pacBlanc?1:0, pacRouge?1:0],
+        pacBleu?1:0, pacBlanc?1:0, pacRouge?1:0,
+        (window.useBois?1:0), (window.usePellet?1:0), (window.useFioulSim?1:0)],
     p:[+p.cop.toFixed(2), +p.pg.toFixed(4), +p.pe.toFixed(4),
        +p.pv.toFixed(4), +p.cf.toFixed(2)],
     kwc:curKwc, orient:curOrient, angle:curAngle,
     fe:[curFournElec, curOffreElec, curFournGaz, curOffreGaz],
     D:{ g:D.gaz, e:D.elec, ecs:D.ecs },
+    ref: energieRef||'gaz',
+    bois:  window.D_BOIS  ? {s:D_BOIS.steres,  px:D_BOIS.prixS}  : null,
+    pellet:window.D_PELLET? {t:D_PELLET.tonnes, px:D_PELLET.prixT}: null,
+    fioul: window.D_FIOUL ? {l:D_FIOUL.litres,  px:D_FIOUL.prixL} : null,
   };
   return btoa(unescape(encodeURIComponent(JSON.stringify(state))));
 }
@@ -10986,6 +11024,13 @@ function loadStateFromBase64(b64){
     const state=JSON.parse(decodeURIComponent(escape(atob(b64))));
     if(!state||state.v!==2) return false;
     if(state.D){ D.gaz=[...state.D.g]; D.elec=[...state.D.e]; D.ecs=[...state.D.ecs]; }
+    if(state.ref && typeof setEnergieRef==='function') setEnergieRef(state.ref);
+    if(state.bois   && window.D_BOIS)   { D_BOIS.steres=state.bois.s;   D_BOIS.prixS=state.bois.px; }
+    if(state.pellet && window.D_PELLET) { D_PELLET.tonnes=state.pellet.t; D_PELLET.prixT=state.pellet.px; }
+    if(state.fioul  && window.D_FIOUL)  { D_FIOUL.litres=state.fioul.l;  D_FIOUL.prixL=state.fioul.px; }
+    if(state.eq && state.eq.length>7){
+      window.useBois=!!state.eq[7]; window.usePellet=!!state.eq[8]; window.useFioulSim=!!state.eq[9];
+    }
     if(state.loc){ curLat=state.loc[0]; curLon=state.loc[1]; curLocName=state.loc[2]; }
     if(state.eq){
       usePac=!!state.eq[0]; useSol=!!state.eq[1]; useBat=!!state.eq[2]; useCet=!!state.eq[3];
@@ -11803,6 +11848,59 @@ function updateFioulMensuel(){
   if(moy) moy.textContent='≈ '+Math.round(litresAn/12)+' L/mois';
 }
 
+// ════ TEMPO DU JOUR ════
+async function fetchTempoDuJour(){
+  const TEMPO_COLORS = {
+    TEMPO_BLEU:  {label:'BLEU',   bg:'#1d4ed8', color:'#fff', icon:'🔵', hp:0.1369, hc:0.1056},
+    TEMPO_BLANC: {label:'BLANC',  bg:'#6b7280', color:'#fff', icon:'⚪', hp:0.1654, hc:0.1279},
+    TEMPO_ROUGE: {label:'ROUGE',  bg:'#dc2626', color:'#fff', icon:'🔴', hp:0.7562, hc:0.1568},
+  };
+  try {
+    const today = new Date().toISOString().slice(0,10);
+    const url = 'https://www.api-couleur-tempo.fr/api/jourTempo?dateJour='+today;
+    const r = await Promise.race([
+      fetch(url),
+      new Promise(function(_,rej){ setTimeout(function(){ rej(new Error('timeout')); }, 5000); })
+    ]);
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const data = await r.json();
+    const couleur = data.codeJour || data.couleur || '';
+    const cfg = TEMPO_COLORS[couleur];
+    if(!cfg) throw new Error('couleur inconnue: '+couleur);
+
+    // Afficher le bandeau
+    const banner = document.getElementById('tempo-banner');
+    const lbl    = document.getElementById('tempo-label');
+    const prix   = document.getElementById('tempo-prix');
+    const icon   = document.getElementById('tempo-icon');
+    if(banner){ banner.style.display='block'; banner.style.background=cfg.bg; banner.style.color=cfg.color; }
+    if(lbl)   lbl.textContent = cfg.label;
+    if(icon)  icon.textContent = cfg.icon;
+    if(prix)  prix.textContent = '(HP '+cfg.hp.toFixed(4)+' €/kWh · HC '+cfg.hc.toFixed(4)+' €/kWh)';
+
+    // Mémoriser pour les calculs Tempo
+    try{ localStorage.setItem('tempo_couleur_today', couleur); localStorage.setItem('tempo_date', today); }catch(e){}
+  } catch(e) {
+    console.warn('Tempo API:', e.message);
+    // Essayer depuis le localStorage (couleur du jour précédent)
+    try{
+      var saved = localStorage.getItem('tempo_couleur_today');
+      var savedDate = localStorage.getItem('tempo_date');
+      if(saved && savedDate){
+        var cfg2 = TEMPO_COLORS[saved];
+        if(cfg2){
+          var banner=document.getElementById('tempo-banner');
+          var lbl2=document.getElementById('tempo-label');
+          var icon2=document.getElementById('tempo-icon');
+          if(banner){ banner.style.display='block'; banner.style.background=cfg2.bg+'99'; banner.style.color=cfg2.color; }
+          if(lbl2)  lbl2.textContent = cfg2.label+' ('+savedDate+')';
+          if(icon2) icon2.textContent = cfg2.icon;
+        }
+      }
+    }catch(e2){}
+  }
+}
+
 function openHamburger(){
   var m=document.getElementById('hamburger-menu');
   var o=document.getElementById('hamburger-overlay');
@@ -12004,6 +12102,8 @@ document.addEventListener('DOMContentLoaded', function(){
   if(typeof updateSimBoisCalc==='function')   updateSimBoisCalc();
   if(typeof updateSimPelletCalc==='function') updateSimPelletCalc();
   if(typeof updateSimFioulCalc==='function')  updateSimFioulCalc();
+  // Couleur Tempo du jour
+  if(typeof fetchTempoDuJour==='function') fetchTempoDuJour();
   if(typeof updateSimBoisPrix==='function') updateSimBoisPrix();
   if(typeof updateSimPelletPrix==='function') updateSimPelletPrix();
   // Bannière guide
