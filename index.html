@@ -2333,7 +2333,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
       Inflation énergie : <input type="number" id="inf-energie" value="3" min="0" max="15" step="0.5"
         style="width:42px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;
         font-size:.68rem;padding:2px 4px;text-align:center;color:var(--text);"
-        oninput="renderAnalyses()"> %/an
+        oninput="if(typeof _renderAnalysesCore==='function')_renderAnalysesCore();else renderAnalyses()"> %/an
     </div>
 </div>
 <!-- Aides & subventions -->
@@ -8789,7 +8789,9 @@ function setProj(y){
     el.style.color        = on?'#fff':'var(--text2)';
     el.style.borderColor  = on?'var(--pac)':'var(--border2)';
   });
-  renderAnalyses();
+  // Appeler directement _renderAnalysesCore sans vérification d'onglet
+  if(typeof _renderAnalysesCore==='function') _renderAnalysesCore();
+  else renderAnalyses();
 }
 const AIDES_MPR = {
   tres_modeste:  {pac_airair:4000, pac_aireau:5000, label:'Très modestes'},
@@ -9581,7 +9583,7 @@ let currentAppTab = 'home';
   });
   currentAppTab = tab;
   if(tab==='export'){ setTimeout(renderDevis,100); }
-  if(tab==='analyses'){ setTimeout(initSolarMap,300); setTimeout(calcAides,200); setTimeout(renderOptimPAC,250); setTimeout(renderBenchmark,300); }
+  if(tab==='analyses'){ setTimeout(initSolarMap,300); setTimeout(calcAides,200); setTimeout(renderOptimPAC,250); setTimeout(renderBenchmark,300); setTimeout(function(){ if(typeof _renderAnalysesCore==='function') _renderAnalysesCore(); },100); }
   if(tab==='home'||tab==='results') {
     setTimeout(()=>{ if(typeof _coreUpdate==='function') _coreUpdate(); }, 50);
   }
@@ -10002,8 +10004,10 @@ function initSwipe(){
 }
 const _origRenderAnalyses = _renderAnalysesCore;
 function renderAnalyses(){
-  // Lazy: ne rendre que si l'onglet analyses est actif
-  if(currentAppTab!=='analyses') return;
+  // Rendre si l'onglet analyses est actif OU si le contenu est vide (forcer le remplissage)
+  const _projEmpty = !document.getElementById('proj-content')?.innerHTML?.trim()
+                  || document.getElementById('proj-content')?.innerHTML?.includes('Activez un équipement');
+  if(currentAppTab!=='analyses' && !_projEmpty) return;
   setTimeout(updateMultiYear, 100);
   setTimeout(renderDoughnut, 150);
   if(_leafletMap) setTimeout(()=>_leafletMap.invalidateSize(),200); // Mise à jour multi-années
