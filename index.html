@@ -617,9 +617,13 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 .tab-panel.active { display: block; }
 .hero-grid {
   display: grid;
-  grid-template-columns: repeat(3,1fr);
+  grid-template-columns: 1fr 1.3fr 1fr;  /* carte éco au centre plus large */
   gap: 14px;
   margin-bottom: 18px;
+}
+@media(max-width:600px){
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-card.hero-eco .hero-val { font-size: 2rem; }
 }
 .hero-card {
   background: var(--surface);
@@ -839,9 +843,15 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 }
 
 /* ── Numéros d'étapes sur les onglets ── */
-.tab-step{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;background:var(--muted);color:#fff;border-radius:50%;font-size:.55rem;font-weight:800;flex-shrink:0;}
-.nav-tab.active .tab-step{background:var(--pac);}
-.nav-tab.step-done .tab-step{background:#15803d;}
+.tab-step{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:18px;height:18px;background:var(--muted);color:#fff;
+  border-radius:50%;font-size:.55rem;font-weight:900;flex-shrink:0;
+  transition:background .3s, transform .2s;
+}
+.nav-tab.active .tab-step{ background:var(--pac); transform:scale(1.1); }
+.nav-tab.step-done .tab-step{ background:#15803d; }
+.nav-tab.step-done .tab-step::after{ content:'✓'; font-size:.5rem; }
 
 /* ── Hamburger ── */
 .hamburger-btn{background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:8px 12px;font-size:.9rem;cursor:pointer;color:var(--text);transition:.15s;white-space:nowrap;}
@@ -905,9 +915,22 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 /* ── Boutons Ma simulation — taille uniforme ── */
 #sim-cards-grid button {
   box-sizing: border-box;
+  position: relative;
 }
-#sim-cards-grid button:active {
-  transform: scale(.96);
+#sim-cards-grid button:active { transform: scale(.92); }
+#sim-cards-grid button[data-on="1"]::before {
+  content: '✓';
+  position: absolute; top: 4px; right: 6px;
+  font-size: .55rem; font-weight: 900;
+  opacity: .7;
+}
+@keyframes sim-activate {
+  0%   { transform: scale(.9); opacity:.6; }
+  50%  { transform: scale(1.05); }
+  100% { transform: scale(1); opacity:1; }
+}
+#sim-cards-grid button[data-on="1"] {
+  animation: sim-activate .25s ease-out;
 }
 
 /* ── Fix Leaflet tuiles ── */
@@ -955,6 +978,84 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 .text-center{ text-align:center; }
 .w100{ width:100%; }
 .cur-pointer{ cursor:pointer; }
+
+/* ══ AMÉLIORATIONS VISUELLES ══ */
+
+/* Hero cards — hiérarchie améliorée */
+.hero-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px 20px;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+  transition: transform .2s, box-shadow .2s;
+}
+.hero-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px #0001; }
+
+/* Carte économies — mise en avant */
+.hero-card.hero-eco {
+  border-color: var(--grn);
+  background: linear-gradient(135deg, var(--grn-tint) 0%, var(--surface) 60%);
+}
+.hero-card.hero-eco .hero-val { font-size: 2.4rem; }
+
+/* Animations KPIs */
+@keyframes kpi-pop {
+  0%   { transform: scale(.95); opacity:.7; }
+  60%  { transform: scale(1.03); }
+  100% { transform: scale(1);    opacity:1; }
+}
+.hero-val { font-size: 1.8rem; font-weight: 800; line-height: 1; margin-bottom: 4px; animation: kpi-pop .3s ease-out; }
+
+/* Feedback tap boutons Ma simulation */
+#sim-cards-grid button:active { transform: scale(.93); }
+
+/* Alignement cartes accueil */
+#home-ref-section > div { align-items: stretch; }
+#home-ref-section .card { display: flex; flex-direction: column; }
+
+/* Badges énergie colorés */
+.energy-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 8px; border-radius: 20px;
+  font-size: .6rem; font-weight: 700;
+}
+.energy-badge-gaz    { background:#fff3cd; color:#92650a; border:1px solid #f0c030; }
+.energy-badge-elec   { background:#e8f4fd; color:#1d4ed8; border:1px solid #93c5fd; }
+.energy-badge-grn    { background:var(--grn-tint); color:var(--grn); border:1px solid var(--grn); }
+.energy-badge-red    { background:#fef2f2; color:#dc2626; border:1px solid #fca5a5; }
+
+/* Mode sombre — contrastes améliorés */
+[data-theme="dark"] .t-muted-sm,
+[data-theme="dark"] .t-muted,
+[data-theme="dark"] .si-muted { color: #94a3b8; }  /* ratio > 4.5:1 */
+[data-theme="dark"] .hero-card { background: #1e293b; border-color: #334155; }
+[data-theme="dark"] .hero-card.hero-eco { background: linear-gradient(135deg,#064e3b88,#1e293b); border-color:#059669; }
+[data-theme="dark"] #sim-cards-grid button { background: #1e293b; border-color: #334155; }
+[data-theme="dark"] #sim-cards-grid button div:last-child { color: #64748b; }
+
+/* Scrollbar fine et élégante */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* Transitions globales fluides */
+.card, .nav-tab, button { transition: box-shadow .18s, border-color .18s, background .18s, color .18s; }
+
+/* Graphiques — légende plus lisible */
+canvas { border-radius: 8px; }
+
+[data-theme="dark"] .nav-tab { border-color: #2d3748; color: #94a3b8; background:#1a2332; }
+[data-theme="dark"] .nav-tab:hover { border-color: var(--pac); color: var(--pac); }
+[data-theme="dark"] .nav-tab.active { background: var(--pac); border-color: var(--pac); color: #fff; }
+[data-theme="dark"] .card { background: #1e293b; border-color: #334155; }
+[data-theme="dark"] input[type="range"] { accent-color: var(--pac); }
+[data-theme="dark"] input[type="number"], [data-theme="dark"] select {
+  background: #1e293b; color: #e2e8f0; border-color: #334155;
+}
 </style>
 
 
@@ -1050,8 +1151,9 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <div class="main">
 <nav class="app-nav" role="tablist" aria-label="Navigation principale">
 <!-- ══ BANDEAU TEMPO DU JOUR ══ -->
-<div id="tempo-banner" style="display:none;padding:5px 14px;font-size:.68rem;font-weight:700;
-  text-align:center;letter-spacing:.03em;border-bottom:1px solid rgba(255,255,255,.2);">
+<div id="tempo-banner" style="display:none;padding:6px 16px;font-size:.68rem;font-weight:700;
+  text-align:center;letter-spacing:.04em;border-bottom:2px solid rgba(255,255,255,.25);
+  backdrop-filter:blur(4px);transition:background .4s;">
   <span id="tempo-icon">⚡</span> Aujourd'hui : <span id="tempo-label">—</span>
   <span id="tempo-prix" style="font-size:.6rem;font-weight:600;margin-left:8px;opacity:.85;"></span>
 </div>
@@ -1138,8 +1240,9 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   <div style="margin-top:10px;border:1px solid var(--border);border-radius:10px;overflow:hidden;">
 
     <!-- En-tête accordéon -->
-    <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--surface2);
-      cursor:pointer;user-select:none;" ontouchstart="" onclick="toggleSimParams()">
+    <div style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--surface2);
+      cursor:pointer;user-select:none;border-radius:10px 10px 0 0;
+      transition:background .2s;" ontouchstart="" onclick="toggleSimParams()">
       <span style="font-size:.7rem;font-weight:800;">⚙️ Prix &amp; quantités</span>
       <span style="font-size:.6rem;color:var(--muted);">Bois · Pellets · Fioul</span>
       <span id="sim-params-chevron" style="margin-left:auto;font-size:.75rem;color:var(--muted);transition:.2s;">▼</span>
