@@ -10061,10 +10061,12 @@ function renderCompare(){
   };
   const sumA=document.getElementById('comp-a-summary');
   const sumB=document.getElementById('comp-b-summary');
-  const metrics=mkMetric('Coût annuel',Math.round(cA),'€',Math.round(cB)+'€')
-    + mkMetric('Économie vs gaz',Math.round(tRef-cA),'€',Math.round(tRef-cB)+'€',false)
-    + mkMetric('CO₂ estimé',co2A,'kg',co2B+'kg')
-    + mkMetric('Investissement',invA,'€',invB+'€');
+  // mkMetric(label, valA, valB, unité) — ordre corrigé
+  const _econoLbl = (window._TX&&window._TX.economy)||'Économie vs gaz';
+  const metrics=mkMetric('Coût annuel',         Math.round(cA),        Math.round(cB),        '€')
+    + mkMetric(_econoLbl,                        Math.round(tRef-cA),   Math.round(tRef-cB),   '€',  false)
+    + mkMetric('CO₂ estimé',                    Math.round(co2A),      Math.round(co2B),      ' kg')
+    + mkMetric('Investissement',                 Math.round(invA),      Math.round(invB),      '€');
   if(sumA) sumA.innerHTML=metrics;
   if(sumB) sumB.innerHTML=metrics;
   const tc=getThemeColors();
