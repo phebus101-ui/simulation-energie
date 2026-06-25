@@ -3369,9 +3369,33 @@ var renderHeroKpis = function(tRef, tCur, tPac, ecoVsRef, ecoEquip, inv, amortAn
     - (kwhBase+kwhPac)*52/1000
   );
   // Données mensuelles comparées et décomposition
+  // Ajouter onclick sur le bouton "Voir"
+  var _voirBtn = document.getElementById('_hero-voir-btn');
+  if(_voirBtn) _voirBtn.onclick = function(){ if(typeof switchAppTab==='function') switchAppTab('results'); };
   renderHomeMonthlyKpis(data, p);
   renderHomeEcoDecomp(data, tRef, tPac, tCur, 0, inv);
-  el.innerHTML=`
+  // Bandeau résumé personnalisé
+  var _activeEquip = [];
+  if(typeof usePac!=='undefined'&&usePac) _activeEquip.push('PAC réversible');
+  if(typeof useSol!=='undefined'&&useSol) _activeEquip.push('Solaire PV');
+  if(typeof useCet!=='undefined'&&useCet) _activeEquip.push('CET');
+  if(typeof useBat!=='undefined'&&useBat) _activeEquip.push('Batterie');
+  if(window.useBois)   _activeEquip.push('Chaud. bois');
+  if(window.usePellet) _activeEquip.push('Pellets');
+  var _ecoAn = Math.round(tRef - tCur);
+  var _bannerHtml = '';
+  if(_activeEquip.length > 0 && _ecoAn > 50){
+    var _amortStr = (amortAns&&amortAns<50) ? ' · ROI ~'+Math.round(amortAns)+' ans' : '';
+    _bannerHtml = '<div style="margin-bottom:10px;padding:10px 14px;background:linear-gradient(135deg,var(--grn-tint),var(--pac-tint));border:1px solid var(--grn);border-radius:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">'
+      +'<div style="font-size:1.2rem;">✅</div>'
+      +'<div style="flex:1;"><div style="font-size:.72rem;font-weight:800;color:var(--grn);">Meilleure configuration : '+_activeEquip.join(' + ')+'</div>'
+      +'<div style="font-size:.62rem;color:var(--muted);margin-top:1px;">Économies estimées : <strong style="color:var(--grn);">+'+_ecoAn.toLocaleString('fr')+' €/an</strong>'+_amortStr+'</div></div>'
+      +'<button type="button" id="_hero-voir-btn" style="padding:5px 12px;font-size:.65rem;font-weight:700;border-radius:8px;border:none;background:var(--grn);color:#fff;cursor:pointer;flex-shrink:0;">Voir →</button>'
+      +'</div>';
+  } else if(_activeEquip.length === 0){
+    _bannerHtml = '<div style="margin-bottom:10px;padding:8px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;font-size:.65rem;color:var(--muted);">💡 Activez un équipement dans <strong>Ma simulation</strong> pour voir vos économies potentielles</div>';
+  }
+  el.innerHTML=_bannerHtml+`
   <div class="hero-grid">
     ${_heroRefCard(tRef)}
     <!-- Configuration finale -->
@@ -7519,14 +7543,29 @@ function _coreUpdate(){
   const chartGrid = cl ? '#2d3352' : '#e5e9f0';
   const chartTick = cl ? '#8892b0' : '#7a8599';
   const chartLeg  = cl ? '#8892b0' : '#4a5568';
+  // Label dynamique selon energieRef
+  var _refLabel = (window.REF_CONFIG&&REF_CONFIG[energieRef]) ? REF_CONFIG[energieRef].icon+' '+REF_CONFIG[energieRef].label : '🔥 Référence';
   const sets=[
-    {label:'🔥 Gaz actuel',data:data.map(d=>+d.c_ref.toFixed(1)),backgroundColor:'#e8640a22',borderColor:'#e8640a',borderWidth:1.5,borderRadius:3},
-    {label:'⚡ PAC seule', data:data.map(d=>+d.c_pac.toFixed(1)),backgroundColor:'#2563eb22',borderColor:'#2563eb',borderWidth:1.5,borderRadius:3},
+    {label:_refLabel, data:data.map(d=>+d.c_ref.toFixed(1)), backgroundColor:'#e8640a22', borderColor:'#e8640a', borderWidth:1.5, borderRadius:3},
   ];
-  if(useSol||useBat){
-    const c=useSol&&useBat?'#0891b2':useSol?'#ca8a04':'#7c3aed';
-    const l=useSol&&useBat?'🌟 Config. complète':useSol?'☀️ +Solaire':'🔋 +Batterie';
-    sets.push({label:l,data:data.map(d=>+d.c_cur.toFixed(1)),backgroundColor:c+'33',borderColor:c,borderWidth:2.5,borderRadius:4});
+  // Dataset PAC si active
+  if(usePac||usePacAir){
+    sets.push({label:'♨️ PAC réversible', data:data.map(d=>+d.c_pac.toFixed(1)), backgroundColor:'#2563eb22', borderColor:'#2563eb', borderWidth:1.5, borderRadius:3});
+  }
+  // Dataset config complète si équipements supplémentaires
+  var hasExtra = useSol||useBat||useCet||window.useBois||window.usePellet||window.useFioulSim;
+  if(hasExtra){
+    var _extraColor = useSol&&useBat?'#0891b2':useSol?'#ca8a04':useBat?'#7c3aed':useCet?'#16a34a':'#6b3a1f';
+    var _extraLabel = '🌟 Config. complète';
+    if(!usePac&&!usePacAir&&useSol)  _extraLabel='☀️ +Solaire';
+    if(!usePac&&!usePacAir&&useBat)  _extraLabel='🔋 +Batterie';
+    if(!usePac&&!usePacAir&&useCet)  _extraLabel='🚿 +CET';
+    if(window.useBois)   _extraLabel='🪵 Chaud. bois';
+    if(window.usePellet) _extraLabel='🌾 Pellets';
+    if(window.useFioulSim) _extraLabel='🛢️ Fioul sim.';
+    sets.push({label:_extraLabel, data:data.map(d=>+d.c_cur.toFixed(1)), backgroundColor:_extraColor+'33', borderColor:_extraColor, borderWidth:2.5, borderRadius:4});
+  } else if(!usePac&&!usePacAir){
+    // Aucun équipement → montrer juste la référence
   }
   cMain.data.labels=MOIS; cMain.data.datasets=sets; cMain.update();
   // Rendu sélectif selon dirty flags
@@ -7884,14 +7923,29 @@ function updateNow(){
   const chartTick = cl ? '#8892b0' : '#7a8599';
   const chartLeg  = cl ? '#8892b0' : '#4a5568';
 
+  // Label dynamique selon energieRef
+  var _refLabel = (window.REF_CONFIG&&REF_CONFIG[energieRef]) ? REF_CONFIG[energieRef].icon+' '+REF_CONFIG[energieRef].label : '🔥 Référence';
   const sets=[
-    {label:'🔥 Gaz actuel',data:data.map(d=>+d.c_ref.toFixed(1)),backgroundColor:'#e8640a22',borderColor:'#e8640a',borderWidth:1.5,borderRadius:3},
-    {label:'⚡ PAC seule', data:data.map(d=>+d.c_pac.toFixed(1)),backgroundColor:'#2563eb22',borderColor:'#2563eb',borderWidth:1.5,borderRadius:3},
+    {label:_refLabel, data:data.map(d=>+d.c_ref.toFixed(1)), backgroundColor:'#e8640a22', borderColor:'#e8640a', borderWidth:1.5, borderRadius:3},
   ];
-  if(useSol||useBat){
-    const c=useSol&&useBat?'#0891b2':useSol?'#ca8a04':'#7c3aed';
-    const l=useSol&&useBat?'🌟 Config. complète':useSol?'☀️ +Solaire':'🔋 +Batterie';
-    sets.push({label:l,data:data.map(d=>+d.c_cur.toFixed(1)),backgroundColor:c+'33',borderColor:c,borderWidth:2.5,borderRadius:4});
+  // Dataset PAC si active
+  if(usePac||usePacAir){
+    sets.push({label:'♨️ PAC réversible', data:data.map(d=>+d.c_pac.toFixed(1)), backgroundColor:'#2563eb22', borderColor:'#2563eb', borderWidth:1.5, borderRadius:3});
+  }
+  // Dataset config complète si équipements supplémentaires
+  var hasExtra = useSol||useBat||useCet||window.useBois||window.usePellet||window.useFioulSim;
+  if(hasExtra){
+    var _extraColor = useSol&&useBat?'#0891b2':useSol?'#ca8a04':useBat?'#7c3aed':useCet?'#16a34a':'#6b3a1f';
+    var _extraLabel = '🌟 Config. complète';
+    if(!usePac&&!usePacAir&&useSol)  _extraLabel='☀️ +Solaire';
+    if(!usePac&&!usePacAir&&useBat)  _extraLabel='🔋 +Batterie';
+    if(!usePac&&!usePacAir&&useCet)  _extraLabel='🚿 +CET';
+    if(window.useBois)   _extraLabel='🪵 Chaud. bois';
+    if(window.usePellet) _extraLabel='🌾 Pellets';
+    if(window.useFioulSim) _extraLabel='🛢️ Fioul sim.';
+    sets.push({label:_extraLabel, data:data.map(d=>+d.c_cur.toFixed(1)), backgroundColor:_extraColor+'33', borderColor:_extraColor, borderWidth:2.5, borderRadius:4});
+  } else if(!usePac&&!usePacAir){
+    // Aucun équipement → montrer juste la référence
   }
   cMain.data.labels=MOIS; cMain.data.datasets=sets; cMain.update();
 
@@ -11663,13 +11717,13 @@ function updateSimBoisCalc(){
   var total  = Math.round(steres * prix);
   var el = document.getElementById('sim-bois-total');
   if(el) el.textContent = total.toLocaleString('fr')+' €/an';
-  // Mettre à jour D_BOIS pour les calculs
   if(window.D_BOIS){
     var coeffs=[11,8,7,4,1.5,0.9,0.7,0.5,0.9,2,6.5,10.5];
     var sum=coeffs.reduce(function(a,b){return a+b;},0);
     D_BOIS.steres=coeffs.map(function(c){return Math.round(steres*c/sum*10)/10;});
     D_BOIS.prixS=prix;
   }
+  try{ localStorage.setItem('sim_bois_steres', steres); localStorage.setItem('sim_bois_prix', prix); }catch(e){}
   if(typeof update==='function') update();
 }
 
@@ -11685,6 +11739,7 @@ function updateSimPelletCalc(){
     D_PELLET.tonnes=coeffs.map(function(c){return Math.round(tonnes*c/sum*100)/100;});
     D_PELLET.prixT=prix;
   }
+  try{ localStorage.setItem('sim_pellet_tonnes', tonnes); localStorage.setItem('sim_pellet_prix', prix); }catch(e){}
   if(typeof update==='function') update();
 }
 
@@ -11700,6 +11755,7 @@ function updateSimFioulCalc(){
     D_FIOUL.litres=coeffs.map(function(c){return Math.round(litres*c/sum);});
     D_FIOUL.prixL=prix;
   }
+  try{ localStorage.setItem('sim_fioul_litres', litres); localStorage.setItem('sim_fioul_prix', prix); }catch(e){}
   if(typeof update==='function') update();
 }
 
@@ -11932,6 +11988,18 @@ document.addEventListener('DOMContentLoaded', function(){
   // ── Init nouvelles fonctions ──
   if(typeof setEnergieRef==='function') setEnergieRef(energieRef||'gaz');
   if(typeof syncSimCards==='function') syncSimCards();
+  // Restaurer les prix depuis localStorage
+  try{
+    var _bs=localStorage.getItem('sim_bois_steres'), _bp=localStorage.getItem('sim_bois_prix');
+    var _pt=localStorage.getItem('sim_pellet_tonnes'), _pp=localStorage.getItem('sim_pellet_prix');
+    var _fl=localStorage.getItem('sim_fioul_litres'), _fp=localStorage.getItem('sim_fioul_prix');
+    if(_bs){ var e=document.getElementById('sim-bois-steres'); if(e) e.value=_bs; }
+    if(_bp){ var e=document.getElementById('sim-bois-prix');   if(e) e.value=_bp; }
+    if(_pt){ var e=document.getElementById('sim-pellet-tonnes');if(e) e.value=_pt;}
+    if(_pp){ var e=document.getElementById('sim-pellet-prix'); if(e) e.value=_pp; }
+    if(_fl){ var e=document.getElementById('sim-fioul-litres');if(e) e.value=_fl; }
+    if(_fp){ var e=document.getElementById('sim-fioul-prix');  if(e) e.value=_fp; }
+  }catch(e){}
   // Init accordéon prix/quantités
   if(typeof updateSimBoisCalc==='function')   updateSimBoisCalc();
   if(typeof updateSimPelletCalc==='function') updateSimPelletCalc();
