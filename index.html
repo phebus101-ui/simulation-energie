@@ -1206,12 +1206,12 @@ body { padding-bottom: env(safe-area-inset-bottom); }
     <span><span style="font-weight:700;color:#2563eb;">⚡</span> <span id="sim-summary-text" style="color:var(--muted);"></span></span>
     <button type="button" onclick="switchAppTab('results')"
       style="padding:3px 10px;font-size:.62rem;font-weight:700;border-radius:6px;
-      border:none;background:#2563eb;color:#fff;cursor:pointer;">📊 Voir →</button>
+      border:none;background:#2563eb;color:#fff;cursor:pointer;" data-i18n="seeResults">📊 Voir →</button>
   </div>
 </div>
 </div></div>
 <div id="home-guide-banner" class="si-mt16" style="padding:8px 12px;background:linear-gradient(135deg,var(--pac-tint),var(--surface2));border:1px solid var(--pac);border-radius:11px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-  <div style="flex:1;"><div style="font-size:.72rem;font-weight:800;color:var(--pac);">🧭 Première utilisation ?</div></div>
+  <div style="flex:1;"><div style="font-size:.72rem;font-weight:800;color:var(--pac);" data-i18n="firstUse">🧭 Première utilisation ?</div></div>
   <button type="button" onclick="try{localStorage.removeItem('wizard-done');}catch(e){}startWizard()" style="padding:6px 14px;font-size:.7rem;font-weight:700;border-radius:8px;background:var(--pac);color:#fff;border:none;cursor:pointer;">Guide →</button>
   <button type="button" onclick="document.getElementById('home-guide-banner').style.display='none';try{localStorage.setItem('guide-dismissed','1');}catch(e){}" style="padding:4px 7px;font-size:.65rem;border-radius:6px;border:1px solid var(--border);background:none;color:var(--muted);cursor:pointer;">✕</button>
 </div>
@@ -1223,8 +1223,8 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <div class="card">
 <div class="sec-head">
 <div class="sec-head-icon">📊</div>
-<div><div class="sec-head-title">Coûts mensuels comparés</div>
-<div class="sec-head-sub" id="home-monthly-sub">Référence vs votre configuration</div></div>
+<div><div class="sec-head-title" data-i18n="monthlyComp" data-i18n="monthlyComp">Coûts mensuels comparés</div>
+<div class="sec-head-sub" id="home-monthly-sub" data-i18n="gasRefSub">Référence vs votre configuration</div></div>
 </div>
 <div id="home-monthly-kpis" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:6px 0;">
   <!-- Rempli par renderHomeMonthlyKpis() -->
@@ -1235,8 +1235,8 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <div class="card mt10">
 <div class="sec-head">
 <div class="sec-head-icon">📉</div>
-<div><div class="sec-head-title">Décomposition des économies</div>
-<div class="sec-head-sub">Contribution de chaque équipement</div></div>
+<div><div class="sec-head-title" data-i18n="ecoBreakdown">Décomposition des économies</div>
+<div class="sec-head-sub" data-i18n="eachEquip">Contribution de chaque équipement</div></div>
 </div>
 <div id="home-eco-decomp" style="padding:6px 0;">
   <!-- Rempli par renderHomeEcoDecomp() -->
@@ -2232,7 +2232,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <!-- KPIs détaillés -->
 <div class="kpis" id="kpis"></div>
 <!-- Conso élec -->
-<div class="section-label mt14">⚡ Consommation électrique</div>
+<div class="section-label mt14" data-i18n="elecConsoTitle">⚡ Consommation électrique</div>
 <div class="card" id="conso-elec-card">
 <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
 <div>
@@ -2273,7 +2273,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 </div>
 <div id="alert-zone" class="mt10"></div>
 <!-- Graphiques comparaison -->
-<div class="section-label mt14">📊 Visualisation</div>
+<div class="section-label mt14" data-i18n="vizTitle">📊 Visualisation</div>
 <div class="charts mt10">
 <div class="card chart-wrap" style="flex:2;min-width:0;">
 <div class="card-title" data-i18n="monthlyCompar">Coûts mensuels comparés</div>
@@ -2290,7 +2290,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <div id="tableau" style="overflow-x:auto;font-size:.72rem;"></div>
 </div>
 <!-- Facture Linky -->
-<div class="section-label mt14">🔢 Simulation facture Linky</div>
+<div class="section-label mt14" data-i18n="linkyTitle2">🔢 Simulation facture Linky</div>
 <div class="card" id="linky-card">
 <div class="card-title" style="margin-bottom:12px;" data-i18n="linkyTitle">Estimation facture EDF avant / après installation PAC</div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
@@ -2315,12 +2315,12 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:10px;" id="analysis-grid">
 <!-- CO2 -->
 <div class="card" id="co2-card">
-<div class="card-title">♻️ Bilan CO₂</div>
+<div class="card-title" data-i18n="co2Title">♻️ Bilan CO₂</div>
 <div id="co2-content" style="font-size:.72rem;line-height:1.8;"></div>
 </div>
 <!-- Projection 10 ans -->
 <div class="card" id="proj-card">
-<div class="card-title">🗓️ Projection économies</div>
+<div class="card-title" data-i18n="projTitle">🗓️ Projection économies</div>
 <div style="margin-bottom:8px;display:flex;gap:6px;flex-wrap:wrap;" id="proj-tabs">
 <button class="btn" id="pt5"  onclick="setProj(5)"  style="padding:3px 8px;font-size:.65rem;">5 ans</button>
 <button class="btn" id="pt10" onclick="setProj(10)" style="padding:3px 8px;font-size:.65rem;background:var(--pac);color:#fff;border-color:var(--pac);">10 ans</button>
@@ -2478,7 +2478,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 <button id="btn-meteo" onclick="fetchMeteoReelle()" style="background:var(--pac);color:#fff;border:none;border-radius:9px;padding:9px 16px;font-size:.74rem;font-weight:700;cursor:pointer;white-space:nowrap;">🌤️ Météo réelle</button></div>
 <div id="meteo-info" style="display:none;font-size:.63rem;color:var(--grn);margin-top:6px;font-weight:600;"></div></div>
 <!-- HISTORIQUE -->
-<div class="sec-head" style="margin-top:18px;"><div class="sec-head-icon">📚</div><div><div class="sec-head-title">Historique des simulations</div><div class="sec-head-sub">Comparez jusqu'à 5 configurations sauvegardées</div></div></div>
+<div class="sec-head" style="margin-top:18px;"><div class="sec-head-icon">📚</div><div><div class="sec-head-title" data-i18n="histTitle">Historique des simulations</div><div class="sec-head-sub" data-i18n="histSub">Comparez jusqu'à 5 configurations sauvegardées</div></div></div>
 <div class="card"><div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;"><div style="flex:1;font-size:.68rem;color:var(--muted);">Sauvegardez des snapshots nommés pour comparer vos configurations.</div>
 <button onclick="promptSaveSnapshot()" style="background:var(--grn);color:#fff;border:none;border-radius:9px;padding:9px 16px;font-size:.74rem;font-weight:700;cursor:pointer;white-space:nowrap;">💾 Sauvegarder cette config</button></div>
 <div id="history-list"></div></div>
@@ -2635,7 +2635,7 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
     <div>
       <div style="font-size:.78rem;font-weight:800;">🌞 Simulation horaire (profil type)</div>
-      <div style="font-size:.62rem;color:var(--muted);">Production solaire heure par heure — précision accrue de 15 à 30%</div>
+      <div style="font-size:.62rem;color:var(--muted);" data-i18n="hourlySimSub">Production solaire heure par heure — précision accrue de 15 à 30%</div>
     </div>
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
       <label style="font-size:.65rem;color:var(--muted);">Mois :</label>
@@ -10387,6 +10387,44 @@ const T18N = {
     tempoBlue:'BLEU',
     tempoWhite:'BLANC',
     tempoRed:'ROUGE',
+  
+    // ── Textes panels complets ──
+    myCurrent:'Mon chauffage actuel',
+    mySimulation:'Ma simulation',
+    seeResults:'Voir →',
+    firstUse:'Première utilisation ?',
+    guideStart:'Démarrer →',
+    monthlyComp:'Coûts mensuels comparés',
+    ecoBreakdown:'Décomposition des économies',
+    eachEquip:'Contribution de chaque équipement',
+    gasRefSub:'Gaz actuel vs votre configuration',
+    currentGasNat:'Gaz naturel',
+    currentFuel:'Fioul actuel',
+    sunrise:'Lever estimé',
+    sunset:'Coucher estimé',
+    payback:'Remboursé en',
+    netBalance20:'Bilan net sur 20 ans',
+    mfgFootprint:'Empreinte fabrication',
+    hourlySimSub:'Production solaire heure par heure',
+    monthSel:'Mois :',
+    refresh:'Actualiser',
+    aidsSub:'MaPrimeRénov\', CEE, TVA réduite — selon vos revenus',
+    histTitle:'Historique des simulations',
+    histSub:'Comparez jusqu\'à 5 configurations',
+    recoTitle:'Recommandation personnalisée',
+    recoSub:'Basée sur votre profil',
+    compareTitle:'Comparaison visuelle',
+    compareSub:'Config. A vs Config. B',
+    co2Title:'Bilan CO₂',
+    co2Sub:'Émissions et économies carbone',
+    projTitle:'Projection économies',
+    projSub:'Sur 5 à 30 ans avec inflation',
+    guideMsg:'Suivez le guide en 5 étapes',
+    elecConsoTitle:'Consommation électrique',
+    vizTitle:'Visualisation',
+    linkyTitle2:'Simulation facture Linky',
+    noDataMsg:'Activez un équipement dans Ma simulation',
+    activateEquip:'Activez un équipement pour voir la projection',
   },
   en:{
   appTitle:'Home Energy Simulation',
@@ -10479,6 +10517,44 @@ const T18N = {
     tempoBlue:'BLUE',
     tempoWhite:'WHITE',
     tempoRed:'RED',
+  
+    // ── Textes panels complets ──
+    myCurrent:'My current heating',
+    mySimulation:'My simulation',
+    seeResults:'See →',
+    firstUse:'First use?',
+    guideStart:'Start →',
+    monthlyComp:'Monthly cost comparison',
+    ecoBreakdown:'Savings breakdown',
+    eachEquip:'Each equipment contribution',
+    gasRefSub:'Current vs your configuration',
+    currentGasNat:'Natural gas',
+    currentFuel:'Current fuel',
+    sunrise:'Estimated sunrise',
+    sunset:'Estimated sunset',
+    payback:'Payback in',
+    netBalance20:'Net balance over 20 years',
+    mfgFootprint:'Manufacturing footprint',
+    hourlySimSub:'Solar production hour by hour',
+    monthSel:'Month:',
+    refresh:'Refresh',
+    aidsSub:'MaPrimeRénov\', CEE, VAT — based on income',
+    histTitle:'Simulation history',
+    histSub:'Compare up to 5 configurations',
+    recoTitle:'Personalized recommendation',
+    recoSub:'Based on your profile',
+    compareTitle:'Visual comparison',
+    compareSub:'Config. A vs Config. B',
+    co2Title:'CO₂ balance',
+    co2Sub:'Carbon emissions and savings',
+    projTitle:'Savings projection',
+    projSub:'5 to 30 years with inflation',
+    guideMsg:'Follow the 5-step guide',
+    elecConsoTitle:'Electricity consumption',
+    vizTitle:'Visualization',
+    linkyTitle2:'Linky bill simulation',
+    noDataMsg:'Activate equipment in My simulation',
+    activateEquip:'Activate equipment to see projection',
   },
   de:{
   appTitle:'Hausenergie-Simulation',
@@ -10540,6 +10616,44 @@ const T18N = {
     payback:'Amortisiert in',ecoYear1:'Einsparung Jahr 1',netBalance:'Nettobbilanz',
     mfgFootprint:'Herstellungsaufwand',netBalance20:'Nettobilanz über 20 Jahre',
     tempoToday:'Heute',tempoBlue:'BLAU',tempoWhite:'WEISS',tempoRed:'ROT',
+  
+    // ── Textes panels complets ──
+    myCurrent:'Meine aktuelle Heizung',
+    mySimulation:'Meine Simulation',
+    seeResults:'Sehen →',
+    firstUse:'Erste Nutzung?',
+    guideStart:'Starten →',
+    monthlyComp:'Monatlicher Kostenvergleich',
+    ecoBreakdown:'Einsparungsaufschlüsselung',
+    eachEquip:'Beitrag jedes Geräts',
+    gasRefSub:'Aktuell vs Ihre Konfiguration',
+    currentGasNat:'Erdgas',
+    currentFuel:'Aktuelles Heizöl',
+    sunrise:'Sonnenaufgang (geschätzt)',
+    sunset:'Sonnenuntergang (geschätzt)',
+    payback:'Amortisiert in',
+    netBalance20:'Nettobilanz über 20 Jahre',
+    mfgFootprint:'Herstellungsaufwand',
+    hourlySimSub:'Solarproduktion stündlich',
+    monthSel:'Monat:',
+    refresh:'Aktualisieren',
+    aidsSub:'Fördermittel — nach Einkommen',
+    histTitle:'Simulationsverlauf',
+    histSub:'Vergleich bis zu 5 Konfigurationen',
+    recoTitle:'Persönliche Empfehlung',
+    recoSub:'Basierend auf Ihrem Profil',
+    compareTitle:'Visueller Vergleich',
+    compareSub:'Konf. A vs Konf. B',
+    co2Title:'CO₂-Bilanz',
+    co2Sub:'Kohlenstoffemissionen und Einsparungen',
+    projTitle:'Einsparungsprojektion',
+    projSub:'5 bis 30 Jahre mit Inflation',
+    guideMsg:'Folgen Sie der 5-Schritte-Anleitung',
+    elecConsoTitle:'Stromverbrauch',
+    vizTitle:'Visualisierung',
+    linkyTitle2:'Linky-Rechnungssimulation',
+    noDataMsg:'Gerät in Meine Simulation aktivieren',
+    activateEquip:'Gerät aktivieren, um Projektion anzuzeigen',
   },
   es:{
   appTitle:'Simulación de Energía del Hogar',
@@ -10601,6 +10715,44 @@ const T18N = {
     payback:'Amortizado en',ecoYear1:'Ahorro año 1',netBalance:'Balance neto',
     mfgFootprint:'Huella de fabricación',netBalance20:'Balance neto 20 años',
     tempoToday:'Hoy',tempoBlue:'AZUL',tempoWhite:'BLANCO',tempoRed:'ROJO',
+  
+    // ── Textes panels complets ──
+    myCurrent:'Mi calefacción actual',
+    mySimulation:'Mi simulación',
+    seeResults:'Ver →',
+    firstUse:'¿Primera vez?',
+    guideStart:'Empezar →',
+    monthlyComp:'Comparación mensual de costes',
+    ecoBreakdown:'Desglose de ahorros',
+    eachEquip:'Contribución de cada equipo',
+    gasRefSub:'Actual vs su configuración',
+    currentGasNat:'Gas natural',
+    currentFuel:'Gasóleo actual',
+    sunrise:'Salida del sol (est.)',
+    sunset:'Puesta del sol (est.)',
+    payback:'Amortizado en',
+    netBalance20:'Saldo neto 20 años',
+    mfgFootprint:'Huella de fabricación',
+    hourlySimSub:'Producción solar por hora',
+    monthSel:'Mes:',
+    refresh:'Actualizar',
+    aidsSub:'Subvenciones — según ingresos',
+    histTitle:'Historial de simulaciones',
+    histSub:'Hasta 5 configuraciones',
+    recoTitle:'Recomendación personalizada',
+    recoSub:'Basada en su perfil',
+    compareTitle:'Comparación visual',
+    compareSub:'Config. A vs Config. B',
+    co2Title:'Balance CO₂',
+    co2Sub:'Emisiones y ahorros de carbono',
+    projTitle:'Proyección de ahorros',
+    projSub:'5 a 30 años con inflación',
+    guideMsg:'Siga la guía de 5 pasos',
+    elecConsoTitle:'Consumo eléctrico',
+    vizTitle:'Visualización',
+    linkyTitle2:'Simulación factura Linky',
+    noDataMsg:'Active un equipo en Mi simulación',
+    activateEquip:'Active un equipo para ver la proyección',
   },
   it:{
   appTitle:'Simulazione Energia Casa',
@@ -10662,6 +10814,44 @@ const T18N = {
     payback:'Ammortizzato in',ecoYear1:'Risparmio anno 1',netBalance:'Saldo netto',
     mfgFootprint:'Impatto produzione',netBalance20:'Saldo netto 20 anni',
     tempoToday:'Oggi',tempoBlue:'BLU',tempoWhite:'BIANCO',tempoRed:'ROSSO',
+  
+    // ── Textes panels complets ──
+    myCurrent:'Il mio riscaldamento',
+    mySimulation:'La mia simulazione',
+    seeResults:'Vedere →',
+    firstUse:'Prima volta?',
+    guideStart:'Inizia →',
+    monthlyComp:'Confronto mensile costi',
+    ecoBreakdown:'Scomposizione risparmi',
+    eachEquip:'Contributo di ogni apparecchio',
+    gasRefSub:'Attuale vs configurazione',
+    currentGasNat:'Gas naturale',
+    currentFuel:'Gasolio attuale',
+    sunrise:'Alba stimata',
+    sunset:'Tramonto stimato',
+    payback:'Ammortizzato in',
+    netBalance20:'Saldo netto 20 anni',
+    mfgFootprint:'Impatto produzione',
+    hourlySimSub:'Produzione solare oraria',
+    monthSel:'Mese:',
+    refresh:'Aggiorna',
+    aidsSub:'Incentivi — secondo reddito',
+    histTitle:'Storico simulazioni',
+    histSub:'Fino a 5 configurazioni',
+    recoTitle:'Raccomandazione personale',
+    recoSub:'Basata sul tuo profilo',
+    compareTitle:'Confronto visivo',
+    compareSub:'Conf. A vs Conf. B',
+    co2Title:'Bilancio CO₂',
+    co2Sub:'Emissioni e risparmi di carbonio',
+    projTitle:'Proiezione risparmi',
+    projSub:'Da 5 a 30 anni con inflazione',
+    guideMsg:'Segui la guida in 5 passi',
+    elecConsoTitle:'Consumo elettrico',
+    vizTitle:'Visualizzazione',
+    linkyTitle2:'Simulazione fattura Linky',
+    noDataMsg:'Attiva un dispositivo in La mia simulazione',
+    activateEquip:'Attiva un dispositivo per vedere la proiezione',
   },
   pt:{
   appTitle:'Simulação de Energia Doméstica',
@@ -10723,6 +10913,44 @@ const T18N = {
     payback:'Amortizado em',ecoYear1:'Poupança ano 1',netBalance:'Saldo líquido',
     mfgFootprint:'Pegada de fabricação',netBalance20:'Saldo líquido 20 anos',
     tempoToday:'Hoje',tempoBlue:'AZUL',tempoWhite:'BRANCO',tempoRed:'VERMELHO',
+  
+    // ── Textes panels complets ──
+    myCurrent:'O meu aquecimento atual',
+    mySimulation:'A minha simulação',
+    seeResults:'Ver →',
+    firstUse:'Primeira vez?',
+    guideStart:'Começar →',
+    monthlyComp:'Comparação mensal de custos',
+    ecoBreakdown:'Decomposição das poupanças',
+    eachEquip:'Contribuição de cada equipamento',
+    gasRefSub:'Atual vs sua configuração',
+    currentGasNat:'Gás natural',
+    currentFuel:'Gasóleo atual',
+    sunrise:'Nascer do sol (est.)',
+    sunset:'Pôr do sol (est.)',
+    payback:'Amortizado em',
+    netBalance20:'Saldo líquido 20 anos',
+    mfgFootprint:'Pegada de fabricação',
+    hourlySimSub:'Produção solar por hora',
+    monthSel:'Mês:',
+    refresh:'Atualizar',
+    aidsSub:'Subsídios — conforme rendimento',
+    histTitle:'Histórico de simulações',
+    histSub:'Até 5 configurações',
+    recoTitle:'Recomendação personalizada',
+    recoSub:'Baseada no seu perfil',
+    compareTitle:'Comparação visual',
+    compareSub:'Config. A vs Config. B',
+    co2Title:'Balanço CO₂',
+    co2Sub:'Emissões e poupanças de carbono',
+    projTitle:'Projeção de poupanças',
+    projSub:'5 a 30 anos com inflação',
+    guideMsg:'Siga o guia de 5 passos',
+    elecConsoTitle:'Consumo elétrico',
+    vizTitle:'Visualização',
+    linkyTitle2:'Simulação fatura Linky',
+    noDataMsg:'Ative um equipamento em A minha simulação',
+    activateEquip:'Ative um equipamento para ver a projeção',
   },
 };
 function t(key){ return (T18N[currentLang]||T18N.fr)[key] || T18N.fr[key] || key; }
@@ -11181,6 +11409,21 @@ function applyTranslations(){
   if(sfSub && !sfSub._saving) sfSub.textContent=tx.saveFileSub||'Dans le fichier HTML';
 
   // ── Traduction des nouveaux éléments ──
+  // Titre "Mon chauffage actuel" / "Ma simulation"
+  document.querySelectorAll('[data-i18n="myCurrent"]').forEach(function(el){ el.textContent=tx.myCurrent||el.textContent; });
+  document.querySelectorAll('[data-i18n="mySimulation"]').forEach(function(el){ el.textContent=tx.mySimulation||el.textContent; });
+  document.querySelectorAll('[data-i18n="refEnergy"]').forEach(function(el){ el.textContent=tx.refEnergy||el.textContent; });
+  document.querySelectorAll('[data-i18n="seeResults"]').forEach(function(el){ el.textContent=(el.textContent.startsWith('📊')?'📊 ':'')+tx.seeResults||el.textContent; });
+  document.querySelectorAll('[data-i18n="firstUse"]').forEach(function(el){ el.textContent='🧭 '+(tx.firstUse||el.textContent.replace('🧭 ','')); });
+  document.querySelectorAll('[data-i18n="guideMsg"]').forEach(function(el){ el.textContent=tx.guideMsg||el.textContent; });
+  document.querySelectorAll('[data-i18n="guideStart"]').forEach(function(el){ el.textContent=tx.guideStart||el.textContent; });
+  // Hero ref card label dynamique
+  if(typeof _heroRefCard==='function' && typeof renderHeroKpis==='function'){
+    // sera re-rendu au prochain update()
+  }
+  // "Gaz naturel" dans le hero → sera mis à jour via _heroRefCard lors du prochain update()
+  // Forcer un update pour régénérer les cartes dynamiques
+  if(typeof update==='function') setTimeout(update, 50);
   // Boutons sous-titres grille Ma simulation
   var _simSubMap = {
     'sim-card-pac':    {title:'pacRev',  sub:'copVar'},
@@ -12012,13 +12255,27 @@ function promptSaveSnapshot(){
 // ════════════════════════════════════════════════════════════════
 
 var REF_CONFIG = {
-  'gaz':        {icon:'🔥', label:'Gaz naturel',       color:'var(--gaz)',  bg:'var(--gaz)',  txt:'#fff'},
-  'fioul':      {icon:'🛢️', label:'Chaudière fioul',    color:'#b45309',    bg:'#b45309',     txt:'#fff'},
-  'bois':       {icon:'🪵', label:'Poêle/chaud. bois',  color:'#6b3a1f',    bg:'#6b3a1f',     txt:'#fff'},
-  'pellet':     {icon:'🌾', label:'Chaudière pellets',  color:'#92400e',    bg:'#92400e',     txt:'#fff'},
-  'pac-exist':  {icon:'♨️', label:'PAC existante',      color:'var(--pac)', bg:'var(--pac)',  txt:'#fff'},
-  'elec-direct':{icon:'⚡', label:'Électrique direct',  color:'#1e40af',    bg:'#1e40af',     txt:'#fff'},
+  'gaz':        {icon:'🔥', labelFr:'Gaz naturel',       labelKey:'currentGasNat', color:'var(--gaz)',  bg:'var(--gaz)',  txt:'#fff'},
+  'fioul':      {icon:'🛢️', labelFr:'Chaudière fioul',    labelKey:'currentFuel',   color:'#b45309',    bg:'#b45309',     txt:'#fff'},
+  'bois':       {icon:'🪵', labelFr:'Poêle/chaud. bois',  labelKey:'woodBoiler',    color:'#6b3a1f',    bg:'#6b3a1f',     txt:'#fff'},
+  'pellet':     {icon:'🌾', labelFr:'Chaudière pellets',  labelKey:'pelletBoiler',  color:'#92400e',    bg:'#92400e',     txt:'#fff'},
+  'pac-exist':  {icon:'♨️', labelFr:'PAC existante',      labelKey:'pacRev',        color:'var(--pac)', bg:'var(--pac)',  txt:'#fff'},
+  'elec-direct':{icon:'⚡', labelFr:'Électrique direct',  labelKey:'fuelRef',       color:'#1e40af',    bg:'#1e40af',     txt:'#fff'},
 };
+// Getter traduit
+function getRefLabel(key){
+  var cfg = REF_CONFIG[key||'gaz'];
+  if(!cfg) return 'Référence';
+  var tx = (typeof T18N!=='undefined'&&typeof currentLang!=='undefined') ? (T18N[currentLang]||T18N.fr) : {[cfg.labelKey]:cfg.labelFr};
+  return tx[cfg.labelKey] || cfg.labelFr || 'Référence';
+}
+// Compatibilité : .label → traduit dynamiquement
+Object.keys(REF_CONFIG).forEach(function(k){
+  Object.defineProperty(REF_CONFIG[k], 'label', {
+    get: function(){ return getRefLabel(k); },
+    enumerable: true,
+  });
+});
 
 function setEnergieRef(type){
   energieRef = type;
