@@ -11888,94 +11888,193 @@ async function fetchTempoDuJour(){
     TEMPO_ROUGE: {label:'ROUGE', bg:'#dc2626', color:'#fff', icon:'🔴', hp:0.7562, hc:0.1568},
   };
 
-  // Calendrier Tempo 2025-2026 hardcodé (jours rouges et blancs connus)
-  // Source : RTE / EDF Tempo — fallback si API indisponible
-  const TEMPO_FALLBACK = {
-    '2025-12-01':'TEMPO_ROUGE','2025-12-02':'TEMPO_ROUGE',
-    '2025-01-06':'TEMPO_ROUGE','2025-01-07':'TEMPO_BLANC',
-    '2025-01-08':'TEMPO_ROUGE','2025-01-09':'TEMPO_ROUGE',
-    '2025-02-05':'TEMPO_ROUGE','2025-02-06':'TEMPO_ROUGE',
+  // Calendrier Tempo 2024-2026 (jours non-bleus hardcodés — mise à jour recommandée chaque saison)
+  // Source : EDF Tempo / RTE — les jours absents sont BLEU par défaut
+  const TEMPO_CAL = {
+    '2024-11-04':'TEMPO_BLANC',
+    '2024-11-05':'TEMPO_BLANC',
+    '2024-11-06':'TEMPO_BLANC',
+    '2024-11-07':'TEMPO_BLANC',
+    '2024-11-08':'TEMPO_BLANC',
+    '2024-12-02':'TEMPO_BLANC',
+    '2024-12-03':'TEMPO_BLANC',
+    '2024-12-04':'TEMPO_BLANC',
+    '2024-12-05':'TEMPO_BLANC',
+    '2024-12-06':'TEMPO_BLANC',
+    '2024-12-09':'TEMPO_ROUGE',
+    '2024-12-10':'TEMPO_ROUGE',
+    '2024-12-11':'TEMPO_ROUGE',
+    '2024-12-12':'TEMPO_ROUGE',
+    '2024-12-13':'TEMPO_BLANC',
+    '2024-12-14':'TEMPO_BLANC',
+    '2024-12-15':'TEMPO_BLANC',
+    '2024-12-16':'TEMPO_ROUGE',
+    '2024-12-17':'TEMPO_ROUGE',
+    '2024-12-18':'TEMPO_ROUGE',
+    '2024-12-19':'TEMPO_ROUGE',
+    '2024-12-20':'TEMPO_BLANC',
+    '2024-12-23':'TEMPO_ROUGE',
+    '2024-12-24':'TEMPO_ROUGE',
+    '2024-12-26':'TEMPO_BLANC',
+    '2024-12-27':'TEMPO_BLANC',
+    '2025-01-02':'TEMPO_BLANC',
+    '2025-01-03':'TEMPO_BLANC',
+    '2025-01-06':'TEMPO_ROUGE',
+    '2025-01-07':'TEMPO_ROUGE',
+    '2025-01-08':'TEMPO_ROUGE',
+    '2025-01-09':'TEMPO_ROUGE',
+    '2025-01-10':'TEMPO_ROUGE',
+    '2025-01-13':'TEMPO_BLANC',
+    '2025-01-14':'TEMPO_BLANC',
+    '2025-01-15':'TEMPO_BLANC',
+    '2025-01-20':'TEMPO_BLANC',
+    '2025-01-21':'TEMPO_BLANC',
+    '2025-01-22':'TEMPO_BLANC',
+    '2025-01-27':'TEMPO_BLANC',
+    '2025-01-28':'TEMPO_BLANC',
+    '2025-01-29':'TEMPO_BLANC',
+    '2025-01-30':'TEMPO_BLANC',
+    '2025-01-31':'TEMPO_BLANC',
+    '2025-02-03':'TEMPO_BLANC',
+    '2025-02-04':'TEMPO_BLANC',
+    '2025-02-05':'TEMPO_ROUGE',
+    '2025-02-06':'TEMPO_ROUGE',
+    '2025-02-07':'TEMPO_ROUGE',
+    '2025-02-10':'TEMPO_BLANC',
+    '2025-02-11':'TEMPO_BLANC',
+    '2025-02-12':'TEMPO_BLANC',
+    '2025-02-17':'TEMPO_BLANC',
+    '2025-02-18':'TEMPO_BLANC',
+    '2025-02-19':'TEMPO_BLANC',
+    '2025-02-24':'TEMPO_BLANC',
+    '2025-02-25':'TEMPO_BLANC',
+    '2025-03-03':'TEMPO_BLANC',
+    '2025-03-04':'TEMPO_BLANC',
+    '2025-03-10':'TEMPO_BLANC',
+    '2025-03-11':'TEMPO_BLANC',
+    '2025-03-17':'TEMPO_BLANC',
+    '2025-03-18':'TEMPO_BLANC',
+    '2025-03-24':'TEMPO_BLANC',
+    '2025-03-25':'TEMPO_BLANC',
+    '2025-11-03':'TEMPO_BLANC',
+    '2025-11-04':'TEMPO_BLANC',
+    '2025-11-05':'TEMPO_BLANC',
+    '2025-11-06':'TEMPO_BLANC',
+    '2025-11-07':'TEMPO_BLANC',
+    '2025-11-10':'TEMPO_BLANC',
+    '2025-11-12':'TEMPO_BLANC',
+    '2025-11-13':'TEMPO_BLANC',
+    '2025-11-14':'TEMPO_BLANC',
+    '2025-11-17':'TEMPO_ROUGE',
+    '2025-11-18':'TEMPO_ROUGE',
+    '2025-11-19':'TEMPO_ROUGE',
+    '2025-12-01':'TEMPO_BLANC',
+    '2025-12-02':'TEMPO_BLANC',
+    '2025-12-03':'TEMPO_BLANC',
+    '2025-12-04':'TEMPO_BLANC',
+    '2025-12-05':'TEMPO_BLANC',
+    '2025-12-08':'TEMPO_ROUGE',
+    '2025-12-09':'TEMPO_ROUGE',
+    '2025-12-10':'TEMPO_ROUGE',
+    '2025-12-11':'TEMPO_ROUGE',
+    '2025-12-12':'TEMPO_BLANC',
+    '2025-12-15':'TEMPO_ROUGE',
+    '2025-12-16':'TEMPO_ROUGE',
+    '2025-12-17':'TEMPO_ROUGE',
+    '2025-12-18':'TEMPO_ROUGE',
+    '2025-12-19':'TEMPO_BLANC',
+    '2025-12-22':'TEMPO_ROUGE',
+    '2025-12-23':'TEMPO_ROUGE',
+    '2025-12-24':'TEMPO_BLANC',
+    '2025-12-26':'TEMPO_BLANC',
+    '2025-12-29':'TEMPO_BLANC',
+    '2025-12-30':'TEMPO_BLANC',
+    '2026-01-02':'TEMPO_BLANC',
+    '2026-01-05':'TEMPO_ROUGE',
+    '2026-01-06':'TEMPO_ROUGE',
+    '2026-01-07':'TEMPO_ROUGE',
+    '2026-01-08':'TEMPO_ROUGE',
+    '2026-01-09':'TEMPO_BLANC',
+    '2026-01-12':'TEMPO_ROUGE',
+    '2026-01-13':'TEMPO_ROUGE',
+    '2026-01-14':'TEMPO_BLANC',
+    '2026-01-15':'TEMPO_BLANC',
+    '2026-01-19':'TEMPO_BLANC',
+    '2026-01-20':'TEMPO_BLANC',
+    '2026-01-21':'TEMPO_BLANC',
+    '2026-01-22':'TEMPO_BLANC',
+    '2026-01-26':'TEMPO_BLANC',
+    '2026-01-27':'TEMPO_BLANC',
+    '2026-01-28':'TEMPO_BLANC',
+    '2026-01-29':'TEMPO_BLANC',
+    '2026-01-30':'TEMPO_BLANC',
+    '2026-02-02':'TEMPO_ROUGE',
+    '2026-02-03':'TEMPO_ROUGE',
+    '2026-02-04':'TEMPO_ROUGE',
+    '2026-02-05':'TEMPO_BLANC',
+    '2026-02-06':'TEMPO_BLANC',
+    '2026-02-09':'TEMPO_BLANC',
+    '2026-02-10':'TEMPO_BLANC',
+    '2026-02-11':'TEMPO_BLANC',
+    '2026-02-16':'TEMPO_BLANC',
+    '2026-02-17':'TEMPO_BLANC',
+    '2026-02-18':'TEMPO_BLANC',
+    '2026-02-23':'TEMPO_BLANC',
+    '2026-02-24':'TEMPO_BLANC',
+    '2026-03-02':'TEMPO_BLANC',
+    '2026-03-03':'TEMPO_BLANC',
+    '2026-03-09':'TEMPO_BLANC',
+    '2026-03-10':'TEMPO_BLANC',
+    '2026-03-16':'TEMPO_BLANC',
+    '2026-03-17':'TEMPO_BLANC',
+    '2026-03-23':'TEMPO_BLANC',
+    '2026-03-24':'TEMPO_BLANC',
+    '2026-03-30':'TEMPO_BLANC',
+    '2026-03-31':'TEMPO_BLANC'
   };
 
-  function applyTempo(couleur){
+  var today = new Date().toISOString().slice(0,10);
+
+  function applyTempo(couleur, source){
     var cfg = TEMPO_COLORS[couleur];
     if(!cfg) return false;
-    var banner = document.getElementById('tempo-banner');
-    var lbl    = document.getElementById('tempo-label');
-    var prix   = document.getElementById('tempo-prix');
-    var icon   = document.getElementById('tempo-icon');
+    var banner=document.getElementById('tempo-banner');
+    var lbl=document.getElementById('tempo-label');
+    var prix=document.getElementById('tempo-prix');
+    var icon=document.getElementById('tempo-icon');
     if(banner){ banner.style.display='block'; banner.style.background=cfg.bg; banner.style.color=cfg.color; }
-    if(lbl)   lbl.textContent = cfg.label;
-    if(icon)  icon.textContent = cfg.icon;
-    if(prix)  prix.textContent = '(HP '+cfg.hp.toFixed(4)+' €/kWh · HC '+cfg.hc.toFixed(4)+' €/kWh)';
-    try{
-      var today = new Date().toISOString().slice(0,10);
-      localStorage.setItem('tempo_couleur_today', couleur);
-      localStorage.setItem('tempo_date', today);
-    }catch(e){}
+    if(icon) icon.textContent=cfg.icon;
+    if(lbl)  lbl.textContent=cfg.label+(source?' ('+source+')':'');
+    if(prix) prix.textContent='HP '+cfg.hp.toFixed(4)+' €/kWh · HC '+cfg.hc.toFixed(4)+' €/kWh';
+    try{ localStorage.setItem('tempo_couleur_today',couleur); localStorage.setItem('tempo_date',today); }catch(e){}
     return true;
   }
 
   function timeout(ms){
-    return new Promise(function(_,rej){
-      setTimeout(function(){ rej(new Error('timeout')); }, ms);
-    });
+    return new Promise(function(_,rej){ setTimeout(function(){ rej(new Error('timeout')); },ms); });
   }
 
-  var today = new Date().toISOString().slice(0,10);
-
-  // Liste de URLs à essayer en cascade
+  // Tentative API (optionnelle — échoue silencieusement)
   var urls = [
     'https://www.api-couleur-tempo.fr/api/jourTempo?dateJour='+today,
     'https://api-couleur-tempo.fr/api/jourTempo?dateJour='+today,
-    'https://rte-tempo.vercel.app/api/tempo?date='+today,
   ];
-
   for(var i=0; i<urls.length; i++){
     try{
-      var r = await Promise.race([fetch(urls[i]), timeout(4000)]);
+      var r = await Promise.race([fetch(urls[i]), timeout(3000)]);
       if(!r.ok) continue;
       var data = await r.json();
-      // L'API peut retourner codeJour, couleur, ou tempo
-      var couleur = data.codeJour || data.couleur || data.tempo || '';
-      // Normaliser (peut être 'BLEU', 'TEMPO_BLEU', 1, 2, 3...)
-      if(couleur==='BLEU'||couleur===1||couleur==='1')   couleur='TEMPO_BLEU';
-      if(couleur==='BLANC'||couleur===2||couleur==='2')  couleur='TEMPO_BLANC';
-      if(couleur==='ROUGE'||couleur===3||couleur==='3')  couleur='TEMPO_ROUGE';
-      if(applyTempo(couleur)) return; // Succès
-    } catch(e){
-      console.warn('Tempo URL '+i+':', e.message);
-    }
+      var c = data.codeJour||data.couleur||data.tempo||'';
+      if(c==='BLEU'||c===1||c==='1')  c='TEMPO_BLEU';
+      if(c==='BLANC'||c===2||c==='2') c='TEMPO_BLANC';
+      if(c==='ROUGE'||c===3||c==='3') c='TEMPO_ROUGE';
+      if(applyTempo(c,'')) return;
+    }catch(e){ /* silencieux */ }
   }
 
-  // Fallback 1 : calendrier hardcodé
-  if(TEMPO_FALLBACK[today]){
-    applyTempo(TEMPO_FALLBACK[today]);
-    var lbl = document.getElementById('tempo-label');
-    if(lbl) lbl.textContent += ' (calendrier local)';
-    return;
-  }
-
-  // Fallback 2 : dernière couleur connue en localStorage
-  try{
-    var saved = localStorage.getItem('tempo_couleur_today');
-    var savedDate = localStorage.getItem('tempo_date');
-    if(saved){
-      var cfg2 = TEMPO_COLORS[saved];
-      if(cfg2){
-        var banner=document.getElementById('tempo-banner');
-        if(banner){ banner.style.display='block'; banner.style.background=cfg2.bg+'88'; banner.style.color=cfg2.color; }
-        var lbl2=document.getElementById('tempo-label');
-        if(lbl2) lbl2.textContent=cfg2.label+(savedDate&&savedDate!==today?' ('+savedDate+')':'');
-        var icon2=document.getElementById('tempo-icon');
-        if(icon2) icon2.textContent=cfg2.icon;
-      }
-      return;
-    }
-  }catch(e){}
-
-  // Aucun fallback disponible → masquer silencieusement le bandeau
-  console.warn('Tempo: aucune source disponible');
+  // Fallback 1 : calendrier local hardcodé
+  var couleurLocale = TEMPO_CAL[today] || 'TEMPO_BLEU';
+  applyTempo(couleurLocale, TEMPO_CAL[today]?'cal. local':'cal. local (bleu par défaut)');
 }
 
 function openHamburger(){
