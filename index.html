@@ -1146,6 +1146,21 @@ canvas { border-radius: 8px; }
   to   { opacity: 1; transform: translateY(0); }
 }
 .slide-up { animation: slide-up .3s ease-out; }
+
+/* ── Ref-cards chauffage actuel ── */
+.ref-card {
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.ref-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px #0002;
+}
+.ref-card:active { transform: scale(.94); }
+@media(max-width:500px){
+  .ref-card { min-height: 64px !important; }
+  .ref-card div:first-child { font-size: 1.3rem !important; }
+}
 </style>
 
 
