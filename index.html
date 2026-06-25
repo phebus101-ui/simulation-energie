@@ -909,6 +909,23 @@ body { padding-bottom: env(safe-area-inset-bottom); }
 #sim-cards-grid button:active {
   transform: scale(.96);
 }
+
+/* ── Fix Leaflet tuiles ── */
+#solar-leaflet-map {
+  position: relative !important;
+  overflow: hidden !important;
+  z-index: 0 !important;
+}
+#solar-leaflet-map .leaflet-pane,
+#solar-leaflet-map .leaflet-tile,
+#solar-leaflet-map .leaflet-marker-icon,
+#solar-leaflet-map .leaflet-tile-container {
+  position: absolute !important;
+}
+#solar-leaflet-map .leaflet-layer {
+  position: absolute !important;
+  left: 0; top: 0;
+}
 </style>
 
 
@@ -2603,8 +2620,8 @@ body { padding-bottom: env(safe-area-inset-bottom); }
   <div><div class="sec-head-title">Carte de localisation & irradiation</div>
   <div class="sec-head-sub">Votre position et l'irradiation solaire locale</div></div>
 </div>
-<div class="card" id="solar-map-card" style="padding:0;border-radius:12px;overflow:visible;">
-  <div id="solar-leaflet-map" style="height:260px;width:100%;border-radius:12px;min-height:200px;"></div>
+<div class="card" id="solar-map-card" style="padding:0;border-radius:12px;overflow:hidden;position:relative;">
+  <div id="solar-leaflet-map" style="height:260px;width:100%;position:relative;overflow:hidden;z-index:0;"></div>
   <div style="padding:10px 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
     <div id="solar-map-info" style="flex:1;font-size:.68rem;color:var(--muted);"></div>
     <button onclick="initSolarMap();setTimeout(function(){if(_leafletMap)_leafletMap.invalidateSize(true);},300);" style="font-size:.68rem;padding:5px 12px;
