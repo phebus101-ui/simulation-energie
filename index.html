@@ -1305,13 +1305,49 @@ canvas { border-radius: 8px; }
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
 <div class="card" style="padding:12px 14px;">
   <div style="font-size:.75rem;font-weight:800;margin-bottom:8px;" data-i18n="homeTitle">🏠 Mon chauffage actuel</div>
-  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:5px;">
-    <div class="ref-card" id="ref-card-gaz" ontouchstart="" onclick="setEnergieRef('gaz')" style="border:2px solid var(--gaz);background:var(--gaz);color:#fff;border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;"><div>🔥</div><div style="font-size:.6rem;font-weight:800;margin-top:2px;">Gaz</div></div>
-    <div class="ref-card" id="ref-card-fioul" ontouchstart="" onclick="setEnergieRef('fioul')" style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;"><div>🛢️</div><div style="font-size:.6rem;font-weight:800;margin-top:2px;">Fioul</div></div>
-    <div class="ref-card" id="ref-card-bois" ontouchstart="" onclick="setEnergieRef('bois')" style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;"><div>🪵</div><div style="font-size:.6rem;font-weight:800;margin-top:2px;">Bois</div></div>
-    <div class="ref-card" id="ref-card-pellet" ontouchstart="" onclick="setEnergieRef('pellet')" style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;"><div>🌾</div><div style="font-size:.6rem;font-weight:800;margin-top:2px;">Pellets</div></div>
-    <div class="ref-card" id="ref-card-pac-exist" ontouchstart="" onclick="setEnergieRef('pac-exist')" style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;"><div>♨️</div><div style="font-size:.6rem;font-weight:800;margin-top:2px;">PAC exist.</div></div>
-    <div class="ref-card" id="ref-card-elec-direct" ontouchstart="" onclick="setEnergieRef('elec-direct')" style="border:2px solid var(--border);background:var(--surface2);border-radius:9px;padding:8px 5px;text-align:center;cursor:pointer;"><div>⚡</div><div style="font-size:.6rem;font-weight:800;margin-top:2px;">Électrique</div></div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:4px;">
+    <div class="ref-card" id="ref-card-gaz" ontouchstart="" onclick="setEnergieRef('gaz')"
+      style="border:2px solid var(--gaz);background:var(--gaz);color:#fff;
+      border-radius:12px;padding:16px 6px;text-align:center;cursor:pointer;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:80px;">
+      <div style="font-size:1.6rem;line-height:1;">🔥</div>
+      <div style="font-size:.75rem;font-weight:800;">Gaz</div>
+    </div>
+    <div class="ref-card" id="ref-card-fioul" ontouchstart="" onclick="setEnergieRef('fioul')"
+      style="border:2px solid var(--border);background:var(--surface2);
+      border-radius:12px;padding:16px 6px;text-align:center;cursor:pointer;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:80px;">
+      <div style="font-size:1.6rem;line-height:1;">🛢️</div>
+      <div style="font-size:.75rem;font-weight:800;">Fioul</div>
+    </div>
+    <div class="ref-card" id="ref-card-bois" ontouchstart="" onclick="setEnergieRef('bois')"
+      style="border:2px solid var(--border);background:var(--surface2);
+      border-radius:12px;padding:16px 6px;text-align:center;cursor:pointer;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:80px;">
+      <div style="font-size:1.6rem;line-height:1;">🪵</div>
+      <div style="font-size:.75rem;font-weight:800;">Bois</div>
+    </div>
+    <div class="ref-card" id="ref-card-pellet" ontouchstart="" onclick="setEnergieRef('pellet')"
+      style="border:2px solid var(--border);background:var(--surface2);
+      border-radius:12px;padding:16px 6px;text-align:center;cursor:pointer;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:80px;">
+      <div style="font-size:1.6rem;line-height:1;">🌾</div>
+      <div style="font-size:.75rem;font-weight:800;">Pellets</div>
+    </div>
+    <div class="ref-card" id="ref-card-pac-exist" ontouchstart="" onclick="setEnergieRef('pac-exist')"
+      style="border:2px solid var(--border);background:var(--surface2);
+      border-radius:12px;padding:16px 6px;text-align:center;cursor:pointer;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:80px;">
+      <div style="font-size:1.6rem;line-height:1;">♨️</div>
+      <div style="font-size:.75rem;font-weight:800;">PAC exist.</div>
+    </div>
+    <div class="ref-card" id="ref-card-elec-direct" ontouchstart="" onclick="setEnergieRef('elec-direct')"
+      style="border:2px solid var(--border);background:var(--surface2);
+      border-radius:12px;padding:16px 6px;text-align:center;cursor:pointer;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:80px;">
+      <div style="font-size:1.6rem;line-height:1;">⚡</div>
+      <div style="font-size:.75rem;font-weight:800;">Électrique</div>
+    </div>
   </div>
   <div id="ref-summary" style="margin-top:6px;padding:5px 8px;background:var(--surface2);border-radius:6px;font-size:.65rem;display:none;"><span id="ref-summary-text"></span></div>
 </div>
